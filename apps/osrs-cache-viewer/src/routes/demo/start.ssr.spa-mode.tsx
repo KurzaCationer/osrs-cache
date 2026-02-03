@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { getPunkSongs } from '@/data/demo.punk-songs'
+import { css } from '../../styled-system/css'
 
 export const Route = createFileRoute('/demo/start/ssr/spa-mode')({
   ssr: false,
@@ -10,7 +11,7 @@ export const Route = createFileRoute('/demo/start/ssr/spa-mode')({
 function RouteComponent() {
   const [punkSongs, setPunkSongs] = useState<
     Awaited<ReturnType<typeof getPunkSongs>>
-  >([])
+  >([] as any)
 
   useEffect(() => {
     getPunkSongs().then(setPunkSongs)
@@ -18,26 +19,54 @@ function RouteComponent() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-gradient-to-br from-zinc-800 to-black p-4 text-white"
+      className={css({
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minH: 'screen',
+        bgGradient: 'to-br',
+        gradientFrom: 'zinc.800',
+        gradientTo: 'black',
+        p: '4',
+        color: 'white'
+      })}
       style={{
         backgroundImage:
           'radial-gradient(50% 50% at 20% 60%, #1a1a1a 0%, #0a0a0a 50%, #000000 100%)',
       }}
     >
-      <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
-        <h1 className="text-3xl font-bold mb-6 text-green-400">
+      <div className={css({
+        w: 'full',
+        maxW: '2xl',
+        p: '8',
+        rounded: 'xl',
+        backdropBlur: 'md',
+        bg: 'black/50',
+        shadow: 'xl',
+        borderWidth: '8px',
+        borderColor: 'black/10'
+      })}>
+        <h1 className={css({ fontSize: '3xl', fontWeight: 'bold', mb: '6', color: 'green.400' })}>
           SPA Mode - Punk Songs
         </h1>
-        <ul className="space-y-3">
+        <ul className={css({ display: 'flex', flexDirection: 'column', gap: '3' })}>
           {punkSongs.map((song) => (
             <li
               key={song.id}
-              className="bg-white/10 border border-white/20 rounded-lg p-4 backdrop-blur-sm shadow-md"
+              className={css({
+                bg: 'white/10',
+                borderWidth: '1px',
+                borderColor: 'white/20',
+                rounded: 'lg',
+                p: '4',
+                backdropBlur: 'sm',
+                shadow: 'md'
+              })}
             >
-              <span className="text-lg text-white font-medium">
+              <span className={css({ fontSize: 'lg', color: 'white', fontWeight: 'medium' })}>
                 {song.name}
               </span>
-              <span className="text-white/60"> - {song.artist}</span>
+              <span className={css({ color: 'white/60' })}> - {song.artist}</span>
             </li>
           ))}
         </ul>

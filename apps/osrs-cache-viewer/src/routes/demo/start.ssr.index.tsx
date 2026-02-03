@@ -1,38 +1,106 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { css } from '../../styled-system/css'
 
 export const Route = createFileRoute('/demo/start/ssr/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const linkBase = css({
+    fontSize: '2xl',
+    fontWeight: 'bold',
+    py: '6',
+    px: '8',
+    rounded: 'lg',
+    bgGradient: 'to-r',
+    color: 'white',
+    textAlign: 'center',
+    shadow: 'lg',
+    transition: 'all',
+    borderWidth: '2px',
+    _hover: { scale: '1.05' }
+  })
+
+  const pinkLink = css({
+    gradientFrom: 'pink.600',
+    gradientTo: 'pink.500',
+    borderColor: 'pink.400',
+    _hover: { gradientFrom: 'pink.700', gradientTo: 'pink.600', shadowColor: 'pink.500/50' }
+  })
+
+  const purpleLink = css({
+    gradientFrom: 'purple.600',
+    gradientTo: 'purple.500',
+    borderColor: 'purple.400',
+    _hover: { gradientFrom: 'purple.700', gradientTo: 'purple.600', shadowColor: 'purple.500/50' }
+  })
+
+  const greenLink = css({
+    gradientFrom: 'green.500',
+    gradientTo: 'emerald.500',
+    borderColor: 'green.400',
+    _hover: { gradientFrom: 'green.600', gradientTo: 'emerald.600', shadowColor: 'green.500/50' }
+  })
+
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-gradient-to-br from-zinc-900 to-black p-4 text-white"
+      className={css({
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minH: 'screen',
+        bgGradient: 'to-br',
+        gradientFrom: 'zinc.900',
+        gradientTo: 'black',
+        p: '4',
+        color: 'white'
+      })}
       style={{
         backgroundImage:
           'radial-gradient(50% 50% at 20% 60%, #1a1a1a 0%, #0a0a0a 50%, #000000 100%)',
       }}
     >
-      <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
-        <h1 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-pink-500 via-purple-500 to-green-400 bg-clip-text text-transparent">
+      <div className={css({
+        w: 'full',
+        maxW: '2xl',
+        p: '8',
+        rounded: 'xl',
+        backdropBlur: 'md',
+        bg: 'black/50',
+        shadow: 'xl',
+        borderWidth: '8px',
+        borderColor: 'black/10'
+      })}>
+        <h1 className={css({
+          fontSize: '4xl',
+          fontWeight: 'bold',
+          mb: '8',
+          textAlign: 'center',
+          bgGradient: 'to-r',
+          gradientFrom: 'pink.500',
+          gradientVia: 'purple.500',
+          gradientTo: 'green.400',
+          bgClip: 'text',
+          color: 'transparent'
+        })}>
           SSR Demos
         </h1>
-        <div className="flex flex-col gap-4">
+        <div className={css({ display: 'flex', flexDirection: 'column', gap: '4' })}>
           <Link
             to="/demo/start/ssr/spa-mode"
-            className="text-2xl font-bold py-6 px-8 rounded-lg bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white text-center shadow-lg transform transition-all hover:scale-105 hover:shadow-pink-500/50 border-2 border-pink-400"
+            className={`${linkBase} ${pinkLink}`}
           >
             SPA Mode
           </Link>
           <Link
             to="/demo/start/ssr/full-ssr"
-            className="text-2xl font-bold py-6 px-8 rounded-lg bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white text-center shadow-lg transform transition-all hover:scale-105 hover:shadow-purple-500/50 border-2 border-purple-400"
+            className={`${linkBase} ${purpleLink}`}
           >
             Full SSR
           </Link>
           <Link
             to="/demo/start/ssr/data-only"
-            className="text-2xl font-bold py-6 px-8 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white text-center shadow-lg transform transition-all hover:scale-105 hover:shadow-green-500/50 border-2 border-green-400"
+            className={`${linkBase} ${greenLink}`}
           >
             Data Only
           </Link>

@@ -23,6 +23,7 @@ import type {
 import type { RankingInfo } from '@tanstack/match-sorter-utils'
 
 import type { Person } from '@/data/demo-table-data'
+import { css } from '../../styled-system/css'
 
 export const Route = createFileRoute('/demo/table')({
   component: TableDemo,
@@ -141,19 +142,29 @@ function TableDemo() {
   }, [table.getState().columnFilters[0]?.id])
 
   return (
-    <div className="min-h-screen bg-gray-900 p-6">
+    <div className={css({ minH: 'screen', bg: 'gray.900', p: '6' })}>
       <div>
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+          className={css({
+            w: 'full',
+            p: '3',
+            bg: 'gray.800',
+            color: 'white',
+            rounded: 'lg',
+            borderWidth: '1px',
+            borderColor: 'gray.700',
+            outline: 'none',
+            _focus: { ringWidth: '2', ringColor: 'blue.500', borderColor: 'transparent' }
+          })}
           placeholder="Search all columns..."
         />
       </div>
-      <div className="h-4" />
-      <div className="overflow-x-auto rounded-lg border border-gray-700">
-        <table className="w-full text-sm text-gray-200">
-          <thead className="bg-gray-800 text-gray-100">
+      <div className={css({ h: '4' })} />
+      <div className={css({ overflowX: 'auto', rounded: 'lg', borderWidth: '1px', borderColor: 'gray.700' })}>
+        <table className={css({ w: 'full', fontSize: 'sm', color: 'gray.200' })}>
+          <thead className={css({ bg: 'gray.800', color: 'gray.100' })}>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -161,14 +172,14 @@ function TableDemo() {
                     <th
                       key={header.id}
                       colSpan={header.colSpan}
-                      className="px-4 py-3 text-left"
+                      className={css({ px: '4', py: '3', textAlign: 'left' })}
                     >
                       {header.isPlaceholder ? null : (
                         <>
                           <div
                             {...{
                               className: header.column.getCanSort()
-                                ? 'cursor-pointer select-none hover:text-blue-400 transition-colors'
+                                ? css({ cursor: 'pointer', userSelect: 'none', transition: 'colors', _hover: { color: 'blue.400' } })
                                 : '',
                               onClick: header.column.getToggleSortingHandler(),
                             }}
@@ -183,7 +194,7 @@ function TableDemo() {
                             }[header.column.getIsSorted() as string] ?? null}
                           </div>
                           {header.column.getCanFilter() ? (
-                            <div className="mt-2">
+                            <div className={css({ mt: '2' })}>
                               <Filter column={header.column} />
                             </div>
                           ) : null}
@@ -195,16 +206,16 @@ function TableDemo() {
               </tr>
             ))}
           </thead>
-          <tbody className="divide-y divide-gray-700">
+          <tbody className={css({ divideY: '1px', divideColor: 'gray.700' })}>
             {table.getRowModel().rows.map((row) => {
               return (
                 <tr
                   key={row.id}
-                  className="hover:bg-gray-800 transition-colors"
+                  className={css({ transition: 'colors', _hover: { bg: 'gray.800' } })}
                 >
                   {row.getVisibleCells().map((cell) => {
                     return (
-                      <td key={cell.id} className="px-4 py-3">
+                      <td key={cell.id} className={css({ px: '4', py: '3' })}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),
@@ -218,44 +229,60 @@ function TableDemo() {
           </tbody>
         </table>
       </div>
-      <div className="h-4" />
-      <div className="flex flex-wrap items-center gap-2 text-gray-200">
+      <div className={css({ h: '4' })} />
+      <div className={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2', color: 'gray.200' })}>
         <button
-          className="px-3 py-1 bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className={css({
+            px: '3', py: '1', bg: 'gray.800', rounded: 'md',
+            _hover: { bg: 'gray.700' },
+            _disabled: { opacity: '0.5', cursor: 'not-allowed' }
+          })}
           onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
         >
           {'<<'}
         </button>
         <button
-          className="px-3 py-1 bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className={css({
+            px: '3', py: '1', bg: 'gray.800', rounded: 'md',
+            _hover: { bg: 'gray.700' },
+            _disabled: { opacity: '0.5', cursor: 'not-allowed' }
+          })}
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
           {'<'}
         </button>
         <button
-          className="px-3 py-1 bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className={css({
+            px: '3', py: '1', bg: 'gray.800', rounded: 'md',
+            _hover: { bg: 'gray.700' },
+            _disabled: { opacity: '0.5', cursor: 'not-allowed' }
+          })}
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
           {'>'}
         </button>
         <button
-          className="px-3 py-1 bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className={css({
+            px: '3', py: '1', bg: 'gray.800', rounded: 'md',
+            _hover: { bg: 'gray.700' },
+            _disabled: { opacity: '0.5', cursor: 'not-allowed' }
+          })}
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
           disabled={!table.getCanNextPage()}
         >
           {'>>'}
         </button>
-        <span className="flex items-center gap-1">
+        <span className={css({ display: 'flex', alignItems: 'center', gap: '1' })}>
           <div>Page</div>
           <strong>
             {table.getState().pagination.pageIndex + 1} of{' '}
             {table.getPageCount()}
           </strong>
         </span>
-        <span className="flex items-center gap-1">
+        <span className={css({ display: 'flex', alignItems: 'center', gap: '1' })}>
           | Go to page:
           <input
             type="number"
@@ -264,7 +291,10 @@ function TableDemo() {
               const page = e.target.value ? Number(e.target.value) - 1 : 0
               table.setPageIndex(page)
             }}
-            className="w-16 px-2 py-1 bg-gray-800 rounded-md border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            className={css({
+              w: '16', px: '2', py: '1', bg: 'gray.800', rounded: 'md', borderWidth: '1px', borderColor: 'gray.700', outline: 'none',
+              _focus: { ringWidth: '2', ringColor: 'blue.500', borderColor: 'transparent' }
+            })}
           />
         </span>
         <select
@@ -272,7 +302,10 @@ function TableDemo() {
           onChange={(e) => {
             table.setPageSize(Number(e.target.value))
           }}
-          className="px-2 py-1 bg-gray-800 rounded-md border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+          className={css({
+            px: '2', py: '1', bg: 'gray.800', rounded: 'md', borderWidth: '1px', borderColor: 'gray.700', outline: 'none',
+            _focus: { ringWidth: '2', ringColor: 'blue.500', borderColor: 'transparent' }
+          })}
         >
           {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
@@ -281,24 +314,30 @@ function TableDemo() {
           ))}
         </select>
       </div>
-      <div className="mt-4 text-gray-400">
+      <div className={css({ mt: '4', color: 'gray.400' })}>
         {table.getPrePaginationRowModel().rows.length} Rows
       </div>
-      <div className="mt-4 flex gap-2">
+      <div className={css({ mt: '4', display: 'flex', gap: '2' })}>
         <button
           onClick={() => rerender()}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          className={css({
+            px: '4', py: '2', bg: 'blue.600', color: 'white', rounded: 'md', transition: 'colors',
+            _hover: { bg: 'blue.700' }
+          })}
         >
           Force Rerender
         </button>
         <button
           onClick={() => refreshData()}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          className={css({
+            px: '4', py: '2', bg: 'blue.600', color: 'white', rounded: 'md', transition: 'colors',
+            _hover: { bg: 'blue.700' }
+          })}
         >
           Refresh Data
         </button>
       </div>
-      <pre className="mt-4 p-4 bg-gray-800 rounded-lg text-gray-300 overflow-auto">
+      <pre className={css({ mt: '4', p: '4', bg: 'gray.800', rounded: 'lg', color: 'gray.300', overflow: 'auto' })}>
         {JSON.stringify(
           {
             columnFilters: table.getState().columnFilters,
@@ -321,7 +360,10 @@ function Filter({ column }: { column: Column<any, unknown> }) {
       value={(columnFilterValue ?? '') as string}
       onChange={(value) => column.setFilterValue(value)}
       placeholder={`Search...`}
-      className="w-full px-2 py-1 bg-gray-700 text-white rounded-md border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+      className={css({
+        w: 'full', px: '2', py: '1', bg: 'gray.700', color: 'white', rounded: 'md', borderWidth: '1px', borderColor: 'gray.600', outline: 'none',
+        _focus: { ringWidth: '2', ringColor: 'blue.500', borderColor: 'transparent' }
+      })}
     />
   )
 }

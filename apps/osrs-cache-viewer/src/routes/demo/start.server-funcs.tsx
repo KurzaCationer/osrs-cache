@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import { useCallback, useState } from 'react'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
+import { css } from '../../styled-system/css'
 
 /*
 const loggingMiddleware = createMiddleware().server(
@@ -64,25 +65,53 @@ function Home() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-gradient-to-br from-zinc-800 to-black p-4 text-white"
+      className={css({
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minH: 'screen',
+        p: '4',
+        color: 'white',
+        bgGradient: 'to-br',
+        gradientFrom: 'zinc.800',
+        gradientTo: 'black'
+      })}
       style={{
         backgroundImage:
           'radial-gradient(50% 50% at 20% 60%, #23272a 0%, #18181b 50%, #000000 100%)',
       }}
     >
-      <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
-        <h1 className="text-2xl mb-4">Start Server Functions - Todo Example</h1>
-        <ul className="mb-4 space-y-2">
-          {todos?.map((t) => (
+      <div className={css({
+        w: 'full',
+        maxW: '2xl',
+        p: '8',
+        rounded: 'xl',
+        backdropBlur: 'md',
+        bg: 'black/50',
+        shadow: 'xl',
+        borderWidth: '8px',
+        borderColor: 'black/10'
+      })}>
+        <h1 className={css({ fontSize: '2xl', mb: '4' })}>Start Server Functions - Todo Example</h1>
+        <ul className={css({ mb: '4', display: 'flex', flexDirection: 'column', gap: '2' })}>
+          {todos?.map((t: any) => (
             <li
               key={t.id}
-              className="bg-white/10 border border-white/20 rounded-lg p-3 backdrop-blur-sm shadow-md"
+              className={css({
+                bg: 'white/10',
+                borderWidth: '1px',
+                borderColor: 'white/20',
+                rounded: 'lg',
+                p: '3',
+                backdropBlur: 'sm',
+                shadow: 'md'
+              })}
             >
-              <span className="text-lg text-white">{t.name}</span>
+              <span className={css({ fontSize: 'lg', color: 'white' })}>{t.name}</span>
             </li>
           ))}
         </ul>
-        <div className="flex flex-col gap-2">
+        <div className={css({ display: 'flex', flexDirection: 'column', gap: '2' })}>
           <input
             type="text"
             value={todo}
@@ -93,12 +122,25 @@ function Home() {
               }
             }}
             placeholder="Enter a new todo..."
-            className="w-full px-4 py-3 rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+            className={css({
+                              w: 'full', px: '4', py: '3', rounded: 'lg', borderWidth: '1px', borderColor: 'white/20', bg: 'white/10', backdropBlur: 'sm', color: 'white', _placeholder: { color: 'white/60' }, outline: 'none',
+                              _focus: { ringWidth: '2', ringColor: 'blue.400', borderColor: 'transparent' }
+            })}
           />
           <button
             disabled={todo.trim().length === 0}
             onClick={submitTodo}
-            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors"
+            className={css({
+              bg: 'blue.500',
+              color: 'white',
+              fontWeight: 'bold',
+              py: '3',
+              px: '4',
+              rounded: 'lg',
+              transition: 'colors',
+              _hover: { bg: 'blue.600' },
+              _disabled: { bg: 'blue.500/50', cursor: 'not-allowed' }
+            })}
           >
             Add todo
           </button>
