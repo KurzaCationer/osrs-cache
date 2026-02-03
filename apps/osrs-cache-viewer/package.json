@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "panda codegen && vite dev --port 3000",
-    "build": "panda codegen && vite build",
-    "preview": "panda codegen && vite preview",
+    "dev": "vite dev --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint",
     "format": "prettier",
