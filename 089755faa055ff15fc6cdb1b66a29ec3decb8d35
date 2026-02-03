@@ -1,0 +1,1 @@
+Task: Install PandaCSS dependencies in apps/osrs-cache-viewer. Added @pandacss/dev and @kurza/ui-preset to package.json.
