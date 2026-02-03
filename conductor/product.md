@@ -22,7 +22,7 @@ The goal is to create a comprehensive toolkit for exploring and interacting with
 - **Asset Browser:** User-friendly interface to browse and search for Items, NPCs, and Objects, complete with 3D previews.
 - **Map Explorer:** Interactive viewer for game maps and landscapes.
 - **Media Player:** Interface for listening to game music and sound effects.
-- **Tech Stack Alignment:** Migrate existing styling from TailwindCSS to **PandaCSS** to match the documentation project.
+- **Styling:** Uses **PandaCSS** for type-safe styling (aligned with the documentation project).
 
 ### 3. Documentation Site (`osrs-cache-docs`)
 - **Library API Reference:** Comprehensive documentation for `@kurza/osrs-cache-loader`.

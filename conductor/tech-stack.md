@@ -16,7 +16,7 @@
 - **Astro:** Framework for building the documentation site.
 
 ## Styling & Design
-- **PandaCSS:** Build-time CSS-in-JS for type-safe styling (replacing TailwindCSS in the Viewer).
+- **PandaCSS:** Build-time CSS-in-JS for type-safe styling.
 - **Lucide React:** Icon library.
 
 ## Development & Build Tooling
