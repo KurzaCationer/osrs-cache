@@ -58,11 +58,14 @@ All tasks follow a strict lifecycle:
 10. **Attach Task Summary with Git Notes:**
    - **Step 10.1: Get Commit Hash:** Obtain the hash of the *just-completed commit* (`git log -1 --format="%H"`).
    - **Step 10.2: Draft Note Content:** Create a detailed summary for the completed task. This should include the task name, a summary of changes, a list of all created/modified files, and the core "why" for the change.
-   - **Step 10.3: Attach Note:** Use the `git notes` command to attach the summary to the commit.
+   - Use the `git notes` command to attach the summary to the commit.
      ```bash
      # The note content from the previous step is passed via the -m flag.
      git notes add -m "<note content>" <commit_hash>
      ```
+
+11. **Push Changes:**
+   - Execute `git push` to ensure your local changes are synchronized with the remote repository.
 
 ### Phase Completion Verification and Checkpointing Protocol
 
