@@ -23,7 +23,7 @@ import type {
 import type { RankingInfo } from '@tanstack/match-sorter-utils'
 
 import type { Person } from '@/data/demo-table-data'
-import { css } from '../../styled-system/css'
+import { css } from '@/styled-system/css'
 
 export const Route = createFileRoute('/demo/table')({
   component: TableDemo,

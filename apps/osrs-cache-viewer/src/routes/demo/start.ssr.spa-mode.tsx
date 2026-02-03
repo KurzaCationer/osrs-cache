@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { getPunkSongs } from '@/data/demo.punk-songs'
-import { css } from '../../styled-system/css'
+import { css } from '@/styled-system/css'
 
 export const Route = createFileRoute('/demo/start/ssr/spa-mode')({
   ssr: false,

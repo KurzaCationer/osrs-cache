@@ -9,5 +9,6 @@ export default defineConfig({
   theme: {
     extend: {},
   },
+  jsxFramework: "react",
   outdir: "src/styled-system",
 });

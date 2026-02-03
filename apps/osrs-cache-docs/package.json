@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "panda codegen && astro dev",
-    "start": "panda codegen && astro dev",
-    "build": "panda codegen && astro check && astro build",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "panda codegen"

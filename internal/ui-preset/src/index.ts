@@ -1,6 +1,7 @@
 import { definePreset } from '@pandacss/dev';
 
 export const uiPreset = definePreset({
+  presets: ["@pandacss/preset-base", "@pandacss/preset-panda"],
   theme: {
     extend: {
       tokens: {

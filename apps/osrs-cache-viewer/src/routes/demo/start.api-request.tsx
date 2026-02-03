@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import { css } from '../../styled-system/css'
+import { css } from '@/styled-system/css'
 
 function getNames() {
   return fetch('/demo/api/names').then((res) => res.json() as Promise<string[]>)

@@ -7,12 +7,12 @@ import {
   Waves,
   Sparkles,
 } from 'lucide-react'
-import { css } from '../styled-system/css'
+import { css } from '@/styled-system/css'
 
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
-  const iconClass = css({ w: '12', h: '12', color: 'cyan.400' })
+  const iconClass = css({ w: '12', h: '12', color: 'blue.400' })
 
   const features = [
     {
