@@ -1,8 +1,8 @@
 # Implementation Plan: Migrate Viewer Styling to PandaCSS
 
 ## Phase 1: Setup & Configuration
-- [ ] Task: Install PandaCSS dependencies in `apps/osrs-cache-viewer`
-    - [ ] Run `pnpm add -D @pandacss/dev` and `pnpm add @pandacss/react` (or appropriate packages)
+- [x] Task: Install PandaCSS dependencies in `apps/osrs-cache-viewer` 089755f
+    - [x] Run `pnpm add -D @pandacss/dev` and `pnpm add @kurza/ui-preset`
 - [ ] Task: Initialize PandaCSS configuration
     - [ ] Create `apps/osrs-cache-viewer/panda.config.ts` referencing `internal/ui-preset`
     - [ ] Update `tsconfig.json` to include the generated `styled-system`
