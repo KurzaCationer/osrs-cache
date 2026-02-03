@@ -11,15 +11,15 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/react": "^4.0.0",
+    "@kurza/ui-preset": "workspace:*",
     "astro": "^5.2.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@astrojs/react": "^4.0.0",
-    "@kurza/ui-preset": "workspace:*"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.30.0",
-    "@pandacss/astro": "^0.3.0",
+    "@pandacss/dev": "^0.30.2",
     "typescript": "^5.0.0"
   }
 }
