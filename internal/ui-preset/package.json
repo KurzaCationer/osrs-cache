@@ -1,0 +1,14 @@
+{
+  "name": "@kurza/ui-preset",
+  "version": "0.0.1",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@pandacss/dev": "^0.30.0",
+    "typescript": "^5.0.0"
+  }
+}

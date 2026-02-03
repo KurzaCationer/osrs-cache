@@ -1,0 +1,27 @@
+{
+  "name": "osrs-cache-viewer",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "panda codegen && vinxi dev",
+    "build": "panda codegen && vinxi build",
+    "start": "vinxi start"
+  },
+  "dependencies": {
+    "@tanstack/start": "^1.120.20",
+    "@tanstack/react-router": "^1.120.20",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vinxi": "^0.3.0",
+    "@kurza/osrs-cache-loader": "workspace:*",
+    "@kurza/ui-preset": "workspace:*"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "^0.30.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0",
+    "vite": "^6.0.0",
+    "vite-tsconfig-paths": "^4.0.0"
+  }
+}

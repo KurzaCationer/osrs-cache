@@ -1,0 +1,25 @@
+---
+import '../index.css';
+import { css } from '../styled-system/css';
+
+const container = css({
+  padding: '4',
+  fontSize: '2xl',
+  fontWeight: 'bold',
+  color: 'brand'
+});
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>OSRS Cache Docs</title>
+	</head>
+	<body>
+		<div class={container}>OSRS Cache Research Docs</div>
+        <p>This project uses the shared UI preset for styling.</p>
+	</body>
+</html>

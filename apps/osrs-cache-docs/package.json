@@ -1,0 +1,24 @@
+{
+  "name": "osrs-cache-docs",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "panda codegen && astro dev",
+    "start": "panda codegen && astro dev",
+    "build": "panda codegen && astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.2.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@astrojs/react": "^4.0.0",
+    "@kurza/ui-preset": "workspace:*"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "^0.30.0",
+    "@pandacss/astro": "^0.3.0",
+    "typescript": "^5.0.0"
+  }
+}
