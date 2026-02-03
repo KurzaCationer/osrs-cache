@@ -3,9 +3,9 @@
 ## Phase 1: Setup & Configuration
 - [x] Task: Install PandaCSS dependencies in `apps/osrs-cache-viewer` 089755f
     - [x] Run `pnpm add -D @pandacss/dev` and `pnpm add @kurza/ui-preset`
-- [ ] Task: Initialize PandaCSS configuration
-    - [ ] Create `apps/osrs-cache-viewer/panda.config.ts` referencing `internal/ui-preset`
-    - [ ] Update `tsconfig.json` to include the generated `styled-system`
+- [x] Task: Initialize PandaCSS configuration a6b39f1
+    - [x] Create `apps/osrs-cache-viewer/panda.config.ts` referencing `internal/ui-preset`
+    - [x] Update `tsconfig.json` to include the generated `styled-system`
 - [ ] Task: Integrate PandaCSS with Vite
     - [ ] Update `vite.config.ts` if necessary for PandaCSS integration
     - [ ] Update `package.json` scripts to include `panda codegen`
