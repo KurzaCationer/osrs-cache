@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Migrate Viewer Styling to PandaCSS**
+- [x] **Track: Migrate Viewer Styling to PandaCSS**
   *Link: [./tracks/migrate_viewer_panda_20260203/](./tracks/migrate_viewer_panda_20260203/)*
