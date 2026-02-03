@@ -7,6 +7,10 @@
   "scripts": {
     "lint": "eslint ."
   },
+  "dependencies": {
+    "@pandacss/preset-base": "^0.30.2",
+    "@pandacss/preset-panda": "^0.30.2"
+  },
   "devDependencies": {
     "@pandacss/dev": "^0.30.0",
     "typescript": "^5.0.0"
