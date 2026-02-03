@@ -1,4 +1,9 @@
 packages:
-  - "apps/*"
-  - "packages/*"
-  - "internal/*"
+  - apps/*
+  - packages/*
+  - internal/*
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - esbuild
+  - sharp
