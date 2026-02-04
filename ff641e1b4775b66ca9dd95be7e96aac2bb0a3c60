@@ -1,0 +1,1 @@
+Task: Write tests for archivist-cleaner using sample dirty documentation files\n\nSummary: Updated verification script to include Librarian and Cleaner. Created reference-material/docs/test-cleanup.md with deliberate issues for future cleaner validation.\nFiles: conductor/tracks/refactor_library_archivist_20260204/verify_skills.js, reference-material/docs/test-cleanup.md
