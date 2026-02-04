@@ -1,0 +1,3 @@
+Task: Update the 'URL Ingestion' workflow in SKILL.md to require automated summarization and version comparison logic.
+Summary: Added steps for automated summarization and version comparison to the URL Ingestion workflow.
+Files: .gemini/skills/library-archivist/SKILL.md, conductor/tracks/enhance_library_archivist_20260204/plan.md
