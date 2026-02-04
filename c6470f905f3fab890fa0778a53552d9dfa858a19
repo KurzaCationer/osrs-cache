@@ -1,0 +1,3 @@
+Task: Broaden the trigger phrases in SKILL.md to capture more natural language documentation requests.
+Summary: Updated the triggers for Workflow 1 and Workflow 4 to include a wider range of natural language phrases and technical contexts, ensuring the skill activates proactively more often.
+Files: .gemini/skills/library-archivist/SKILL.md, conductor/tracks/enhance_library_archivist_20260204/plan.md
