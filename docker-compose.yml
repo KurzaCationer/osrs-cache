@@ -6,13 +6,6 @@ services:
     command: pnpm --filter osrs-cache-viewer dev --host 0.0.0.0
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/osrs-cache-viewer/node_modules
-      - /app/apps/osrs-cache-docs/node_modules
-      - /app/packages/osrs-cache-loader/node_modules
-      - /app/internal/ui-preset/node_modules
     develop:
       watch:
         - action: sync
@@ -40,13 +33,6 @@ services:
     command: pnpm --filter osrs-cache-docs dev --host 0.0.0.0
     ports:
       - "4321:4321"
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/osrs-cache-viewer/node_modules
-      - /app/apps/osrs-cache-docs/node_modules
-      - /app/packages/osrs-cache-loader/node_modules
-      - /app/internal/ui-preset/node_modules
     develop:
       watch:
         - action: sync
