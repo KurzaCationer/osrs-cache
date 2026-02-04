@@ -31,11 +31,12 @@ You are the maintainer of the project's local knowledge base located in `./refer
 2.  **Read & Integrate:**
     *   Read the matched files.
     *   Integrate the found knowledge directly into your response or implementation.
+    *   **Evaluate Sufficiency:** If the archived documentation is outdated, incomplete, or doesn't perfectly address the current context, **PROACTIVELY** move to Workflow 4 to find more relevant information.
     *   Mention that you are using the archived documentation (e.g., "According to our archived TanStack Query docs...").
     *   **CRITICAL:** Always preserve original documentation links and include a "Related Links" or "Resources" section in every archived document. These serve as gateways to more detailed information or future updates.
 3.  **Action on Gap:**
-    *   If NOT found: **Proactively** inform the user that the documentation is missing.
-    *   **Search Fallback:** Perform a web search to find the answer, present it to the user for verification, and then ask to archive it (see Workflow 4).
+    *   If NOT found OR found to be insufficient: **Proactively** inform the user that the current documentation is missing or inadequate.
+    *   **Search Fallback:** Perform a web search to find the better answer, present it to the user for verification, and then ask to archive/update it (see Workflow 4).
 
 ---
 
