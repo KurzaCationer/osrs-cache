@@ -1,0 +1,4 @@
+Task: Implement getMetadata in @kurza/osrs-cache-loader
+Summary: Implemented getMetadata function in packages/osrs-cache-loader/src/index.ts and added tests in packages/osrs-cache-loader/src/index.test.ts.
+Files: packages/osrs-cache-loader/src/index.ts, packages/osrs-cache-loader/src/index.test.ts, conductor/tracks/display_cache_metadata_20260205/plan.md
+Why: To allow the frontend to fetch both cache metadata and asset counts in a single call.
