@@ -1,0 +1,7 @@
+Phase: Phase 1: Ingestion & Metadata Standards
+Automated Test Command: node conductor/tracks/enhance_library_archivist_20260204/verify_metadata.js
+Manual Verification:
+1. Verified SKILL.md for Metadata (YAML Frontmatter) section and updated Crawler/Librarian workflows.
+2. Verified reference-material/docs/test/broken.md for correct frontmatter format.
+3. Verified conductor/tracks/enhance_library_archivist_20260204/verify_metadata.js detection logic.
+User Confirmation: 'These things you can check yourself.'
