@@ -84,10 +84,10 @@ describe("loadCache", () => {
     });
 
     const result = await loadCache({ game: "oldschool" });
-    expect(result.items).toBe(1);
-    expect(result.npcs).toBe(0);
-    expect(result.objects).toBe(0);
-    expect(result.maps).toBe(1);
+    expect(result.item).toBe(1);
+    expect(result.npc).toBe(0);
+    expect(result.obj).toBe(0);
+    expect(result.map).toBe(1);
   });
 });
 
@@ -132,6 +132,6 @@ describe("getMetadata", () => {
     expect(metadata.builds[0].major).toBe(227);
     expect(metadata.timestamp).toBe("2023-01-01T00:00:00Z");
     expect(metadata.source).toBe("OpenRS2 Archive");
-    expect(metadata.counts.items).toBe(0);
+    expect(metadata.counts.item).toBe(0);
   });
 });

@@ -16,3 +16,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Display Cache Metadata on Index Page**
 *Link: [./archive/display_cache_metadata_20260205/](./archive/display_cache_metadata_20260205/)*
+
+---
+
+- [x] **Track: Cache Type Alignment and Completion**
+*Link: [./archive/align_cache_types_20260205/](./archive/align_cache_types_20260205/)*

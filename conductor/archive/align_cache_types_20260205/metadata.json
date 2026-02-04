@@ -1,0 +1,9 @@
+{
+  "track_id": "align_cache_types_20260205",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-02-05T14:45:00Z",
+  "updated_at": "2026-02-05T14:45:00Z",
+  "description": "I want you to look at cache2 and make sure any data types align with their naming and all data types they have are represented in my repo (so talking about structs sprites etc)",
+  "track_root_sha": "760ff700351a998f13269dc1b038d9f634d24877"
+}

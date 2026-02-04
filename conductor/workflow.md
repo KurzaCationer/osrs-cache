@@ -108,7 +108,8 @@ All tasks follow a strict lifecycle:
     -   Only ask for user confirmation if there is ambiguity or a high-risk change that cannot be fully validated by tools.
 
 5.  **Await Explicit User Feedback (Final Phase Only):**
-    -   **CRITICAL:** In general, this manual step is ONLY required for the final phase of a track to ensure overall deliverable quality before archival. For intermediate phases, this step should be skipped unless a specific manual review is explicitly requested in the `plan.md`.
+    -   **CRITICAL:** This manual step is ONLY required for the final phase of a track to ensure overall deliverable quality before archival. For intermediate phases, this step MUST be skipped.
+    -   **Plan Generation Rule:** When generating `plan.md`, the meta-task `- [ ] Task: Conductor - User Manual Verification '<Phase Name>' (Protocol in workflow.md)` MUST ONLY be appended to the final phase of the track.
     -   **Final Phase Procedure:** After presenting the detailed plan, ask the user for confirmation: "**Does this meet your expectations? Please confirm with yes or provide feedback on what needs to be changed.**"
     -   **PAUSE** and await the user's response. Do not proceed without an explicit yes or confirmation.
 

@@ -71,8 +71,16 @@ export class Cache {
     const client = new OpenRS2Client(options.openrs2BaseUrl);
     const cacheMetadata = await client.getLatestCache(options.game || "oldschool");
     
-    // We need at least Index 2 (Configs), Index 5 (Maps), Index 7 (Models), Index 8 (Sprites)
-    const indicesToLoad = [2, 5, 7, 8];
+    // We need:
+    // Index 2: Configs (Items, NPCs, Objects, etc.)
+    // Index 5: Maps
+    // Index 7: Models
+    // Index 8: Sprites
+    // Index 9: Textures
+    // Index 13: Fonts
+    // Index 21: DBTableIndex
+    // Index 24: GameVal
+    const indicesToLoad = [2, 5, 7, 8, 9, 13, 21, 24];
     const tables = new Map<number, ReferenceTable>();
 
     await Promise.all(
@@ -113,22 +121,31 @@ export class Cache {
       this.tables.get(index)?.archives.size ?? 0;
 
     return {
-      items: await getFileCount(2, 10),
-      npcs: await getFileCount(2, 9),
-      objects: await getFileCount(2, 6),
-      maps: getArchiveCount(5),
-      animations: await getFileCount(2, 12),
-      enums: await getFileCount(2, 8),
-      sprites: getArchiveCount(8),
-      models: getArchiveCount(7),
-      structs: await getFileCount(2, 34),
-      underlays: await getFileCount(2, 1),
-      overlays: await getFileCount(2, 4),
-      identikits: await getFileCount(2, 3),
-      params: await getFileCount(2, 11),
-      hitsplats: await getFileCount(2, 32),
-      healthBars: await getFileCount(2, 33),
-      dbRows: await getFileCount(2, 38),
+      item: await getFileCount(2, 10),
+      npc: await getFileCount(2, 9),
+      obj: await getFileCount(2, 6),
+      map: getArchiveCount(5),
+      animation: await getFileCount(2, 12),
+      enum: await getFileCount(2, 8),
+      sprite: getArchiveCount(8),
+      model: getArchiveCount(7),
+      struct: await getFileCount(2, 34),
+      underlay: await getFileCount(2, 1),
+      overlay: await getFileCount(2, 4),
+      identikit: await getFileCount(2, 3),
+      param: await getFileCount(2, 11),
+      hitsplat: await getFileCount(2, 32),
+      healthBar: await getFileCount(2, 33),
+      dbRow: await getFileCount(2, 38),
+      dbTable: await getFileCount(2, 39),
+      worldEntity: await getFileCount(2, 72),
+      spotAnim: await getFileCount(2, 13),
+      inventory: await getFileCount(2, 14),
+      varbit: await getFileCount(2, 69),
+      texture: getArchiveCount(9),
+      font: getArchiveCount(13),
+      dbTableIndex: getArchiveCount(21),
+      gameVal: getArchiveCount(24),
     };
   }
 

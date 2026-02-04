@@ -16,22 +16,32 @@ export interface OpenRS2Cache {
 }
 
 export interface AssetCounts {
-  items: number;
-  npcs: number;
-  objects: number;
-  maps: number;
-  animations: number;
-  enums: number;
-  sprites: number;
-  models: number;
-  structs: number;
-  underlays: number;
-  overlays: number;
-  identikits: number;
-  params: number;
-  hitsplats: number;
-  healthBars: number;
-  dbRows: number;
+  item: number;
+  npc: number;
+  obj: number;
+  map: number;
+  animation: number;
+  enum: number;
+  sprite: number;
+  model: number;
+  struct: number;
+  underlay: number;
+  overlay: number;
+  identikit: number;
+  param: number;
+  hitsplat: number;
+  healthBar: number;
+  dbRow: number;
+  // New types
+  dbTable: number;
+  worldEntity: number;
+  spotAnim: number;
+  inventory: number;
+  varbit: number;
+  texture: number;
+  font: number;
+  dbTableIndex: number;
+  gameVal: number;
 }
 
 export interface LoadCacheOptions {

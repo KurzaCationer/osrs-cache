@@ -25,21 +25,21 @@ pnpm add @kurza/osrs-cache-loader
 import { loadCache } from '@kurza/osrs-cache-loader';
 
 async function main() {
-  const counts = await loadCache({ game: 'osrs' });
+  const counts = await loadCache({ game: 'oldschool' });
   console.log('Asset Counts:', counts);
-  // Output: { items: 25000, npcs: 10000, objects: 45000, maps: 500, audio: 1200 }
+  // Output: { item: 32997, npc: 15575, obj: 60661, map: 17408, ... }
 }
 
 main();
 ```
 
-## OSRS Cache Viewer (MVP)
+## OSRS Cache Viewer
 
-The viewer application is currently in its MVP stage. It provides a single dashboard showing the summary of assets loaded from the latest OSRS cache.
+The viewer application provides a comprehensive dashboard showing the summary of assets loaded from the latest OSRS cache.
 
 ### Current Features
 - Integration with OpenRS2 API.
-- Summary of total counts for Items, NPCs, Objects, Maps, and Audio.
+- Full parity with `cache2` for asset counts (Items, NPCs, Objects, DBTables, etc.).
 - Modern UI built with TanStack Start and PandaCSS.
 
 ## Next Steps

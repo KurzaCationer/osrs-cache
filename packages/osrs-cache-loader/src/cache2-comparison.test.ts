@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Animation, ArchiveData, DBRow, Enum, HealthBar, Hitsplat, Item, NPC, Obj, Param, Struct, Underlay } from "@abextm/cache2";
+import { Animation, ArchiveData, DBRow, DBTable, Enum, GameVal, HealthBar, Hitsplat, Item, NPC, Obj, Param, Struct, Underlay, WorldEntity } from "@abextm/cache2";
 import { OpenRS2Client } from "./openrs2-client";
 
 import { ReferenceTable } from "./reference-table";
@@ -107,22 +107,31 @@ describe("Cache counts comparison with cache2", () => {
     };
 
     const cache2Counts = {
-      items: (await Item.all(provider)).length,
-      npcs: (await NPC.all(provider)).length,
-      objects: (await Obj.all(provider)).length,
-      maps: await getCache2ArchiveCount(5),
-      animations: (await Animation.all(provider)).length,
-      enums: (await Enum.all(provider)).length,
-      sprites: await getCache2ArchiveCount(8),
-      models: await getCache2ArchiveCount(7),
-      structs: (await Struct.all(provider)).length,
-      underlays: (await Underlay.all(provider)).length,
-      overlays: await getCache2FileCount(2, 4),
-      identikits: await getCache2FileCount(2, 3),
-      params: (await Param.all(provider)).length,
-      hitsplats: (await Hitsplat.all(provider)).length,
-      healthBars: (await HealthBar.all(provider)).length,
-      dbRows: (await DBRow.all(provider)).length,
+      item: (await Item.all(provider)).length,
+      npc: (await NPC.all(provider)).length,
+      obj: (await Obj.all(provider)).length,
+      map: await getCache2ArchiveCount(5),
+      animation: (await Animation.all(provider)).length,
+      enum: (await Enum.all(provider)).length,
+      sprite: await getCache2ArchiveCount(8),
+      model: await getCache2ArchiveCount(7),
+      struct: (await Struct.all(provider)).length,
+      underlay: (await Underlay.all(provider)).length,
+      overlay: await getCache2FileCount(2, 4),
+      identikit: await getCache2FileCount(2, 3),
+      param: (await Param.all(provider)).length,
+      hitsplat: (await Hitsplat.all(provider)).length,
+      healthBar: (await HealthBar.all(provider)).length,
+      dbRow: (await DBRow.all(provider)).length,
+      dbTable: (await DBTable.all(provider)).length,
+      worldEntity: (await WorldEntity.all(provider)).length,
+      spotAnim: await getCache2FileCount(2, 13),
+      inventory: await getCache2FileCount(2, 14),
+      varbit: await getCache2FileCount(2, 69),
+      texture: await getCache2ArchiveCount(9),
+      font: await getCache2ArchiveCount(13),
+      dbTableIndex: await getCache2ArchiveCount(21),
+      gameVal: await getCache2ArchiveCount(24),
     };
 
     console.log("Comparison Results:", {
