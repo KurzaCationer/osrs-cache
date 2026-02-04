@@ -1,0 +1,1 @@
+Task: Remove demo routes and components. Deleted apps/osrs-cache-viewer/src/routes/demo/ and demo-related data files.
