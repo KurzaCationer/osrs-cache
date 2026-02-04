@@ -7,7 +7,7 @@ export * from "./openrs2-client";
 export const loadCache = async (options: LoadCacheOptions = {}): Promise<AssetCounts> => {
   console.log("OSRS Cache Loader Initialized");
   const client = new OpenRS2Client(options.openrs2BaseUrl);
-  const cache = await client.getLatestCache(options.game || "osrs");
+  const cache = await client.getLatestCache(options.game || "oldschool");
 
   // In a real implementation, we would parse the cache here.
   // For the MVP, we use metadata from OpenRS2 where available.

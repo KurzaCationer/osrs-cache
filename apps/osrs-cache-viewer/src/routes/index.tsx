@@ -8,7 +8,7 @@ const getAssetCounts = createServerFn({
   method: 'GET',
 }).handler(async () => {
   try {
-    return await loadCache({ game: 'osrs' })
+    return await loadCache({ game: 'oldschool' })
   } catch (error) {
     console.error('Failed to load cache:', error)
     throw new Error('Failed to load OSRS cache summary. Please try again later.')

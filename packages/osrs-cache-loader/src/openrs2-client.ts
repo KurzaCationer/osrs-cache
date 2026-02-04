@@ -15,7 +15,7 @@ export class OpenRS2Client {
     return response.json() as Promise<Array<OpenRS2Cache>>;
   }
 
-  async getLatestCache(game: string = "osrs"): Promise<OpenRS2Cache> {
+  async getLatestCache(game: string = "oldschool"): Promise<OpenRS2Cache> {
     const caches = await this.listCaches();
     const gameCaches = caches
       .filter((c) => c.game === game)

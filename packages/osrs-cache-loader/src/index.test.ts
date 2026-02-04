@@ -10,7 +10,7 @@ describe("loadCache", () => {
     const mockCaches = [
       {
         id: 1,
-        game: "osrs",
+        game: "oldschool",
         timestamp: "2023-01-01T00:00:00Z",
         item_count: 100,
         npc_count: 50,
@@ -23,7 +23,7 @@ describe("loadCache", () => {
       json: async () => await Promise.resolve(mockCaches),
     });
 
-    const result = await loadCache({ game: "osrs" });
+    const result = await loadCache({ game: "oldschool" });
     expect(result.items).toBe(100);
     expect(result.npcs).toBe(50);
     expect(result.objects).toBe(200);

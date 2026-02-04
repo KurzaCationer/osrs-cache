@@ -10,7 +10,7 @@ describe("OpenRS2Client", () => {
   });
 
   it("should fetch a list of caches", async () => {
-    const mockCaches = [{ id: 1, scope: "runescape", game: "osrs" }];
+    const mockCaches = [{ id: 1, scope: "runescape", game: "oldschool" }];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global.fetch as any).mockResolvedValue({
       ok: true,
@@ -19,13 +19,13 @@ describe("OpenRS2Client", () => {
 
     const caches = await client.listCaches();
     expect(caches).toEqual(mockCaches);
-    expect(global.fetch).toHaveBeenCalledWith("https://archive.openrs2.org/api/caches.json");
+    expect(global.fetch).toHaveBeenCalledWith("https://archive.openrs2.org/caches.json");
   });
 
-  it("should get the latest cache for osrs", async () => {
+  it("should get the latest cache for oldschool", async () => {
     const mockCaches = [
-      { id: 1, game: "osrs", timestamp: "2023-01-01T00:00:00Z" },
-      { id: 2, game: "osrs", timestamp: "2023-01-02T00:00:00Z" },
+      { id: 1, game: "oldschool", timestamp: "2023-01-01T00:00:00Z" },
+      { id: 2, game: "oldschool", timestamp: "2023-01-02T00:00:00Z" },
       { id: 3, game: "rs2", timestamp: "2023-01-03T00:00:00Z" },
     ];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,7 +34,7 @@ describe("OpenRS2Client", () => {
       json: async () => await Promise.resolve(mockCaches),
     });
 
-    const latest = await client.getLatestCache("osrs");
+    const latest = await client.getLatestCache("oldschool");
     expect(latest.id).toBe(2);
   });
 
@@ -45,6 +45,6 @@ describe("OpenRS2Client", () => {
       json: async () => await Promise.resolve([]),
     });
 
-    await expect(client.getLatestCache("osrs")).rejects.toThrow("No caches found for game: osrs");
+    await expect(client.getLatestCache("oldschool")).rejects.toThrow("No caches found for game: oldschool");
   });
 });
