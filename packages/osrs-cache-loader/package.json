@@ -20,6 +20,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
+    "@abextm/cache2": "^0.1.5",
     "@tanstack/eslint-config": "^0.3.4",
     "@types/node": "^22.19.8",
     "@typescript-eslint/eslint-plugin": "^8.54.0",

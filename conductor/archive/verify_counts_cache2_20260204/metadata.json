@@ -1,0 +1,9 @@
+{
+  "track_id": "verify_counts_cache2_20260204",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-02-04T23:18:00Z",
+  "updated_at": "2026-02-04T23:18:00Z",
+  "description": "verify the items counts you have with the items counts on https://abextm.github.io/cache2 using the cache2 package directly to compare to our package as a permanent integration test.",
+  "track_root_sha": "3d79141634273cee38dfd17395769db74361b124"
+}

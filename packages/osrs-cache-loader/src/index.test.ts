@@ -56,13 +56,37 @@ describe("loadCache", () => {
           arrayBuffer: async () => await Promise.resolve(mockContainer.buffer),
         });
       }
-      return Promise.reject(new Error("Unknown URL"));
+      if (url.includes("/archives/2/groups/")) {
+        // Mock a simple archive with 1 file (ID 10)
+        // For fileCount=1, extractFiles just returns [data]
+        // But getFileCount(2, 10) expects 1 file from Reference Table
+        const fileData = new Uint8Array([1, 2, 3]);
+        const container = new Uint8Array(5 + fileData.length);
+        container[0] = 0; // No compression
+        container[4] = fileData.length;
+        container.set(fileData, 5);
+
+        return Promise.resolve({
+          ok: true,
+          arrayBuffer: async () => await Promise.resolve(container.buffer),
+        });
+      }
+      if (url.includes("/archives/")) {
+        // Fallback for other indices like 5, 7, 8
+        // Return a valid OSRS container (Compression: 0, Length: 0)
+        const container = new Uint8Array([0, 0, 0, 0, 0]);
+        return Promise.resolve({
+          ok: true,
+          arrayBuffer: async () => await Promise.resolve(container.buffer),
+        });
+      }
+      return Promise.reject(new Error("Unknown URL: " + url));
     });
 
     const result = await loadCache({ game: "oldschool" });
-    expect(result.items).toBe(1); // Our mock has 1 file in archive 10
+    expect(result.items).toBe(1);
     expect(result.npcs).toBe(0);
     expect(result.objects).toBe(0);
-    expect(result.maps).toBe(1); // Our mock has 1 archive in index 5 (because we reused mockContainer)
+    expect(result.maps).toBe(1);
   });
 });

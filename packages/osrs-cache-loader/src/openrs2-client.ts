@@ -41,4 +41,14 @@ export class OpenRS2Client {
     }
     return response.arrayBuffer();
   }
+
+  async getArchive(scope: string, id: number, index: number, archive: number): Promise<ArrayBuffer> {
+    const response = await fetch(
+      `${this.baseUrl}/caches/${scope}/${id}/archives/${index}/groups/${archive}.dat`,
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch archive from OpenRS2: ${response.statusText}`);
+    }
+    return response.arrayBuffer();
+  }
 }

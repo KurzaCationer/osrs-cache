@@ -107,8 +107,9 @@ All tasks follow a strict lifecycle:
     -   If you can verify the success of a task or phase using tools (e.g., checking file contents, running scripts, executing tests), you SHOULD do so and report the results rather than asking the user to perform the check.
     -   Only ask for user confirmation if there is ambiguity or a high-risk change that cannot be fully validated by tools.
 
-5.  **Await Explicit User Feedback:**
-    -   After presenting the detailed plan, ask the user for confirmation: "**Does this meet your expectations? Please confirm with yes or provide feedback on what needs to be changed.**"
+5.  **Await Explicit User Feedback (Final Phase Only):**
+    -   **CRITICAL:** In general, this manual step is ONLY required for the final phase of a track to ensure overall deliverable quality before archival. For intermediate phases, this step should be skipped unless a specific manual review is explicitly requested in the `plan.md`.
+    -   **Final Phase Procedure:** After presenting the detailed plan, ask the user for confirmation: "**Does this meet your expectations? Please confirm with yes or provide feedback on what needs to be changed.**"
     -   **PAUSE** and await the user's response. Do not proceed without an explicit yes or confirmation.
 
 6.  **Create Checkpoint Commit:**
@@ -132,10 +133,10 @@ All tasks follow a strict lifecycle:
 
 ### Track Completion Protocol
 
-**Trigger:** This protocol is executed after the final phase of a track is completed and verified.
+**Trigger:** This protocol is executed after the final phase of a track is completed and verified. **CRITICAL:** The track MUST NOT be squashed or archived until the final "Phase Completion Verification and Checkpointing Protocol" (which includes the mandatory "Await Explicit User Feedback" step) has been successfully completed for the last phase.
 
 1.  **Preparation:**
-    -   Ensure the final phase is completed and verified according to the "Phase Completion Verification and Checkpointing Protocol".
+    -   Ensure the final phase is completed and verified according to the "Phase Completion Verification and Checkpointing Protocol" (including obtaining explicit user approval for the entire track's deliverables).
     -   Identify the `track_root_sha` from `conductor/tracks/<track_id>/metadata.json`.
 
 2.  **Consolidate Changes:**

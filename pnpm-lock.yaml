@@ -222,6 +222,9 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
     devDependencies:
+      '@abextm/cache2':
+        specifier: ^0.1.5
+        version: 0.1.5
       '@tanstack/eslint-config':
         specifier: ^0.3.4
         version: 0.3.4(@typescript-eslint/utils@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -248,6 +251,9 @@ importers:
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.19.8)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
 
 packages:
+
+  '@abextm/cache2@0.1.5':
+    resolution: {integrity: sha512-0AuNo8dLZ64l0OqTJd6cqj+utkmxP/aU0KKu56tAaGmVvMEr4GBPerB/9lFIjOWjGk65lg4n9j0JPWwKrxG8ig==}
 
   '@acemir/cssom@0.9.31':
     resolution: {integrity: sha512-ZnR3GSaH+/vJ0YlHau21FjfLYjMpYVIzTD8M8vIEQvIGxeOXyXdzCI140rrCY862p/C/BbzWsjc1dgnM9mkoTA==}
@@ -2548,6 +2554,10 @@ packages:
 
   base-64@1.0.0:
     resolution: {integrity: sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg==}
+
+  base64-arraybuffer-es6@3.1.0:
+    resolution: {integrity: sha512-QKKtftiSrKjilihGNLXxnrb9LJj7rnEdB1cYAqVpekFy0tisDklAf1RAgvpm0HsGYx9sv7FUbgpsrfwTyCPVLg==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   baseline-browser-mapping@2.9.19:
     resolution: {integrity: sha512-ipDqC8FrAl/76p2SSWKSI+H9tFwm7vYqXQrItCuiVPt26Km0jS+NzSsBWAaBusvSbQcfJG+JitdMm+wZAgTYqg==}
@@ -5869,6 +5879,12 @@ packages:
 
 snapshots:
 
+  '@abextm/cache2@0.1.5':
+    dependencies:
+      base64-arraybuffer-es6: 3.1.0
+      fflate: 0.8.2
+      tslib: 2.8.1
+
   '@acemir/cssom@0.9.31': {}
 
   '@asamuzakjp/css-color@4.1.1':
@@ -8364,6 +8380,8 @@ snapshots:
   balanced-match@1.0.2: {}
 
   base-64@1.0.0: {}
+
+  base64-arraybuffer-es6@3.1.0: {}
 
   baseline-browser-mapping@2.9.19: {}
 

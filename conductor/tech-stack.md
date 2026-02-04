@@ -27,5 +27,6 @@
 - **Vite:** Build tool and dev server.
 - **tsup:** TypeScript bundler for packages (`osrs-cache-loader`).
 - **Vitest:** Testing framework.
+- **cache2:** Used as a source of truth for verifying asset counts in integration tests.
 - **ESLint:** Pluggable linting utility for JavaScript and TypeScript.
 - **Prettier:** Opinionated code formatter.

@@ -26,6 +26,7 @@ export class ReferenceTable {
   public revision: number = 0;
   public named: boolean = false;
   public archives: Map<number, ArchiveReference> = new Map();
+  public maxArchiveId: number = -1;
 
   static decode(data: ArrayBuffer | Uint8Array): ReferenceTable {
     const reader = new Reader(data);
@@ -55,6 +56,7 @@ export class ReferenceTable {
       archiveIds[i] = lastArchiveId;
       table.archives.set(archiveIds[i], new ArchiveReference(archiveIds[i]));
     }
+    table.maxArchiveId = lastArchiveId;
 
     if (table.named) {
       for (let i = 0; i < archiveCount; i++) {
