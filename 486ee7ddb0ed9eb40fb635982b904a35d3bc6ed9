@@ -1,0 +1,1 @@
+Task: Define TypeScript interfaces. Created packages/osrs-cache-loader/src/types.ts and exported from index.ts. These interfaces define the structure of OpenRS2 API responses and the summary asset counts for the MVP.
