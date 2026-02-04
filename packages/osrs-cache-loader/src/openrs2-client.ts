@@ -3,7 +3,7 @@ import type { OpenRS2Cache } from "./types";
 export class OpenRS2Client {
   private baseUrl: string;
 
-  constructor(baseUrl: string = "https://archive.openrs2.org/api") {
+  constructor(baseUrl: string = "https://archive.openrs2.org") {
     this.baseUrl = baseUrl;
   }
 
