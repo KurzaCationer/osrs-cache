@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { loadCache } from "./index";
+import { getMetadata, loadCache } from "./index";
 
 describe("loadCache", () => {
   beforeEach(() => {
@@ -88,5 +88,50 @@ describe("loadCache", () => {
     expect(result.npcs).toBe(0);
     expect(result.objects).toBe(0);
     expect(result.maps).toBe(1);
+  });
+});
+
+describe("getMetadata", () => {
+  beforeEach(() => {
+    global.fetch = vi.fn();
+  });
+
+  it("should return detailed metadata including counts", async () => {
+    const mockCaches = [
+      {
+        id: 1,
+        scope: "runescape",
+        game: "oldschool",
+        timestamp: "2023-01-01T00:00:00Z",
+        builds: [{ major: 227 }],
+        sources: ["OpenRS2 Archive"],
+      },
+    ];
+
+    const mockTable = new Uint8Array([5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]); // Empty table
+    const mockContainer = new Uint8Array(5 + mockTable.length);
+    mockContainer[4] = mockTable.length;
+    mockContainer.set(mockTable, 5);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (global.fetch as any).mockImplementation((url: string) => {
+      if (url.includes("caches.json")) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => await Promise.resolve(mockCaches),
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        arrayBuffer: async () => await Promise.resolve(mockContainer.buffer),
+      });
+    });
+
+    const metadata = await getMetadata({ game: "oldschool" });
+    expect(metadata.id).toBe(1);
+    expect(metadata.builds[0].major).toBe(227);
+    expect(metadata.timestamp).toBe("2023-01-01T00:00:00Z");
+    expect(metadata.source).toBe("OpenRS2 Archive");
+    expect(metadata.counts.items).toBe(0);
   });
 });

@@ -1,10 +1,11 @@
-import { describe, it, expect } from "vitest";
-import { CacheProvider, ArchiveData, IndexData, CacheVersion, Item, NPC, Obj, Enum, Struct, Animation, Sprites, Underlay, Param, Hitsplat, HealthBar, DBRow } from "@abextm/cache2";
+import { describe, expect, it } from "vitest";
+import { Animation, ArchiveData, DBRow, Enum, HealthBar, Hitsplat, Item, NPC, Obj, Param, Struct, Underlay } from "@abextm/cache2";
 import { OpenRS2Client } from "./openrs2-client";
-import { Cache } from "./index";
 
 import { ReferenceTable } from "./reference-table";
 import { decompress } from "./compression";
+import { Cache } from "./index";
+import type { CacheProvider, CacheVersion, IndexData } from "@abextm/cache2";
 
 class OpenRS2CacheProvider implements CacheProvider {
   private tables = new Map<number, ReferenceTable>();
@@ -19,7 +20,7 @@ class OpenRS2CacheProvider implements CacheProvider {
   async getIndex(index: number): Promise<IndexData | undefined> {
     if (!this.tables.has(index)) {
       const rawData = await this.client.getArchiveMetadata(this.scope, this.id, index);
-      const decompressed = await decompress(new Uint8Array(rawData));
+      const decompressed = decompress(new Uint8Array(rawData));
       const table = ReferenceTable.decode(decompressed);
       this.tables.set(index, table);
       
@@ -52,6 +53,7 @@ class OpenRS2CacheProvider implements CacheProvider {
     const ad = this.archives.get(index)?.get(archive);
     if (!ad) return undefined;
     
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!ad.compressedData) {
       const url = `https://archive.openrs2.org/caches/${this.scope}/${this.id}/archives/${index}/groups/${archive}.dat`;
       const response = await fetch(url);
@@ -61,11 +63,11 @@ class OpenRS2CacheProvider implements CacheProvider {
     return ad;
   }
 
-  async getArchiveByName(index: number, name: string | number): Promise<ArchiveData | undefined> {
+  getArchiveByName(index: number, name: string | number): ArchiveData | undefined { // eslint-disable-line @typescript-eslint/no-unused-vars
     return undefined;
   }
 
-  async getArchives(index: number): Promise<number[] | undefined> {
+  async getArchives(index: number): Promise<Array<number> | undefined> {
     await this.getIndex(index);
     return Array.from(this.archives.get(index)!.keys());
   }

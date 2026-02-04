@@ -1,6 +1,6 @@
 export class Reader {
   private view: DataView;
-  public offset: number = 0;
+  public offset = 0;
 
   constructor(buffer: ArrayBuffer | Uint8Array) {
     if (buffer instanceof Uint8Array) {

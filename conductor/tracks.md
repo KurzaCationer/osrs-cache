@@ -11,3 +11,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Integration Test for Cache Asset Counts (cache2 Comparison)**
 *Link: [./archive/verify_counts_cache2_20260204/](./archive/verify_counts_cache2_20260204/)*
+
+---
+
+- [x] **Track: Display Cache Metadata on Index Page**
+*Link: [./archive/display_cache_metadata_20260205/](./archive/display_cache_metadata_20260205/)*

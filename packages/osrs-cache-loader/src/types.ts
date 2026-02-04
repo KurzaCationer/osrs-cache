@@ -39,3 +39,14 @@ export interface LoadCacheOptions {
   game?: string;
   openrs2BaseUrl?: string;
 }
+
+export interface CacheMetadata {
+  id: number;
+  builds: Array<{
+    major: number;
+    minor?: number;
+  }>;
+  timestamp?: string;
+  source: string;
+  counts: AssetCounts;
+}

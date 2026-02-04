@@ -1,12 +1,12 @@
 import { OpenRS2Client } from "./openrs2-client";
-import type { AssetCounts, LoadCacheOptions, OpenRS2Cache } from "./types";
 import { ReferenceTable } from "./reference-table";
 import { decompress } from "./compression";
+import type { AssetCounts, CacheMetadata, LoadCacheOptions, OpenRS2Cache } from "./types";
 
 export * from "./types";
 export * from "./openrs2-client";
 
-function extractFiles(data: Uint8Array, fileCount: number): Uint8Array[] {
+function extractFiles(data: Uint8Array, fileCount: number): Array<Uint8Array> {
   if (fileCount <= 1) {
     return [data];
   }
@@ -15,7 +15,7 @@ function extractFiles(data: Uint8Array, fileCount: number): Uint8Array[] {
   const numChunks = dv.getUint8(dv.byteLength - 1);
   let off = dv.byteLength - 1 - numChunks * fileCount * 4;
   let doff = 0;
-  const files: Uint8Array[] = new Array(fileCount);
+  const files: Array<Uint8Array> = new Array(fileCount);
 
   if (numChunks === 1) {
     let size = 0;
@@ -132,7 +132,7 @@ export class Cache {
     };
   }
 
-  async getRawFile(index: number, archive: number, file: number = 0): Promise<Uint8Array> {
+  async getRawFile(index: number, archive: number): Promise<Uint8Array> {
     const response = await this.client.getArchive(
       this.metadata.scope,
       this.metadata.id,
@@ -147,6 +147,18 @@ export class Cache {
     return decompressed;
   }
 }
+
+export const getMetadata = async (options: LoadCacheOptions = {}): Promise<CacheMetadata> => {
+  const cache = await Cache.load(options);
+  const counts = await cache.getAssetCounts();
+  return {
+    id: cache.metadata.id,
+    builds: cache.metadata.builds,
+    timestamp: cache.metadata.timestamp,
+    source: cache.metadata.sources[0] || "Unknown",
+    counts,
+  };
+};
 
 export const loadCache = async (options: LoadCacheOptions = {}): Promise<AssetCounts> => {
   console.log("OSRS Cache Loader Initialized");

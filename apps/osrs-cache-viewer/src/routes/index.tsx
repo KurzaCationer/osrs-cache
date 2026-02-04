@@ -1,24 +1,24 @@
 import { RefreshCw } from 'lucide-react'
 import { createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-import { loadCache, type AssetCounts } from '@kurza/osrs-cache-loader'
+import { getMetadata, type CacheMetadata } from '@kurza/osrs-cache-loader'
 import { css } from '../styled-system/css'
 import { ASSET_MAPPINGS } from '../components/AssetMappings'
 
-const getAssetCounts = createServerFn({
+const getCacheMetadata = createServerFn({
   method: 'GET',
 }).handler(async () => {
   try {
-    return await loadCache({ game: 'oldschool' })
+    return await getMetadata({ game: 'oldschool' })
   } catch (error) {
-    console.error('Failed to load cache:', error)
+    console.error('Failed to load cache metadata:', error)
     throw new Error('Failed to load OSRS cache summary. Please try again later.')
   }
 })
 
 export const Route = createFileRoute('/')({
   component: Home,
-  loader: async () => await getAssetCounts(),
+  loader: async () => await getCacheMetadata(),
 })
 
 function CountCard({ title, count, icon: Icon, color }: { title: string; count: number; icon: React.ElementType; color: string }) {
@@ -58,7 +58,9 @@ function CountCard({ title, count, icon: Icon, color }: { title: string; count: 
 }
 
 function Home() {
-  const data = Route.useLoaderData() as AssetCounts
+  const data = Route.useLoaderData() as CacheMetadata
+  const build = data.builds[0] ? `Build #${data.builds[0].major}` : 'Unknown Build'
+  const date = data.timestamp ? new Date(data.timestamp).toLocaleDateString() : 'Unknown Date'
 
   return (
     <main className={css({
@@ -69,10 +71,26 @@ function Home() {
     })}>
       <div className={css({ maxW: '6xl', mx: 'auto' })}>
         <header className={css({ mb: '10' })}>
-          <h2 className={css({ fontSize: '3xl', fontWeight: 'bold', mb: '2' })}>Cache Summary</h2>
-          <p className={css({ color: 'gray.400' })}>
-            Overview of assets loaded from the latest OpenRS2 OSRS cache.
-          </p>
+          <div className={css({ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '4' })}>
+            <div>
+              <h2 className={css({ fontSize: '3xl', fontWeight: 'bold', mb: '2' })}>Cache Summary</h2>
+              <p className={css({ color: 'gray.400' })}>
+                Overview of assets loaded from the latest OpenRS2 OSRS cache.
+              </p>
+            </div>
+            <div className={css({ bg: 'gray.900', p: '4', rounded: 'lg', border: '1px solid', borderColor: 'gray.800', fontSize: 'sm' })}>
+              <div className={css({ display: 'grid', gridTemplateColumns: 'auto auto', gap: 'x-4 y-1' })}>
+                <span className={css({ color: 'gray.500', pr: '4' })}>Cache ID:</span>
+                <span className={css({ color: 'blue.400', fontFamily: 'mono' })}>{data.id}</span>
+                <span className={css({ color: 'gray.500', pr: '4' })}>Version:</span>
+                <span className={css({ color: 'white', fontWeight: 'medium' })}>{build}</span>
+                <span className={css({ color: 'gray.500', pr: '4' })}>Timestamp:</span>
+                <span className={css({ color: 'white' })}>{date}</span>
+                <span className={css({ color: 'gray.500', pr: '4' })}>Source:</span>
+                <span className={css({ color: 'gray.300' })}>{data.source}</span>
+              </div>
+            </div>
+          </div>
         </header>
 
         <div className={css({
@@ -80,7 +98,7 @@ function Home() {
           display: 'grid',
           gap: '6'
         })}>
-          {(Object.entries(data) as [keyof AssetCounts, number][]).map(([key, count]) => {
+          {(Object.entries(data.counts) as [keyof CacheMetadata['counts'], number][]).map(([key, count]) => {
             const mapping = ASSET_MAPPINGS[key]
             if (!mapping) return null
             

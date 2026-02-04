@@ -1,32 +1,32 @@
 import { Reader } from "./reader";
 
 export class FileReference {
-  constructor(public id: number, public nameHash: number = -1) {}
+  constructor(public id: number, public nameHash = -1) {}
 }
 
 export class ArchiveReference {
   public files: Map<number, FileReference> = new Map();
-  public maxFileId: number = -1;
+  public maxFileId = -1;
 
   constructor(
     public id: number,
-    public nameHash: number = -1,
-    public crc: number = 0,
-    public revision: number = 0,
+    public nameHash = -1,
+    public crc = 0,
+    public revision = 0,
   ) {}
 
-  addFile(id: number, nameHash: number = -1) {
+  addFile(id: number, nameHash = -1) {
     this.files.set(id, new FileReference(id, nameHash));
     this.maxFileId = Math.max(this.maxFileId, id);
   }
 }
 
 export class ReferenceTable {
-  public protocol: number = 0;
-  public revision: number = 0;
-  public named: boolean = false;
+  public protocol = 0;
+  public revision = 0;
+  public named = false;
   public archives: Map<number, ArchiveReference> = new Map();
-  public maxArchiveId: number = -1;
+  public maxArchiveId = -1;
 
   static decode(data: ArrayBuffer | Uint8Array): ReferenceTable {
     const reader = new Reader(data);

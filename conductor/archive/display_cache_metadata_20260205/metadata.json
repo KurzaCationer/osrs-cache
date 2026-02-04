@@ -1,0 +1,9 @@
+{
+  "track_id": "display_cache_metadata_20260205",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-02-05T00:00:00Z",
+  "updated_at": "2026-02-05T00:00:00Z",
+  "description": "I want the frontend to show more information, instead of just the counts (not the data but like what version of osrs is currently loaded)",
+  "track_root_sha": "a1b6b4e155103f6f866bd150da340820b729fcad"
+}
