@@ -1,0 +1,4 @@
+Task: Research asset counts and document mapping.
+Summary: Identified that Index 255 (Reference Table) contains the metadata needed to count assets (archives per index or files per archive). Mapped specific categories like Items (2/10), NPCs (2/9), and Maps (Index 5).
+Files: Modified api-reference.md, plan.md; Created research_mapping.md.
+Why: To provide the foundation for the loader implementation fixes.
