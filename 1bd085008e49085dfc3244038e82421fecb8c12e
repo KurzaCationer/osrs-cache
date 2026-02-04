@@ -1,0 +1,4 @@
+Task: Phase 2: Viewer Integration
+Summary: Updated viewer to fetch and display cache metadata (ID, Build, Timestamp, Source) on the index page using the new getMetadata function.
+Files: apps/osrs-cache-viewer/src/routes/index.tsx, conductor/tracks/display_cache_metadata_20260205/plan.md
+Why: To provide users with essential context about the currently loaded cache.
