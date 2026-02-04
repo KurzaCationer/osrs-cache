@@ -1,0 +1,1 @@
+Implemented a permanent integration test in @kurza/osrs-cache-loader that compares asset counts against @abextm/cache2. This ensures the accuracy of our loader by validating it against a known source of truth. The test fetches the latest cache from OpenRS2 and performs a full comparison of 16 asset categories.
