@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
+    "lint": "eslint .",
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "panda codegen"
@@ -20,6 +21,14 @@
   },
   "devDependencies": {
     "@pandacss/dev": "^0.30.2",
+    "@pandacss/eslint-plugin": "^0.3.0",
+    "@tanstack/eslint-config": "^0.3.4",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "astro-eslint-parser": "^1.2.2",
+    "eslint": "^9.39.2",
+    "eslint-plugin-astro": "^1.5.0",
+    "eslint-plugin-react": "^7.37.5",
     "typescript": "^5.0.0"
   }
 }

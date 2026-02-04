@@ -20,27 +20,32 @@ export const Route = createFileRoute('/')({
   loader: async () => await getAssetCounts(),
 })
 
-function CountCard({ title, count, icon: Icon, color }: { title: string; count: number; icon: any; color: string }) {
+function CountCard({ title, count, icon: Icon, color }: { title: string; count: number; icon: React.ElementType; color: string }) {
   return (
-    <div className={css({
-      p: '6',
-      bg: 'gray.800',
-      rounded: 'xl',
-      borderWidth: '1px',
-      borderColor: 'gray.700',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '4',
-      shadow: 'md',
-      transition: 'transform 0.2s',
-      _hover: { transform: 'translateY(-2px)', borderColor: color }
-    })}>
-      <div className={css({
-        p: '3',
-        rounded: 'lg',
-        bg: 'gray.900',
-        color: color
-      })}>
+    <div 
+      style={{ '--hover-color': color } as React.CSSProperties}
+      className={css({
+        p: '6',
+        bg: 'gray.800',
+        rounded: 'xl',
+        borderWidth: '1px',
+        borderColor: 'gray.700',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4',
+        shadow: 'md',
+        transition: 'transform 0.2s, border-color 0.2s',
+        _hover: { transform: 'translateY(-2px)', borderColor: 'var(--hover-color)' }
+      })}
+    >
+      <div 
+        style={{ color }}
+        className={css({
+          p: '3',
+          rounded: 'lg',
+          bg: 'gray.900'
+        })}
+      >
         <Icon size={24} />
       </div>
       <div>

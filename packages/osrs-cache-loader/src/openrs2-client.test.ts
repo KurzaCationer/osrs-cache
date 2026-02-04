@@ -11,6 +11,7 @@ describe("OpenRS2Client", () => {
 
   it("should fetch a list of caches", async () => {
     const mockCaches = [{ id: 1, scope: "runescape", game: "osrs" }];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global.fetch as any).mockResolvedValue({
       ok: true,
       json: async () => await Promise.resolve(mockCaches),
@@ -27,6 +28,7 @@ describe("OpenRS2Client", () => {
       { id: 2, game: "osrs", timestamp: "2023-01-02T00:00:00Z" },
       { id: 3, game: "rs2", timestamp: "2023-01-03T00:00:00Z" },
     ];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global.fetch as any).mockResolvedValue({
       ok: true,
       json: async () => await Promise.resolve(mockCaches),
@@ -37,6 +39,7 @@ describe("OpenRS2Client", () => {
   });
 
   it("should throw if no caches found for game", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global.fetch as any).mockResolvedValue({
       ok: true,
       json: async () => await Promise.resolve([]),

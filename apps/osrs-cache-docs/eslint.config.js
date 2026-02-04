@@ -1,32 +1,31 @@
-//  @ts-check
-
 import { tanstackConfig } from '@tanstack/eslint-config'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooksPlugin from 'eslint-plugin-react-hooks'
+import eslintPluginAstro from 'eslint-plugin-astro'
 import pandaPlugin from '@pandacss/eslint-plugin'
-import tsParser from '@typescript-eslint/parser'
+import reactPlugin from 'eslint-plugin-react'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
 
 export default [
   {
     ignores: [
-      '.output/**',
-      '.tanstack/**',
+      'dist/**',
+      '.astro/**',
       '.turbo/**',
       'src/styled-system/**',
       'eslint.config.js',
-      'prettier.config.js',
+      'panda.config.mjs',
       'postcss.config.cjs',
+      'astro.config.mjs',
     ],
   },
   ...tanstackConfig,
+  ...eslintPluginAstro.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
     plugins: {
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
-      '@typescript-eslint': tsPlugin,
       '@pandacss': pandaPlugin,
+      react: reactPlugin,
+      '@typescript-eslint': tsPlugin,
     },
     languageOptions: {
       parser: tsParser,
@@ -37,16 +36,24 @@ export default [
       },
     },
     rules: {
-      ...reactPlugin.configs.recommended.rules,
-      ...reactHooksPlugin.configs.recommended.rules,
-      ...tsPlugin.configs.recommended.rules,
       ...pandaPlugin.configs.recommended.rules,
-      'react/react-in-jsx-scope': 'off', // React 17+
+      ...reactPlugin.configs.recommended.rules,
+      ...tsPlugin.configs.recommended.rules,
+      'react/react-in-jsx-scope': 'off',
     },
     settings: {
       react: {
         version: 'detect',
       },
+    },
+  },
+  {
+    files: ['**/*.astro'],
+    plugins: {
+      '@pandacss': pandaPlugin,
+    },
+    rules: {
+      ...pandaPlugin.configs.recommended.rules,
     },
   },
 ]

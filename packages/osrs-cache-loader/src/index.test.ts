@@ -17,6 +17,7 @@ describe("loadCache", () => {
         object_count: 200,
       },
     ];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global.fetch as any).mockResolvedValue({
       ok: true,
       json: async () => await Promise.resolve(mockCaches),

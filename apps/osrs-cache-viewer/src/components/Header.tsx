@@ -52,13 +52,14 @@ export default function Header() {
           <Menu size={24} />
         </button>
         <h1 className={css({ ml: '4', fontSize: 'xl', fontWeight: 'semibold' })}>
-          <Link to="/" className={css({ textDecoration: 'none', color: 'inherit' })}>
+          <Link to="/" className={css({ textDecoration: 'none' })}>
             OSRS Cache Viewer
           </Link>
         </h1>
       </header>
 
       <aside
+        style={{ transform: isOpen ? 'translateX(0)' : 'translateX(-100%)' }}
         className={css({
           position: 'fixed',
           top: '0',
@@ -71,8 +72,7 @@ export default function Header() {
           zIndex: '50',
           transition: 'transform 0.3s ease-in-out',
           display: 'flex',
-          flexDirection: 'column',
-          transform: isOpen ? 'translateX(0)' : 'translateX(-100%)'
+          flexDirection: 'column'
         })}
       >
         <div className={css({
