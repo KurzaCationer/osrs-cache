@@ -1,0 +1,1 @@
+Task: Implement Viewer. Created the main index page for the OSRS Cache Viewer using PandaCSS and TanStack Start. Implemented a server function to fetch asset counts from the loader package. Verified with a successful build.
