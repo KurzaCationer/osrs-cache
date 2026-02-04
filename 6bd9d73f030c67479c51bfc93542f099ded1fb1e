@@ -1,0 +1,3 @@
+Task: Update the 'Sorting' workflow in SKILL.md to include mandatory Markdown format and Link validation steps.
+Summary: Explicitly added Link Validation to the Sorting workflow. Updated the test script to check for empty links.
+Files: .gemini/skills/library-archivist/SKILL.md, conductor/tracks/enhance_library_archivist_20260204/plan.md, conductor/tracks/enhance_library_archivist_20260204/verify_metadata.js, reference-material/docs/test/broken.md
