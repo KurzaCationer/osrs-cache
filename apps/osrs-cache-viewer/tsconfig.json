@@ -23,7 +23,9 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@kurza/osrs-cache-loader": ["../../packages/osrs-cache-loader/src/index.ts"],
+      "@kurza/ui-preset": ["../../internal/ui-preset/src/index.ts"]
     }
   }
 }

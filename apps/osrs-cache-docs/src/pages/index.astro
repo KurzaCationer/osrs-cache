@@ -20,6 +20,15 @@ const container = css({
 	</head>
 	<body>
 		<div class={container}>OSRS Cache Research Docs</div>
-        <p>This project uses the shared UI preset for styling.</p>
+        <div class={css({ mt: '4', display: 'flex', flexDirection: 'column', gap: '2' })}>
+          <p>This project uses the shared UI preset for styling.</p>
+          <a href="/getting-started" class={css({ 
+            color: 'brand', 
+            textDecoration: 'underline',
+            _hover: { color: 'brand.muted' }
+          })}>
+            Go to Getting Started
+          </a>
+        </div>
 	</body>
 </html>
