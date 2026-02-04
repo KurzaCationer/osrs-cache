@@ -1,0 +1,1 @@
+Task: Implement archivist-retriever skill\n\nSummary: Created archivist-retriever skill to prioritize local documentation. Added explicit mandates for Library First and triggers for technical tasks.\nFiles: .gemini/skills/archivist-retriever/SKILL.md
