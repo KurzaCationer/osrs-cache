@@ -1,0 +1,1 @@
+Task: Implement archivist-researcher skill\n\nSummary: Created archivist-researcher skill for external investigation. Focuses on user-approved ingestion and handover to the librarian.\nFiles: .gemini/skills/archivist-researcher/SKILL.md
