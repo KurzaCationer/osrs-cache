@@ -1,0 +1,3 @@
+Task: Implement the 'Search Fallback' logic in SKILL.md, including user verification and the prompt to archive.
+Summary: Added a new 'Workflow 4: Search & Archive Fallback' to SKILL.md. This workflow guides the AI to search online when archives are missing, verify results with the user, and offer to archive the new documentation.
+Files: .gemini/skills/library-archivist/SKILL.md, conductor/tracks/enhance_library_archivist_20260204/plan.md
