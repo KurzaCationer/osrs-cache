@@ -1,0 +1,4 @@
+Task: Define CacheMetadata type in @kurza/osrs-cache-loader
+Summary: Added CacheMetadata interface to packages/osrs-cache-loader/src/types.ts.
+Files: packages/osrs-cache-loader/src/types.ts, conductor/tracks/display_cache_metadata_20260205/plan.md
+Why: To provide a structured and typed metadata response for the cache viewer.
