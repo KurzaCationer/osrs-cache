@@ -1,0 +1,1 @@
+Task: Verify build. Ran pnpm run build in apps/osrs-cache-viewer and confirmed it passes after removing demo routes and cleaning up navigation.
