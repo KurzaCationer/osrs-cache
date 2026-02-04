@@ -1,0 +1,1 @@
+Task: Write tests to verify triggers for Retriever and Researcher\n\nSummary: Created a Node.js verification script to ensure skills have required sections and triggers. Validated archivist-retriever and archivist-researcher.\nFiles: conductor/tracks/refactor_library_archivist_20260204/verify_skills.js
