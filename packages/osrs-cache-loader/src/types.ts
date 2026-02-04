@@ -20,7 +20,18 @@ export interface AssetCounts {
   npcs: number;
   objects: number;
   maps: number;
-  audio: number;
+  animations: number;
+  enums: number;
+  sprites: number;
+  models: number;
+  structs: number;
+  underlays: number;
+  overlays: number;
+  identikits: number;
+  params: number;
+  hitsplats: number;
+  healthBars: number;
+  dbRows: number;
 }
 
 export interface LoadCacheOptions {

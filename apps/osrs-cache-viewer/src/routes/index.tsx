@@ -1,8 +1,9 @@
-import { Box, Map, Music, Package, RefreshCw, Users } from 'lucide-react'
+import { RefreshCw } from 'lucide-react'
 import { createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-import { loadCache } from '@kurza/osrs-cache-loader'
+import { loadCache, type AssetCounts } from '@kurza/osrs-cache-loader'
 import { css } from '../styled-system/css'
+import { ASSET_MAPPINGS } from '../components/AssetMappings'
 
 const getAssetCounts = createServerFn({
   method: 'GET',
@@ -57,13 +58,13 @@ function CountCard({ title, count, icon: Icon, color }: { title: string; count: 
 }
 
 function Home() {
-  const data = Route.useLoaderData()
+  const data = Route.useLoaderData() as AssetCounts
 
   return (
     <main className={css({
       minH: 'calc(100vh - 64px)',
       bg: 'gray.950',
-      p: '8',
+      p: { base: '4', md: '8' },
       color: 'white'
     })}>
       <div className={css({ maxW: '6xl', mx: 'auto' })}>
@@ -75,15 +76,24 @@ function Home() {
         </header>
 
         <div className={css({
-          gridTemplateColumns: { base: '1', md: '2', lg: '3' },
+          gridTemplateColumns: { base: '1', md: '2', lg: '3', xl: '4' },
           display: 'grid',
           gap: '6'
         })}>
-          <CountCard title="Items" count={data.items} icon={Package} color="cyan.400" />
-          <CountCard title="NPCs" count={data.npcs} icon={Users} color="green.400" />
-          <CountCard title="Objects" count={data.objects} icon={Box} color="orange.400" />
-          <CountCard title="Maps" count={data.maps} icon={Map} color="purple.400" />
-          <CountCard title="Audio" count={data.audio} icon={Music} color="pink.400" />
+          {(Object.entries(data) as [keyof AssetCounts, number][]).map(([key, count]) => {
+            const mapping = ASSET_MAPPINGS[key]
+            if (!mapping) return null
+            
+            return (
+              <CountCard 
+                key={key}
+                title={mapping.title}
+                count={count}
+                icon={mapping.icon}
+                color={mapping.color}
+              />
+            )
+          })}
         </div>
 
         <footer className={css({ mt: '12', p: '6', bg: 'blue.900/20', rounded: 'xl', borderWidth: '1px', borderColor: 'blue.800/50', display: 'flex', alignItems: 'center', gap: '4' })}>
@@ -96,3 +106,4 @@ function Home() {
     </main>
   )
 }
+

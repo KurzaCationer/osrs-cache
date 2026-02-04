@@ -19,6 +19,10 @@
 - **PandaCSS:** Build-time CSS-in-JS for type-safe styling.
 - **Lucide React:** Icon library.
 
+## Data Processing
+- **fflate:** High-performance GZIP decompression.
+- **seek-bzip:** Synchronous BZIP2 decompression for binary OSRS cache blocks.
+
 ## Development & Build Tooling
 - **Vite:** Build tool and dev server.
 - **tsup:** TypeScript bundler for packages (`osrs-cache-loader`).

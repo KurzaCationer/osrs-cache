@@ -31,4 +31,14 @@ export class OpenRS2Client {
 
     return gameCaches[0];
   }
+
+  async getArchiveMetadata(scope: string, id: number, index: number): Promise<ArrayBuffer> {
+    const response = await fetch(
+      `${this.baseUrl}/caches/${scope}/${id}/archives/255/groups/${index}.dat`,
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch archive metadata from OpenRS2: ${response.statusText}`);
+    }
+    return response.arrayBuffer();
+  }
 }

@@ -1,0 +1,9 @@
+{
+  "track_id": "fix_loaders_20260204",
+  "type": "bug",
+  "status": "new",
+  "created_at": "2026-02-04T12:00:00Z",
+  "updated_at": "2026-02-04T12:00:00Z",
+  "description": "I want you to fix a problem with the data loaders. First the frontend doesn't show all data loaded by the loaders (only 5). Second the Item NPC and Obj loaders are not working since they report 0 in the frontend. Please fix.",
+  "track_root_sha": "b274c4d12735fe9a6525e5a92474d266b4013132"
+}

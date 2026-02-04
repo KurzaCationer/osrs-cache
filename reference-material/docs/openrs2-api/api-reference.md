@@ -14,6 +14,7 @@ The OpenRS2 Archive API provides endpoints for accessing game cache data, XTEA k
 - **CORS:** All endpoints accept requests from any origin.
 - **Range Requests:** Not supported.
 - **Authentication:** No explicit authentication requirements mentioned.
+- **Role:** OpenRS2 serves as a host for raw cache files. It does **not** perform any analysis on the content of the caches. High-level metadata (such as the number of items or NPCs) must be derived by parsing the cache files themselves (e.g., reading Index 255).
 
 ## Endpoints
 
