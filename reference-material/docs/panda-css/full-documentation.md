@@ -1,3 +1,9 @@
+---
+source_url: https://panda-css.com/llms.txt
+archived_at: 2026-02-04
+summary: Comprehensive documentation for Panda CSS, including installation, configuration, core concepts (cva, sva), and theming.
+version: latest
+---
 # Panda CSS Documentation
 
 (Source: https://panda-css.com/llms.txt)

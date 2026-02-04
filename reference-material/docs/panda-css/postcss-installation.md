@@ -1,3 +1,9 @@
+---
+source_url: https://panda-css.com/docs/installation/postcss
+archived_at: 2026-02-04
+summary: Guide for installing and configuring Panda CSS with PostCSS.
+version: latest
+---
 # Panda CSS PostCSS Installation
 
 Panda CSS integrates with PostCSS as a plugin, which is the recommended installation method.

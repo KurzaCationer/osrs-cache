@@ -9,6 +9,20 @@
 5. **User Experience First:** Every decision should prioritize user experience
 6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for tools (tests, linters) to ensure single execution. For manual verification, use local development commands (e.g., `pnpm run dev`). Use `docker compose up --build -d` only for the final verification step at the end of a task or phase.
 
+## Track Lifecycle
+
+All major work streams are organized into **Tracks**.
+
+### Track Initialization Protocol
+
+**Trigger:** When starting a new track.
+
+1.  **Create Track Directory:** Create a new directory in `conductor/tracks/<track_id>/`.
+2.  **Initialize Plan:** Create a `plan.md` in the track directory, outlining the phases and tasks.
+3.  **Record Root SHA:** Capture the current commit SHA and record it in `conductor/tracks/<track_id>/metadata.json` as `track_root_sha`. This SHA will be used for squashing at the end of the track.
+4.  **Register Track:** Add the track to `conductor/tracks.md`.
+5.  **Initial Commit:** Commit the new track directory and the update to `tracks.md` with the message `conductor(track): Initialize <track_id>`.
+
 ## Task Workflow
 
 All tasks follow a strict lifecycle:
@@ -87,30 +101,11 @@ All tasks follow a strict lifecycle:
     -   Execute the announced command.
     -   If tests fail, you **must** inform the user and begin debugging. You may attempt to propose a fix a **maximum of two times**. If the tests still fail after your second proposed fix, you **must stop**, report the persistent failure, and ask the user for guidance.
 
-4.  **Propose a Detailed, Actionable Manual Verification Plan:**
-    -   **CRITICAL:** To generate the plan, first analyze `product.md`, `product-guidelines.md`, and `plan.md` to determine the user-facing goals of the completed phase.
-    -   You **must** generate a step-by-step plan that walks the user through the verification process, including any necessary commands and specific, expected outcomes.
-    -   The plan you present to the user **must** follow this format:
-
-        **For a Frontend Change:**
-        ```
-        The automated tests have passed. For manual verification, please follow these steps:
-
-        **Manual Verification Steps:**
-        1.  **Start the development server:** `pnpm run dev`
-        2.  **Open your browser to:** `http://localhost:3000`
-        3.  **Confirm that you see:** The new user profile page, with the user's name and email displayed correctly.
-        ```
-
-        **For a Backend Change:**
-        ```
-        The automated tests have passed. For manual verification, please follow these steps:
-
-        **Manual Verification Steps:**
-        1.  **Ensure the server is running.**
-        2.  **Execute the following command in your terminal:** `curl -X POST http://localhost:8080/api/v1/users -d '{"name": "test"}'`
-        3.  **Confirm that you receive:** A JSON response with a status of `201 Created`.
-        ```
+4.  **Verification Protocol (Automated-First):**
+    -   **CRITICAL:** You MUST prioritize automated verification (scripts, tests, linting) over manual steps.
+    -   Manual verification steps should ONLY be proposed if automated verification is technically unfeasible or if a visual/UI confirmation is explicitly required.
+    -   If you can verify the success of a task or phase using tools (e.g., checking file contents, running scripts, executing tests), you SHOULD do so and report the results rather than asking the user to perform the check.
+    -   Only ask for user confirmation if there is ambiguity or a high-risk change that cannot be fully validated by tools.
 
 5.  **Await Explicit User Feedback:**
     -   After presenting the detailed plan, ask the user for confirmation: "**Does this meet your expectations? Please confirm with yes or provide feedback on what needs to be changed.**"
@@ -134,6 +129,32 @@ All tasks follow a strict lifecycle:
     - **Action:** Commit this change with a descriptive message following the format `conductor(plan): Mark phase '<PHASE NAME>' as complete`.
 
 10.  **Announce Completion:** Inform the user that the phase is complete and the checkpoint has been created, with the detailed verification report attached as a git note.
+
+### Track Completion Protocol
+
+**Trigger:** This protocol is executed after the final phase of a track is completed and verified.
+
+1.  **Preparation:**
+    -   Ensure the final phase is completed and verified according to the "Phase Completion Verification and Checkpointing Protocol".
+    -   Identify the `track_root_sha` from `conductor/tracks/<track_id>/metadata.json`.
+
+2.  **Consolidate Changes:**
+    -   Move the track directory from `conductor/tracks/<track_id>/` to `conductor/archive/<track_id>/`.
+    -   Update `conductor/tracks.md` to mark it as archived.
+    -   Stage these moves and updates.
+
+3.  **Squash Commits:**
+    -   **CRITICAL:** Perform a soft reset to the track root: `git reset --soft <track_root_sha>`.
+    -   All changes from the entire track (including the move to archive) are now staged.
+    -   Commit all changes with a single, high-level commit message following Conventional Commits (e.g., `feat(<scope>): <Track Title>`).
+    -   The commit message body MUST provide a concise, bulleted summary of all major features and fixes implemented in the track.
+
+4.  **Final Verification:**
+    -   Run the project's verification suite (e.g., `pnpm run check`) to ensure the squashed state is correct and stable.
+
+5.  **Push and Announce:**
+    -   Execute `git push --force-with-lease` (if on a feature branch) or `git push` as appropriate.
+    -   Inform the user that the track has been successfully squashed, archived, and completed.
 
 ### Quality Gates
 
@@ -287,6 +308,7 @@ A task is complete when:
 7. Implementation notes added to `plan.md`
 8. Changes committed with proper message
 9. Git note with task summary attached to the commit
+10. If completing a track: All commits squashed into a single feature commit according to the Track Completion Protocol
 
 ## Emergency Procedures
 

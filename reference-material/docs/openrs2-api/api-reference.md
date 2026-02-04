@@ -1,3 +1,9 @@
+---
+source_url: https://archive.openrs2.org/api
+archived_at: 2026-02-04
+summary: Technical reference for the OpenRS2 Archive API, covering cache downloads, XTEA keys, and map images.
+version: latest
+---
 # OpenRS2 Archive API Reference
 
 The OpenRS2 Archive API provides endpoints for accessing game cache data, XTEA keys, and map images.
