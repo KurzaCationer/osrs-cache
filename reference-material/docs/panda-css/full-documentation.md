@@ -195,22 +195,16 @@ function App() {
 Customize tokens, semantic tokens, breakpoints, and more in `panda.config.ts`.
 
 ```ts
-export default defineConfig({
-  theme: {
-    extend: {
-      tokens: {
-        colors: {
-          primary: { value: '#0FEE0F' },
-          secondary: { value: '#EE0F0F' }
-        }
-      },
-      semanticTokens: {
-        colors: {
-          danger: { value: '{colors.red.500}' },
-          success: { value: '{colors.green.500}' }
-        }
       }
     }
   }
 })
 ```
+
+## Resources & Links
+
+- [Official Website](https://panda-css.com/)
+- [GitHub Repository](https://github.com/chakra-ui/panda)
+- [PostCSS Installation Guide](./postcss-installation.md)
+- [Panda CSS LLMS.txt](https://panda-css.com/llms.txt)
+

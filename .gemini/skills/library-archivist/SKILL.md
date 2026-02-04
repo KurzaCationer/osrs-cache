@@ -32,6 +32,7 @@ You are the maintainer of the project's local knowledge base located in `./refer
     *   Read the matched files.
     *   Integrate the found knowledge directly into your response or implementation.
     *   Mention that you are using the archived documentation (e.g., "According to our archived TanStack Query docs...").
+    *   **CRITICAL:** Always preserve original documentation links and include a "Related Links" or "Resources" section in every archived document. These serve as gateways to more detailed information or future updates.
 3.  **Action on Gap:**
     *   If NOT found: **Proactively** inform the user that the documentation is missing.
     *   **Search Fallback:** Perform a web search to find the answer, present it to the user for verification, and then ask to archive it (see Workflow 4).

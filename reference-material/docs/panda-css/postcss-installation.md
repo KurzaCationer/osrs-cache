@@ -86,6 +86,13 @@ function App() {
 }
 ```
 
+## Resources & Links
+
+- [Official PostCSS Installation Guide](https://panda-css.com/docs/installation/postcss)
+- [Full Documentation](./full-documentation.md)
+- [Panda CSS Config Reference](https://panda-css.com/docs/references/config)
+
+
 ## IDE Setup (TSConfig)
 
 To get autocomplete for the generated `styled-system`, add it to your `tsconfig.json`:

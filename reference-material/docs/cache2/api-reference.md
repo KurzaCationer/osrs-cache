@@ -227,3 +227,9 @@ If implementing your own `Reader`, ensure you support these OSRS-specific types:
     -   If first byte has 0x80 bit set: Return 4 bytes (big-endian) AND 0x7FFFFFFF.
     -   Else: Return 2 bytes.
 
+## Resources & Links
+
+- [Official GitHub Repository](https://github.com/abextm/cache2)
+- [NPM Package](https://www.npmjs.com/package/@abextm/cache2)
+- [OpenRS2 Archive API](../openrs2-api/api-reference.md)
+

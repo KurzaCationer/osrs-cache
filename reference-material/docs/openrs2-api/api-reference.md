@@ -83,5 +83,11 @@ The OpenRS2 Archive API provides endpoints for accessing game cache data, XTEA k
 - **Format:** JSON array
 - **Description:** Returns XTEA keys validated against at least one cache.
 
+## Resources & Links
+
+- [OpenRS2 Archive Website](https://archive.openrs2.org/)
+- [API Documentation](https://archive.openrs2.org/api)
+- [Cache2 (Library for using these caches)](../cache2/api-reference.md)
+
 ---
 Source: [OpenRS2 Archive API](https://archive.openrs2.org/api)

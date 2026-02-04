@@ -44,3 +44,10 @@ You can extract the TypeScript type of any schema with `z.infer<typeof schema>`.
 type User = z.infer<typeof User>;
 // { username: string; age: number; }
 ```
+
+## Resources & Links
+
+- [Official Website](https://zod.dev/)
+- [GitHub Repository](https://github.com/colinhacks/zod)
+- [NPM Package](https://www.npmjs.com/package/zod)
+
