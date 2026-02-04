@@ -45,6 +45,9 @@ importers:
       '@faker-js/faker':
         specifier: ^10.0.0
         version: 10.2.0
+      '@kurza/osrs-cache-loader':
+        specifier: workspace:*
+        version: link:../../packages/osrs-cache-loader
       '@kurza/ui-preset':
         specifier: workspace:*
         version: link:../../internal/ui-preset
@@ -155,18 +158,36 @@ importers:
       '@pandacss/dev':
         specifier: ^0.30.0
         version: 0.30.2(jsdom@27.4.0)(typescript@5.9.3)
+      '@tanstack/eslint-config':
+        specifier: ^0.3.4
+        version: 0.3.4(@typescript-eslint/utils@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      eslint:
+        specifier: ^9.39.2
+        version: 9.39.2(jiti@2.6.1)
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
 
   packages/osrs-cache-loader:
     devDependencies:
+      '@tanstack/eslint-config':
+        specifier: ^0.3.4
+        version: 0.3.4(@typescript-eslint/utils@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@types/node':
+        specifier: ^22.19.8
+        version: 22.19.8
+      eslint:
+        specifier: ^9.39.2
+        version: 9.39.2(jiti@2.6.1)
       tsup:
         specifier: ^8.0.0
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@22.19.8)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
 
 packages:
 

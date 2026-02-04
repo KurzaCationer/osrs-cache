@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.0.0",
+    "@kurza/osrs-cache-loader": "workspace:*",
     "@kurza/ui-preset": "workspace:*",
     "@tanstack/match-sorter-utils": "^8.19.4",
     "@tanstack/react-devtools": "^0.7.0",

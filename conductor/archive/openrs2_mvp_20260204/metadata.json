@@ -1,0 +1,9 @@
+{
+  "track_id": "openrs2_mvp_20260204",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-02-04T12:00:00Z",
+  "updated_at": "2026-02-04T12:00:00Z",
+  "description": "I want you to implement a MVP for loading the cache from the openrs2-api and showing basic results (count of objects (per category) loaded) in the frontend. Documentation for this application should be started in the osrs-cache-docs project.",
+  "track_root_sha": "6ea529b19e081c8119e6d9697e7e2d118dd4406a"
+}

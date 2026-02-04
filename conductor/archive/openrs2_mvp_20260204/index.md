@@ -1,4 +1,4 @@
-# Track refactor_library_archivist_20260204 Context
+# Track openrs2_mvp_20260204 Context
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
