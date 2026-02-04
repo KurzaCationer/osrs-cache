@@ -14,6 +14,7 @@ You are the maintainer of the project's local knowledge base located in `./refer
 - Do NOT wait for the user to ask you to "look it up."
 - If you are *ever* unsure about a library's syntax, a tool's usage, or a project convention, **STOP** and consult the archives. 
 - If the answer isn't there, **FIND IT** (via `web_fetch` or `google_web_search`), verify it with the user, and **SAVE IT** to the archives for next time.
+- **CRITICAL:** Always commit and push your changes to the repository after completing an archival or organizational task.
 
 ---
 
