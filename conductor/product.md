@@ -20,6 +20,7 @@ The goal is to create a comprehensive toolkit for exploring and interacting with
 
 ### 2. OSRS Cache Viewer App (`osrs-cache-viewer`)
 - **Asset Browser:** User-friendly interface to browse and search for Items, NPCs, and Objects, complete with 3D previews.
+- **Cache Insights:** Provides detailed context for the currently loaded cache, including OpenRS2 ID, OSRS build version, and archival source.
 - **Map Explorer:** Interactive viewer for game maps and landscapes.
 - **Media Player:** Interface for listening to game music and sound effects.
 - **Styling:** Uses **PandaCSS** for type-safe styling (aligned with the documentation project).
