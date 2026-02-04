@@ -1,0 +1,1 @@
+Task: Implement OpenRS2Client. Created OpenRS2Client for fetching cache lists from the Archive API. Added vitest to loader package. Verified with tests.
