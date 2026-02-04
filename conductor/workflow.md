@@ -7,7 +7,7 @@
 3. **Test-Driven Development:** Write unit tests before implementing functionality
 4. **High Code Coverage:** Aim for >80% code coverage for all modules
 5. **User Experience First:** Every decision should prioritize user experience
-6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
+6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for tools (tests, linters) to ensure single execution. For manual verification, use `docker compose up --build -d` instead of watch modes.
 
 ## Task Workflow
 
@@ -97,7 +97,7 @@ All tasks follow a strict lifecycle:
         The automated tests have passed. For manual verification, please follow these steps:
 
         **Manual Verification Steps:**
-        1.  **Start the development server with the command:** `npm run dev`
+        1.  **Start the environment in detached mode:** `docker compose up --build -d`
         2.  **Open your browser to:** `http://localhost:3000`
         3.  **Confirm that you see:** The new user profile page, with the user's name and email displayed correctly.
         ```
@@ -155,23 +155,27 @@ Before marking any task complete, verify:
 
 ### Setup
 ```bash
-# Example: Commands to set up the development environment (e.g., install dependencies, configure database)
-# e.g., for a Node.js project: npm install
-# e.g., for a Go project: go mod tidy
+pnpm install
 ```
 
 ### Daily Development
 ```bash
-# Example: Commands for common daily tasks (e.g., start dev server, run tests, lint, format)
-# e.g., for a Node.js project: npm run dev, npm test, npm run lint
-# e.g., for a Go project: go run main.go, go test ./..., go fmt ./...
+# Start the environment for manual verification
+docker compose up --build -d
+
+# Stop the environment
+docker compose down
+
+# Run tests
+pnpm test
+
+# Lint
+pnpm run lint
 ```
 
 ### Before Committing
 ```bash
-# Example: Commands to run all pre-commit checks (e.g., format, lint, type check, run tests)
-# e.g., for a Node.js project: npm run check
-# e.g., for a Go project: make check (if a Makefile exists)
+pnpm run check
 ```
 
 ## Testing Requirements
