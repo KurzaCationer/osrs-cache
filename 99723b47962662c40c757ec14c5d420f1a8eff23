@@ -1,0 +1,1 @@
+Task: Create directory structure for new skills in .gemini/skills/\n\nSummary: Created the base directories for archivist-retriever, archivist-researcher, archivist-librarian, and archivist-cleaner.\nFiles: .gemini/skills/*
