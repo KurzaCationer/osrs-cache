@@ -1,15 +1,39 @@
-node_modules
-.DS_Store
-dist
-dist-ssr
-*.local
-count.txt
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+.nitro/
+.tanstack/
+.output/
+.vinxi/
+.wrangler/
+
+# Logs
+*.log
+
+# Environment variables
 .env
-.nitro
-.tanstack
-.wrangler
-.output
-.vinxi
-todos.json
-src/styled-system
+.env.*
+!.env.example
+
+# IDEs
+.idea/
+.vscode/
+
+# Panda CSS
+src/styled-system/
+
+# TanStack Router
 src/routeTree.gen.ts
+
+# OS Files
+.DS_Store
+
+# Project Specific
+count.txt
+todos.json
+
+# Ensure .gemini is NOT ignored
+!.gemini/

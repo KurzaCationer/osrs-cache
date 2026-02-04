@@ -1,11 +1,30 @@
+# Dependencies
 node_modules
+.pnpm-debug.log*
+
+# Build and Tooling
 .turbo
 dist
 .output
 .vinxi
 .astro
-.DS_Store
-*.log
+.nitro
+.tanstack
 styled-system
 
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDEs
 .idea/
+.vscode/
+*.swp
+*.swo
+
+# Project Specific
+# Ensure .gemini is NOT ignored
+!.gemini/

@@ -1,0 +1,31 @@
+FROM node:24-slim
+
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+# Copy configuration files
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json ./
+
+# Copy package.json files for all workspaces
+COPY apps/osrs-cache-viewer/package.json ./apps/osrs-cache-viewer/
+COPY apps/osrs-cache-docs/package.json ./apps/osrs-cache-docs/
+COPY packages/osrs-cache-loader/package.json ./packages/osrs-cache-loader/
+COPY internal/ui-preset/package.json ./internal/ui-preset/
+
+# Copy config files needed for install/prepare scripts
+COPY apps/osrs-cache-viewer/panda.config.ts ./apps/osrs-cache-viewer/
+COPY apps/osrs-cache-viewer/tsconfig.json ./apps/osrs-cache-viewer/
+COPY apps/osrs-cache-docs/panda.config.mjs ./apps/osrs-cache-docs/
+COPY apps/osrs-cache-docs/tsconfig.json ./apps/osrs-cache-docs/
+COPY internal/ui-preset/tsconfig.json ./internal/ui-preset/
+COPY internal/ui-preset/src ./internal/ui-preset/src
+
+# Install dependencies (this will run 'prepare' scripts)
+RUN pnpm install
+
+# Copy the rest of the source code
+COPY . .
+
+# The specific command will be overridden by docker-compose
+CMD ["pnpm", "dev"]
