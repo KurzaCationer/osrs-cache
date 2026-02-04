@@ -1,0 +1,3 @@
+Task: Update all existing files in reference-material/docs/ to follow the new YAML frontmatter format.
+Summary: Migrated all existing documentation files to the new metadata standard by adding YAML frontmatter with source_url, archived_at, summary, and version fields. Verified with verify_metadata.js.
+Files: reference-material/docs/openrs2-api/api-reference.md, reference-material/docs/panda-css/full-documentation.md, reference-material/docs/panda-css/postcss-installation.md, conductor/tracks/enhance_library_archivist_20260204/plan.md
