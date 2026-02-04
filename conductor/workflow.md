@@ -7,7 +7,7 @@
 3. **Test-Driven Development:** Write unit tests before implementing functionality
 4. **High Code Coverage:** Aim for >80% code coverage for all modules
 5. **User Experience First:** Every decision should prioritize user experience
-6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for tools (tests, linters) to ensure single execution. For manual verification, use `docker compose up --build -d` instead of watch modes.
+6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for tools (tests, linters) to ensure single execution. For manual verification, use local development commands (e.g., `pnpm run dev`). Use `docker compose up --build -d` only for the final verification step at the end of a task or phase.
 
 ## Task Workflow
 
@@ -97,7 +97,7 @@ All tasks follow a strict lifecycle:
         The automated tests have passed. For manual verification, please follow these steps:
 
         **Manual Verification Steps:**
-        1.  **Start the environment in detached mode:** `docker compose up --build -d`
+        1.  **Start the development server:** `pnpm run dev`
         2.  **Open your browser to:** `http://localhost:3000`
         3.  **Confirm that you see:** The new user profile page, with the user's name and email displayed correctly.
         ```
@@ -160,7 +160,10 @@ pnpm install
 
 ### Daily Development
 ```bash
-# Start the environment for manual verification
+# Start the development server for manual verification
+pnpm run dev
+
+# Start the environment for final verification (at the end of a task/phase)
 docker compose up --build -d
 
 # Stop the environment
