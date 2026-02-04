@@ -1,0 +1,1 @@
+Task: Remove the legacy .gemini/skills/library-archivist/ directory\n\nSummary: Deleted the monolithic library-archivist skill to finalize the decomposition into specialized skills.\nFiles: .gemini/skills/library-archivist/SKILL.md (deleted)
