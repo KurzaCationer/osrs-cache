@@ -1,0 +1,3 @@
+Task: Define the YAML Frontmatter schema and update SKILL.md instructions for the Ingestion/Sorting workflows.
+Summary: Updated SKILL.md to include mandatory YAML frontmatter (source_url, archived_at, summary, version) and updated the Crawler and Librarian workflows to enforce these standards.
+Files: .gemini/skills/library-archivist/SKILL.md, conductor/tracks/enhance_library_archivist_20260204/plan.md
