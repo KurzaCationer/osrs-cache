@@ -1,0 +1,1 @@
+Task: Run full project verification\n\nSummary: Executed pnpm run build which passed successfully. Ignored linting failures due to missing environment tools (eslint), as they are unrelated to the skill refactor.\nFiles: package.json
