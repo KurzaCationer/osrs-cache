@@ -9,6 +9,13 @@ describe('Reader', () => {
     expect(reader.offset).toBe(2);
   });
 
+  it('should read i8', () => {
+    const reader = new Reader(new Uint8Array([0xff, 0x01]));
+    expect(reader.i8()).toBe(-1);
+    expect(reader.i8()).toBe(1);
+    expect(reader.offset).toBe(2);
+  });
+
   it('should read u16', () => {
     const reader = new Reader(new Uint8Array([0x12, 0x34]));
     expect(reader.u16()).toBe(0x1234);

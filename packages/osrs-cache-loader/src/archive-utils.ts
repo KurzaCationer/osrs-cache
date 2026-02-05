@@ -11,48 +11,36 @@ export function extractFiles(data: Uint8Array, fileCount: number): Array<Uint8Ar
   }
 
   const dv = new DataView(data.buffer, data.byteOffset, data.byteLength);
-  const numChunks = dv.getUint8(dv.byteLength - 1);
-  let off = dv.byteLength - 1 - numChunks * fileCount * 4;
-  let doff = 0;
+  const numChunks = data[data.length - 1];
+  
   const files: Array<Uint8Array> = new Array(fileCount);
-
-  if (numChunks === 1) {
-    let size = 0;
-    for (let i = 0; i < fileCount; i++) {
-      size += dv.getInt32(off);
-      off += 4;
-      files[i] = data.subarray(doff, doff + size);
-      doff += size;
-    }
-  } else {
-    const sizeStride = numChunks + 1;
-    const sizes = new Uint32Array(sizeStride * fileCount);
-    for (let ch = 0; ch < numChunks; ch++) {
-      let size = 0;
-      for (let id = 0; id < fileCount; id++) {
-        size += dv.getInt32(off);
-        off += 4;
-        const soff = id * sizeStride;
-        sizes[soff] += size;
-        sizes[soff + 1 + ch] = size;
-      }
-    }
-
+  const fileSizes = new Int32Array(fileCount);
+  
+  let off = data.length - 1 - (numChunks * fileCount * 4);
+  for (let ch = 0; ch < numChunks; ch++) {
+    let delta = 0;
     for (let id = 0; id < fileCount; id++) {
-      const soff = id * sizeStride;
-      files[id] = new Uint8Array(sizes[soff]);
-      sizes[soff] = 0; // reset to use as write pointer
+      delta += dv.getInt32(off);
+      off += 4;
+      fileSizes[id] += delta;
     }
+  }
 
-    for (let ch = 0; ch < numChunks; ch++) {
-      for (let id = 0; id < fileCount; id++) {
-        const soff = id * sizeStride;
-        const cSize = sizes[soff + 1 + ch];
-        const start = sizes[soff];
-        files[id].set(data.subarray(doff, doff + cSize), start);
-        sizes[soff] = start + cSize;
-        doff += cSize;
-      }
+  for (let id = 0; id < fileCount; id++) {
+    files[id] = new Uint8Array(fileSizes[id]);
+  }
+
+  let doff = 0;
+  const writePos = new Int32Array(fileCount);
+  off = data.length - 1 - (numChunks * fileCount * 4);
+  for (let ch = 0; ch < numChunks; ch++) {
+    let delta = 0;
+    for (let id = 0; id < fileCount; id++) {
+      delta += dv.getInt32(off);
+      off += 4;
+      files[id].set(data.subarray(doff, doff + delta), writePos[id]);
+      writePos[id] += delta;
+      doff += delta;
     }
   }
 

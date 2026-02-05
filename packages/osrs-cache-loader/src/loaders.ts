@@ -91,6 +91,15 @@ export class ConfigLoader extends AssetLoader {
     });
     return map;
   }
+
+  /**
+   * Returns the version of the index containing this config.
+   */
+  getVersion(): { era: "osrs" | "rs3", indexRevision: number } | undefined {
+    const table = this.cache.tables.get(this.indexId);
+    if (!table) return undefined;
+    return { era: "osrs", indexRevision: table.revision };
+  }
 }
 
 /**

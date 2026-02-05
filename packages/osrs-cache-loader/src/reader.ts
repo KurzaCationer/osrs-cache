@@ -1,3 +1,8 @@
+export interface CacheVersion {
+  era: "osrs" | "rs3";
+  indexRevision: number;
+}
+
 /**
  * A utility class for reading OSRS-specific binary data types from a buffer.
  */
@@ -9,13 +14,23 @@ export class Reader {
   /**
    * Creates a new Reader instance.
    * @param buffer The buffer to read from.
+   * @param version Optional cache version for revision-dependent decoding.
    */
-  constructor(buffer: ArrayBuffer | Uint8Array) {
+  constructor(buffer: ArrayBuffer | Uint8Array, public version?: CacheVersion) {
     if (buffer instanceof Uint8Array) {
       this.view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
     } else {
       this.view = new DataView(buffer);
     }
+  }
+
+  /**
+   * Checks if the current cache version is after the specified version.
+   */
+  isAfter(ver: CacheVersion): boolean {
+    if (!this.version) return true; // Default to latest if version unknown
+    if (this.version.era !== ver.era) return false;
+    return this.version.indexRevision >= ver.indexRevision;
   }
 
   /**
@@ -31,6 +46,14 @@ export class Reader {
    */
   u8(): number {
     return this.view.getUint8(this.offset++);
+  }
+
+  /**
+   * Reads a signed 8-bit integer.
+   * @returns The read integer.
+   */
+  i8(): number {
+    return this.view.getInt8(this.offset++);
   }
 
   /**
@@ -73,6 +96,43 @@ export class Reader {
   }
 
   /**
+   * Reads a signed 16-bit integer (big-endian).
+   * @returns The read integer.
+   */
+  i16(): number {
+    const val = this.view.getInt16(this.offset);
+    this.offset += 2;
+    return val;
+  }
+
+  /**
+   * Reads a signed 64-bit integer.
+   * @returns The read integer as a bigint.
+   */
+  i64(): bigint {
+    const val = this.view.getBigInt64(this.offset);
+    this.offset += 8;
+    return val;
+  }
+
+  /**
+   * Reads an unsigned 16-bit integer, returning -1 if it's 0xFFFF.
+   * @returns The read value.
+   */
+  u16n(): number {
+    const val = this.u16();
+    return val === 0xffff ? -1 : val;
+  }
+
+  /**
+   * Reads an unsigned 8-bit integer and adds 1.
+   * @returns The read value plus 1.
+   */
+  u8p1(): number {
+    return this.u8() + 1;
+  }
+
+  /**
    * Reads an OSRS "smart" (u8 or u16).
    * If the first byte is less than 128, it returns a single byte.
    * Otherwise, it returns 2 bytes (big-endian) minus 0x8000.
@@ -84,6 +144,32 @@ export class Reader {
       return this.u8();
     }
     return this.u16() - 0x8000;
+  }
+
+  /**
+   * Alias for smart().
+   */
+  u8o16(): number {
+    return this.smart();
+  }
+
+  /**
+   * Reads an OSRS "smart" (u8 or u16) and subtracts 1.
+   * @returns The read value minus 1.
+   */
+  smartm1(): number {
+    const first = this.view.getUint8(this.offset);
+    if (first < 128) {
+      return this.u8() - 1;
+    }
+    return this.u16() - 0x8001;
+  }
+
+  /**
+   * Alias for smartm1().
+   */
+  u8o16m1(): number {
+    return this.smartm1();
   }
 
   /**
@@ -101,6 +187,40 @@ export class Reader {
   }
 
   /**
+   * Alias for bigSmart().
+   */
+  u32o16(): number {
+    return this.bigSmart();
+  }
+
+  /**
+   * Reads an OSRS "big smart" (u16 or u32), returning -1 if it's 0xFFFF or 0x7FFFFFFF.
+   * @returns The read value.
+   */
+  bigSmartn(): number {
+    const first = this.view.getUint8(this.offset);
+    if ((first & 0x80) === 0) {
+      return this.u16n();
+    }
+    const val = this.u32() & 0x7fffffff;
+    return val === 0x7fffffff ? -1 : val;
+  }
+
+  /**
+   * Alias for bigSmartn().
+   */
+  s2o4n(): number {
+    return this.bigSmartn();
+  }
+
+  /**
+   * Alias for bigSmartn().
+   */
+  u32o16n(): number {
+    return this.bigSmartn();
+  }
+
+  /**
    * Alias for bigSmart.
    * @deprecated Use bigSmart() instead.
    */
@@ -113,12 +233,26 @@ export class Reader {
    * @returns The read string.
    */
   string(): string {
+    const cp1252 = "€?‚ƒ„…†‡ˆ‰Š‹Œ?Ž??‘’“”•–—˜™š›œ?žŸ";
     let str = '';
     let b: number;
     while ((b = this.u8()) !== 0) {
-      str += String.fromCharCode(b);
+      if (b >= 128 && b <= 159) {
+        str += cp1252[b - 128];
+      } else {
+        str += String.fromCharCode(b);
+      }
     }
     return str;
+  }
+
+  /**
+   * Reads a string and returns null if it's "hidden".
+   * @returns The read string or null.
+   */
+  stringNullHidden(): string | null {
+    const s = this.string();
+    return s === "hidden" ? null : s;
   }
 
   /**

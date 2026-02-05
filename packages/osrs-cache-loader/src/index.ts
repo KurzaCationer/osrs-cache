@@ -119,39 +119,68 @@ export class Cache {
    */
   async getAssets(type: keyof AssetCounts, limit?: number, offset?: number): Promise<any[]> {
     let assets: any[] = [];
-    if (type === 'item') {
-      const loader = new ConfigLoader(this, 2, 10);
-      const files = await loader.getAllFiles();
-      assets = Array.from(files.entries())
-        .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
-        .map(([id, data]) => decodeItem(id, data));
-    } else if (type === 'npc') {
-      const loader = new ConfigLoader(this, 2, 9);
-      const files = await loader.getAllFiles();
-      assets = Array.from(files.entries())
-        .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
-        .map(([id, data]) => decodeNPC(id, data));
-    } else if (type === 'obj') {
-      const loader = new ConfigLoader(this, 2, 6);
-      const files = await loader.getAllFiles();
-      assets = Array.from(files.entries())
-        .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
-        .map(([id, data]) => decodeObject(id, data));
-    } else {
-      const mapping = TECHNICAL_ASSET_MAPPINGS[type];
-      if (mapping && mapping.index === 2 && mapping.archive !== undefined) {
-        const loader = new ConfigLoader(this, 2, mapping.archive);
+    try {
+      if (type === 'item') {
+        const loader = new ConfigLoader(this, 2, 10);
         const files = await loader.getAllFiles();
+        const version = loader.getVersion();
         assets = Array.from(files.entries())
           .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
-          .map(([id, data]) => ({ id, size: data.length, status: 'Encoded' }));
-      } else if (mapping && mapping.index !== undefined) {
-        const loader = new ArchiveLoader(this, mapping.index);
-        const count = await loader.getCount();
-        assets = Array.from({ length: count }, (_, i) => ({ id: i, status: 'Archive' }));
+          .map(([id, data]) => {
+            try {
+              return decodeItem(id, data, version);
+            } catch (e) {
+              console.warn(`Failed to decode item ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'npc') {
+        const loader = new ConfigLoader(this, 2, 9);
+        const files = await loader.getAllFiles();
+        const version = loader.getVersion();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              return decodeNPC(id, data, version);
+            } catch (e) {
+              console.warn(`Failed to decode NPC ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'obj') {
+        const loader = new ConfigLoader(this, 2, 6);
+        const files = await loader.getAllFiles();
+        const version = loader.getVersion();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              return decodeObject(id, data, version);
+            } catch (e) {
+              console.warn(`Failed to decode Object ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
       } else {
-        assets = [{ id: -1, name: "Unsupported type for browsing yet" }];
+        const mapping = TECHNICAL_ASSET_MAPPINGS[type];
+        if (mapping && mapping.index === 2 && mapping.archive !== undefined) {
+          const loader = new ConfigLoader(this, 2, mapping.archive);
+          const files = await loader.getAllFiles();
+          assets = Array.from(files.entries())
+            .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+            .map(([id, data]) => ({ id, size: data.length, status: 'Encoded' }));
+        } else if (mapping && mapping.index !== undefined) {
+          const loader = new ArchiveLoader(this, mapping.index);
+          const count = await loader.getCount();
+          assets = Array.from({ length: count }, (_, i) => ({ id: i, status: 'Archive' }));
+        } else {
+          assets = [{ id: -1, name: "Unsupported type for browsing yet" }];
+        }
       }
+    } catch (error) {
+      console.error(`Fatal error in getAssets for ${type}:`, error);
+      throw error;
     }
 
     if (offset !== undefined || limit !== undefined) {
