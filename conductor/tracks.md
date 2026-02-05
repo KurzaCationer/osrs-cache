@@ -21,3 +21,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Cache Type Alignment and Completion**
 *Link: [./archive/align_cache_types_20260205/](./archive/align_cache_types_20260205/)*
+
+---
+
+- [~] **Track: Comprehensive codebase refactor and standardization**
+*Link: [./tracks/refactor_standardization_20260205/](./tracks/refactor_standardization_20260205/)*

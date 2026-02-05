@@ -6,7 +6,7 @@ const container = css({
   padding: '4',
   fontSize: '2xl',
   fontWeight: 'bold',
-  color: 'brand'
+  color: 'primary.default'
 });
 ---
 
@@ -18,14 +18,14 @@ const container = css({
 		<meta name="generator" content={Astro.generator} />
 		<title>OSRS Cache Docs</title>
 	</head>
-	<body>
+	<body class={css({ bg: 'bg.default', color: 'text.main', minH: '100vh', p: '8' })}>
 		<div class={container}>OSRS Cache Research Docs</div>
         <div class={css({ mt: '4', display: 'flex', flexDirection: 'column', gap: '2' })}>
-          <p>This project uses the shared UI preset for styling.</p>
+          <p class={css({ color: 'text.muted' })}>This project uses the shared UI preset for styling.</p>
           <a href="/getting-started" class={css({ 
-            color: 'brand', 
+            color: 'secondary.default', 
             textDecoration: 'underline',
-            _hover: { color: 'brand.muted' }
+            _hover: { color: 'secondary.muted' }
           })}>
             Go to Getting Started
           </a>

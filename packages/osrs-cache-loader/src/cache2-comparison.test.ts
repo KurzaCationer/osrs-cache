@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Animation, ArchiveData, DBRow, DBTable, Enum, GameVal, HealthBar, Hitsplat, Item, NPC, Obj, Param, Struct, Underlay, WorldEntity } from "@abextm/cache2";
+import { Animation, ArchiveData, DBRow, DBTable, Enum, HealthBar, Hitsplat, Item, NPC, Obj, Param, Struct, Underlay, WorldEntity } from "@abextm/cache2";
 import { OpenRS2Client } from "./openrs2-client";
 
 import { ReferenceTable } from "./reference-table";
@@ -19,7 +19,7 @@ class OpenRS2CacheProvider implements CacheProvider {
 
   async getIndex(index: number): Promise<IndexData | undefined> {
     if (!this.tables.has(index)) {
-      const rawData = await this.client.getArchiveMetadata(this.scope, this.id, index);
+      const rawData = await this.client.getGroup(this.scope, this.id, 255, index);
       const decompressed = decompress(new Uint8Array(rawData));
       const table = ReferenceTable.decode(decompressed);
       this.tables.set(index, table);
@@ -55,10 +55,13 @@ class OpenRS2CacheProvider implements CacheProvider {
     
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!ad.compressedData) {
-      const url = `https://archive.openrs2.org/caches/${this.scope}/${this.id}/archives/${index}/groups/${archive}.dat`;
-      const response = await fetch(url);
-      if (!response.ok) return undefined;
-      ad.compressedData = new Uint8Array(await response.arrayBuffer());
+      try {
+        const buffer = await this.client.getGroup(this.scope, this.id, index, archive);
+        ad.compressedData = new Uint8Array(buffer);
+      } catch {
+        // If it fails (e.g. 404), return undefined as per CacheProvider contract
+        return undefined;
+      }
     }
     return ad;
   }

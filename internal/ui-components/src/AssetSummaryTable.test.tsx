@@ -1,17 +1,15 @@
 // @vitest-environment jsdom
 import React from 'react'
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { AssetSummaryTable, transformData } from './AssetSummaryTable'
 
-/*
 describe('AssetSummaryTable', () => {
   it('renders without crashing', () => {
     render(<AssetSummaryTable counts={{ item: 100 }} />)
     expect(screen.getByText('Asset Type')).toBeTruthy()
   })
 })
-*/
 
 describe('transformData', () => {
   it('calculates percentages correctly', () => {

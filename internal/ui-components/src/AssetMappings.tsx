@@ -1,38 +1,50 @@
 import { 
-  Box, 
-  Map, 
-  Package, 
-  Users, 
   Activity, 
+  Archive, 
+  Binary, 
+  Box, 
   Database, 
+  Globe, 
   Image, 
   Layers, 
   Layout, 
+  Map, 
   Maximize, 
+  Package, 
+  Palette, 
   PlayCircle, 
-  Settings, 
-  Shapes, 
-  Type, 
-  Zap,
-  Table,
-  Globe,
-  Sparkles,
-  Archive,
-  Binary,
-  Palette,
   Search,
-  Shield
+  Settings,
+  Shapes,
+  Shield,
+  Sparkles,
+  Table,
+  Type,
+  Users,
+  Zap
 } from 'lucide-react'
+import type React from 'react'
 import type { AssetCounts } from '@kurza/osrs-cache-loader'
 
+/**
+ * Defines the visual and technical metadata for a specific OSRS asset type.
+ */
 export interface AssetMapping {
+  /** The human-readable title of the asset category. */
   title: string
+  /** The Lucide icon component associated with the asset. */
   icon: React.ElementType
+  /** The theme color (CSS-compatible) for the asset. */
   color: string
+  /** The cache index ID where this asset is stored. */
   index: number
-  archive?: number // If undefined, it means we count archives in the index
+  /** The optional archive ID if the asset is stored as multiple files within a single archive. */
+  archive?: number
 }
 
+/**
+ * A comprehensive mapping of all supported OSRS asset types to their display metadata and cache locations.
+ */
 export const ASSET_MAPPINGS: Record<keyof AssetCounts, AssetMapping> = {
   item: { title: 'Items', icon: Package, color: '#22d3ee', index: 2, archive: 10 },
   npc: { title: 'NPCs', icon: Users, color: '#4ade80', index: 2, archive: 9 },

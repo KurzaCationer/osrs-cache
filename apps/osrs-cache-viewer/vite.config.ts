@@ -27,7 +27,7 @@ export default defineConfig({
       },
     }),
   ],
-  // @ts-ignore
+  // @ts-ignore - Vitest types are not picked up by Vite's defineConfig
   test: {
     globals: true,
     environment: 'jsdom',

@@ -12,6 +12,7 @@ COPY apps/osrs-cache-viewer/package.json ./apps/osrs-cache-viewer/
 COPY apps/osrs-cache-docs/package.json ./apps/osrs-cache-docs/
 COPY packages/osrs-cache-loader/package.json ./packages/osrs-cache-loader/
 COPY internal/ui-preset/package.json ./internal/ui-preset/
+COPY internal/ui-components/package.json ./internal/ui-components/
 
 # Copy config files needed for install/prepare scripts
 COPY apps/osrs-cache-viewer/panda.config.ts ./apps/osrs-cache-viewer/
@@ -20,6 +21,9 @@ COPY apps/osrs-cache-docs/panda.config.mjs ./apps/osrs-cache-docs/
 COPY apps/osrs-cache-docs/tsconfig.json ./apps/osrs-cache-docs/
 COPY internal/ui-preset/tsconfig.json ./internal/ui-preset/
 COPY internal/ui-preset/src ./internal/ui-preset/src
+COPY internal/ui-components/tsconfig.json ./internal/ui-components/
+COPY internal/ui-components/panda.config.ts ./internal/ui-components/
+COPY internal/ui-components/src ./internal/ui-components/src
 
 # Install dependencies (this will run 'prepare' scripts)
 RUN pnpm install

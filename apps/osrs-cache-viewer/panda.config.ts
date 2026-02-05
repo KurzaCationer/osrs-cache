@@ -4,7 +4,10 @@ import { uiPreset } from "@kurza/ui-preset";
 export default defineConfig({
   presets: [uiPreset],
   preflight: true,
-  include: ["./src/**/*.{js,jsx,ts,tsx}"],
+  include: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "../../internal/ui-components/src/**/*.{js,jsx,ts,tsx}"
+  ],
   exclude: [],
   theme: {
     extend: {},

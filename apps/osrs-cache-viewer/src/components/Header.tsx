@@ -11,7 +11,7 @@ const linkStyle = css({
   rounded: 'lg',
   transition: 'colors',
   mb: '2',
-  _hover: { bg: 'gray.800' }
+  _hover: { bg: 'bg.muted' }
 })
 
 const activeLinkStyle = css({
@@ -22,10 +22,13 @@ const activeLinkStyle = css({
   rounded: 'lg',
   transition: 'colors',
   mb: '2',
-  bg: 'cyan.600',
-  _hover: { bg: 'cyan.700' }
+  bg: 'primary.default',
+  _hover: { bg: 'primary.muted' }
 })
 
+/**
+ * The main application header component, featuring a navigation menu and app title.
+ */
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -35,9 +38,11 @@ export default function Header() {
         p: '4',
         display: 'flex',
         alignItems: 'center',
-        bg: 'gray.800',
-        color: 'white',
-        shadow: 'lg'
+        bg: 'bg.surface',
+        color: 'text.main',
+        shadow: 'lg',
+        borderBottom: '1px solid',
+        borderColor: 'border.default'
       })}>
         <button
           onClick={() => setIsOpen(true)}
@@ -45,14 +50,14 @@ export default function Header() {
             p: '2',
             rounded: 'lg',
             transition: 'colors',
-            _hover: { bg: 'gray.700' }
+            _hover: { bg: 'bg.active' }
           })}
           aria-label="Open menu"
         >
           <Menu size={24} />
         </button>
         <h1 className={css({ ml: '4', fontSize: 'xl', fontWeight: 'semibold' })}>
-          <Link to="/" className={css({ textDecoration: 'none' })}>
+          <Link to="/" className={css({ textDecoration: 'none', color: 'text.main' })}>
             OSRS Cache Viewer
           </Link>
         </h1>
@@ -66,13 +71,15 @@ export default function Header() {
           left: '0',
           h: 'full',
           w: '80',
-          bg: 'gray.900',
-          color: 'white',
+          bg: 'bg.surface',
+          color: 'text.main',
           shadow: '2xl',
           zIndex: '50',
           transition: 'transform 0.3s ease-in-out',
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          borderRight: '1px solid',
+          borderColor: 'border.default'
         })}
       >
         <div className={css({
@@ -81,7 +88,7 @@ export default function Header() {
           justifyContent: 'space-between',
           p: '4',
           borderBottomWidth: '1px',
-          borderColor: 'gray.700'
+          borderColor: 'border.default'
         })}>
           <h2 className={css({ fontSize: 'xl', fontWeight: 'bold' })}>Navigation</h2>
           <button
@@ -90,7 +97,7 @@ export default function Header() {
               p: '2',
               rounded: 'lg',
               transition: 'colors',
-              _hover: { bg: 'gray.800' }
+              _hover: { bg: 'bg.active' }
             })}
             aria-label="Close menu"
           >

@@ -1,5 +1,18 @@
-import type { OpenRS2Cache } from "./types";
+import type { OpenRS2Cache, XTEAKey } from "./types";
 
+/**
+ * Custom error class for OpenRS2 API errors.
+ */
+export class OpenRS2Error extends Error {
+  constructor(public statusCode: number, message: string) {
+    super(`OpenRS2 Error (${statusCode}): ${message}`);
+    this.name = "OpenRS2Error";
+  }
+}
+
+/**
+ * Client for interacting with the OpenRS2 Archive API.
+ */
 export class OpenRS2Client {
   private baseUrl: string;
 
@@ -7,14 +20,27 @@ export class OpenRS2Client {
     this.baseUrl = baseUrl;
   }
 
-  async listCaches(): Promise<Array<OpenRS2Cache>> {
-    const response = await fetch(`${this.baseUrl}/caches.json`);
+  private async fetch(endpoint: string): Promise<Response> {
+    const url = `${this.baseUrl}${endpoint}`;
+    const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Failed to fetch caches from OpenRS2: ${response.statusText}`);
+      throw new OpenRS2Error(response.status, response.statusText);
     }
+    return response;
+  }
+
+  /**
+   * Lists all available caches.
+   */
+  async listCaches(): Promise<Array<OpenRS2Cache>> {
+    const response = await this.fetch("/caches.json");
     return response.json() as Promise<Array<OpenRS2Cache>>;
   }
 
+  /**
+   * Gets the latest cache for a specific game (e.g., 'oldschool').
+   * @param game The game identifier.
+   */
   async getLatestCache(game: string = "oldschool"): Promise<OpenRS2Cache> {
     const caches = await this.listCaches();
     const gameCaches = caches
@@ -26,29 +52,45 @@ export class OpenRS2Client {
       });
 
     if (gameCaches.length === 0) {
-      throw new Error(`No caches found for game: ${game}`);
+      throw new OpenRS2Error(404, `No caches found for game: ${game}`);
     }
 
     return gameCaches[0];
   }
 
-  async getArchiveMetadata(scope: string, id: number, index: number): Promise<ArrayBuffer> {
-    const response = await fetch(
-      `${this.baseUrl}/caches/${scope}/${id}/archives/255/groups/${index}.dat`,
-    );
-    if (!response.ok) {
-      throw new Error(`Failed to fetch archive metadata from OpenRS2: ${response.statusText}`);
-    }
+  /**
+   * Fetches the XTEA keys for a specific cache.
+   * @param scope The cache scope (e.g., 'runescape').
+   * @param id The cache ID.
+   */
+  async getXTEAKeys(scope: string, id: number): Promise<Array<XTEAKey>> {
+    const response = await this.fetch(`/caches/${scope}/${id}/keys.json`);
+    return response.json() as Promise<Array<XTEAKey>>;
+  }
+
+  /**
+   * Fetches a single group file from an archive.
+   * @param scope The cache scope.
+   * @param id The cache ID.
+   * @param archive The archive ID.
+   * @param group The group ID.
+   */
+  async getGroup(scope: string, id: number, archive: number, group: number): Promise<ArrayBuffer> {
+    const response = await this.fetch(`/caches/${scope}/${id}/archives/${archive}/groups/${group}.dat`);
     return response.arrayBuffer();
   }
 
+  /**
+   * @deprecated Use getGroup instead.
+   */
   async getArchive(scope: string, id: number, index: number, archive: number): Promise<ArrayBuffer> {
-    const response = await fetch(
-      `${this.baseUrl}/caches/${scope}/${id}/archives/${index}/groups/${archive}.dat`,
-    );
-    if (!response.ok) {
-      throw new Error(`Failed to fetch archive from OpenRS2: ${response.statusText}`);
-    }
-    return response.arrayBuffer();
+    return this.getGroup(scope, id, index, archive);
+  }
+
+  /**
+   * @deprecated Use getGroup(scope, id, 255, index) instead.
+   */
+  async getArchiveMetadata(scope: string, id: number, index: number): Promise<ArrayBuffer> {
+    return this.getGroup(scope, id, 255, index);
   }
 }
