@@ -24,5 +24,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Comprehensive codebase refactor and standardization**
-*Link: [./tracks/refactor_standardization_20260205/](./tracks/refactor_standardization_20260205/)*
+- [x] **Track: Comprehensive codebase refactor and standardization**
+*Link: [./archive/refactor_standardization_20260205/](./archive/refactor_standardization_20260205/)*

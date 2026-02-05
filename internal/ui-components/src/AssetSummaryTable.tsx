@@ -1,5 +1,4 @@
 import React, { Fragment, useMemo, useState } from 'react'
-import { css } from './styled-system/css'
 import {
   createColumnHelper,
   flexRender,
@@ -9,6 +8,7 @@ import {
   useReactTable
 } from '@tanstack/react-table'
 import { ChevronDown, ChevronUp, ChevronsUpDown, ExternalLink, Info } from 'lucide-react'
+import { css } from './styled-system/css'
 import { ASSET_MAPPINGS } from './AssetMappings'
 import type {ExpandedState, SortingState} from '@tanstack/react-table';
 import type { AssetCounts } from '@kurza/osrs-cache-loader'
