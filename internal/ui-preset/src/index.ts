@@ -46,6 +46,10 @@ export const uiPreset = definePreset({
             muted: { value: '{colors.gray.400}' },
             dim: { value: '{colors.gray.500}' }
           },
+          error: {
+            default: { value: '{colors.red.500}' },
+            muted: { value: '{colors.red.700}' }
+          },
           border: {
             default: { value: '{colors.neutral.800}' },
             subtle: { value: '{colors.neutral.750}' }

@@ -13,6 +13,7 @@
 - **TanStack Router:** Type-safe routing for the Viewer.
 - **TanStack Query:** Data fetching and state management.
 - **TanStack Table:** Headless UI for building powerful tables (useful for asset lists).
+- **TanStack Virtual:** Logic for displaying large lists with high performance.
 - **Astro:** Framework for building the documentation site.
 
 ## Styling & Design

@@ -26,3 +26,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Comprehensive codebase refactor and standardization**
 *Link: [./archive/refactor_standardization_20260205/](./archive/refactor_standardization_20260205/)*
+
+---
+
+- [x] **Track: Asset Type Browsing**
+*Link: [./tracks/browse_asset_types_20260205/](./tracks/browse_asset_types_20260205/)*

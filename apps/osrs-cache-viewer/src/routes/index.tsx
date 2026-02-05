@@ -1,5 +1,5 @@
-import { RefreshCw } from 'lucide-react'
-import { createFileRoute } from '@tanstack/react-router'
+import { RefreshCw, ExternalLink } from 'lucide-react'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import {  getMetadata } from '@kurza/osrs-cache-loader'
 import { AssetSummaryTable } from '@kurza/ui-components'
@@ -57,7 +57,33 @@ function Home() {
           </div>
         </header>
 
-        <AssetSummaryTable counts={data.counts} />
+        <AssetSummaryTable 
+          counts={data.counts} 
+          renderBrowseLink={(id, name) => (
+            <Link 
+              to="/browse/$type" 
+              params={{ type: id }}
+              className={css({ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '2', 
+                px: '3', 
+                py: '2', 
+                bg: 'bg.active', 
+                _hover: { bg: 'bg.muted' }, 
+                rounded: 'lg', 
+                fontSize: 'xs', 
+                fontWeight: 'medium', 
+                transition: 'colors',
+                color: 'text.main',
+                textDecoration: 'none'
+              })}
+            >
+              <ExternalLink size={14} />
+              Browse {name}
+            </Link>
+          )}
+        />
 
         <footer className={css({ mt: '12', p: '6', bg: 'bg.muted', rounded: 'xl', borderWidth: '1px', borderColor: 'border.subtle', display: 'flex', alignItems: 'center', gap: '4' })}>
           <RefreshCw className={css({ color: 'secondary.default' })} size={20} />

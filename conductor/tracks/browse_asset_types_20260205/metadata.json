@@ -1,0 +1,9 @@
+{
+  "track_id": "browse_asset_types_20260205",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-02-05T14:45:00Z",
+  "updated_at": "2026-02-05T14:45:00Z",
+  "description": "Implement the actual browsing for each data type. So that in the frontend you can see the data behind each asset type (just simple without any relations between data for now)",
+  "track_root_sha": "beb742432f4213d8f1575a22465c1941e0d9cf30"
+}

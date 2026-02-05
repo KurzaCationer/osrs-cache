@@ -19,8 +19,7 @@ The goal is to create a comprehensive toolkit for exploring and interacting with
 - **Asset Export:** Capabilities to export models, textures, and sounds (as mentioned for the loader layer).
 
 ### 2. OSRS Cache Viewer App (`osrs-cache-viewer`)
-- **Asset Browser:** User-friendly interface to browse and search for Items, NPCs, and Objects, complete with 3D previews.
-- **Cache Insights:** Provides detailed context for the currently loaded cache, including OpenRS2 ID, OSRS build version, archival source, and a sortable technical summary of all loaded asset types.
+    - **Asset Browser:** User-friendly interface to browse and search for every supported asset type in the cache (Items, NPCs, Objects, etc.). Features high-performance virtualized tables for large datasets and client-side filtering.- **Cache Insights:** Provides detailed context for the currently loaded cache, including OpenRS2 ID, OSRS build version, archival source, and a sortable technical summary of all loaded asset types.
 - **Map Explorer:** Interactive viewer for game maps and landscapes.
 - **Media Player:** Interface for listening to game music and sound effects.
 - **Styling:** Uses **PandaCSS** for type-safe styling (aligned with the documentation project).

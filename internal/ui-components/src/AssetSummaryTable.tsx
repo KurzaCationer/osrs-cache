@@ -37,6 +37,8 @@ export interface AssetSummaryRow {
 export interface AssetSummaryTableProps {
   /** The asset counts to display. */
   counts: Partial<AssetCounts>
+  /** Optional function to render a custom browse link/button. */
+  renderBrowseLink?: (id: keyof AssetCounts, name: string) => React.ReactNode
 }
 
 /**
@@ -70,7 +72,13 @@ const columnHelper = createColumnHelper<AssetSummaryRow>()
  * Renders the expanded content for an asset row, showing technical details.
  * @internal
  */
-function ExpandedRowContent({ row }: { row: AssetSummaryRow }) {
+function ExpandedRowContent({ 
+  row, 
+  renderBrowseLink 
+}: { 
+  row: AssetSummaryRow, 
+  renderBrowseLink?: AssetSummaryTableProps['renderBrowseLink'] 
+}) {
   const mapping = ASSET_MAPPINGS[row.id]
   
   return (
@@ -100,42 +108,50 @@ function ExpandedRowContent({ row }: { row: AssetSummaryRow }) {
       </div>
       
       <div>
-        <h4 className={css({ fontSize: 'sm', fontWeight: 'bold', color: 'text.muted', mb: '3', textTransform: 'uppercase', letterSpacing: 'tight' })}>
+        <h4 className={h4Style}>
           Context
         </h4>
         <p className={css({ fontSize: 'sm', color: 'text.muted', mb: '4', lineHeight: 'relaxed' })}>
           {row.name} are stored in the OSRS cache {row.archive ? `within archive ${row.archive} of index ${row.index}` : `across all archives of index ${row.index}`}. 
           Each entry contains the raw configuration data used by the game client.
         </p>
-        <button 
-          className={css({ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '2', 
-            px: '3', 
-            py: '2', 
-            bg: 'bg.active', 
-            _hover: { bg: 'bg.muted' }, 
-            rounded: 'lg', 
-            fontSize: 'xs', 
-            fontWeight: 'medium', 
-            transition: 'colors' 
-          })}
-          onClick={() => alert('Browser functionality coming soon!')}
-        >
-          <ExternalLink size={14} />
-          Browse {row.name}
-        </button>
+        {renderBrowseLink ? (
+          renderBrowseLink(row.id, row.name)
+        ) : (
+          <button 
+            className={browseButtonStyle}
+            onClick={() => alert('Browser functionality coming soon!')}
+          >
+            <ExternalLink size={14} />
+            Browse {row.name}
+          </button>
+        )}
       </div>
     </div>
   )
 }
 
+const h4Style = css({ fontSize: 'sm', fontWeight: 'bold', color: 'text.muted', mb: '3', textTransform: 'uppercase', letterSpacing: 'tight' })
+
+const browseButtonStyle = css({ 
+  display: 'flex', 
+  alignItems: 'center', 
+  gap: '2', 
+  px: '3', 
+  py: '2', 
+  bg: 'bg.active', 
+  _hover: { bg: 'bg.muted' }, 
+  rounded: 'lg', 
+  fontSize: 'xs', 
+  fontWeight: 'medium', 
+  transition: 'colors' 
+})
+
 /**
  * A data table component that displays a summary of OSRS cache assets.
  * Supports sorting and expanding rows for technical details.
  */
-export function AssetSummaryTable({ counts }: AssetSummaryTableProps) {
+export function AssetSummaryTable({ counts, renderBrowseLink }: AssetSummaryTableProps) {
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'count', desc: true }
   ])
@@ -301,7 +317,7 @@ export function AssetSummaryTable({ counts }: AssetSummaryTableProps) {
               {row.getIsExpanded() && (
                 <tr>
                   <td colSpan={row.getVisibleCells().length} className={css({ p: '0' })}>
-                    <ExpandedRowContent row={row.original} />
+                    <ExpandedRowContent row={row.original} renderBrowseLink={renderBrowseLink} />
                   </td>
                 </tr>
               )}

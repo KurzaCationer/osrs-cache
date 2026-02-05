@@ -71,6 +71,26 @@ export class ConfigLoader extends AssetLoader {
     const index = sortedIds.indexOf(fileId);
     return index !== -1 ? files[index] : undefined;
   }
+
+  /**
+   * Retrieves all files within the config archive, mapped by their IDs.
+   * 
+   * @returns A Promise resolving to a Map of file IDs to their raw data.
+   */
+  async getAllFiles(): Promise<Map<number, Uint8Array>> {
+    const archRef = this.cache.tables.get(this.indexId)?.archives.get(this.archiveId);
+    if (!archRef) return new Map();
+
+    const data = await this.cache.getRawFile(this.indexId, this.archiveId);
+    const files = extractFiles(data, archRef.files.size);
+    const sortedIds = Array.from(archRef.files.keys()).sort((a, b) => a - b);
+    
+    const map = new Map<number, Uint8Array>();
+    sortedIds.forEach((id, index) => {
+      map.set(id, files[index]);
+    });
+    return map;
+  }
 }
 
 /**
