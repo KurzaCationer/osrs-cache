@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+    dedupe: ['react', 'react-dom'],
   },
   plugins: [
     devtools(),
@@ -26,4 +27,10 @@ export default defineConfig({
       },
     }),
   ],
+  // @ts-ignore
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    resolveSnapshotPath: (path: string, extension: string) => path + extension,
+  },
 })

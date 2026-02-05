@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import { getMetadata, type CacheMetadata } from '@kurza/osrs-cache-loader'
 import { css } from '../styled-system/css'
-import { ASSET_MAPPINGS } from '../components/AssetMappings'
+import { AssetSummaryTable } from '../components/AssetSummaryTable'
 
 const getCacheMetadata = createServerFn({
   method: 'GET',
@@ -20,42 +20,6 @@ export const Route = createFileRoute('/')({
   component: Home,
   loader: async () => await getCacheMetadata(),
 })
-
-function CountCard({ title, count, icon: Icon, color }: { title: string; count: number; icon: React.ElementType; color: string }) {
-  return (
-    <div 
-      style={{ '--hover-color': color } as React.CSSProperties}
-      className={css({
-        p: '6',
-        bg: 'gray.800',
-        rounded: 'xl',
-        borderWidth: '1px',
-        borderColor: 'gray.700',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '4',
-        shadow: 'md',
-        transition: 'transform 0.2s, border-color 0.2s',
-        _hover: { transform: 'translateY(-2px)', borderColor: 'var(--hover-color)' }
-      })}
-    >
-      <div 
-        style={{ color }}
-        className={css({
-          p: '3',
-          rounded: 'lg',
-          bg: 'gray.900'
-        })}
-      >
-        <Icon size={24} />
-      </div>
-      <div>
-        <p className={css({ color: 'gray.400', fontSize: 'sm', fontWeight: 'medium' })}>{title}</p>
-        <p className={css({ color: 'white', fontSize: '2xl', fontWeight: 'bold' })}>{count.toLocaleString()}</p>
-      </div>
-    </div>
-  )
-}
 
 function Home() {
   const data = Route.useLoaderData() as CacheMetadata
@@ -93,26 +57,7 @@ function Home() {
           </div>
         </header>
 
-        <div className={css({
-          gridTemplateColumns: { base: '1', md: '2', lg: '3', xl: '4' },
-          display: 'grid',
-          gap: '6'
-        })}>
-          {(Object.entries(data.counts) as [keyof CacheMetadata['counts'], number][]).map(([key, count]) => {
-            const mapping = ASSET_MAPPINGS[key]
-            if (!mapping) return null
-            
-            return (
-              <CountCard 
-                key={key}
-                title={mapping.title}
-                count={count}
-                icon={mapping.icon}
-                color={mapping.color}
-              />
-            )
-          })}
-        </div>
+        <AssetSummaryTable counts={data.counts} />
 
         <footer className={css({ mt: '12', p: '6', bg: 'blue.900/20', rounded: 'xl', borderWidth: '1px', borderColor: 'blue.800/50', display: 'flex', alignItems: 'center', gap: '4' })}>
           <RefreshCw className={css({ color: 'blue.400' })} size={20} />

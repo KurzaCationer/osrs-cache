@@ -15,45 +15,23 @@ A headless UI library for building powerful tables and datagrids.
 - **Feature Rich:** Supports sorting, filtering, pagination, grouping, and more.
 - **Modular:** Only include the features you need.
 
-## Basic Usage
+## Best Practices
+
+### Memoization
+
+In React, you MUST memoize your `data` and `columns` definitions using `useMemo`. 
+
+Because TanStack Table uses these objects as dependencies in its own internal hooks, recreating them on every render will trigger an infinite re-render loop, which can cause performance issues or browser hangs.
 
 ```tsx
-import { useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-table'
+const data = useMemo(() => rawData, [rawData]);
+const columns = useMemo(() => [ ... ], []);
 
-function Table({ data, columns }) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  })
-
-  return (
-    <table>
-      <thead>
-        {table.getHeaderGroups().map(headerGroup => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map(header => (
-              <th key={header.id}>
-                {flexRender(header.column.columnDef.header, header.getContext())}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map(row => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map(cell => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )
-}
+const table = useReactTable({
+  data,
+  columns,
+  // ...
+});
 ```
 
 ## Resources & Links
