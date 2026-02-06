@@ -8,11 +8,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@pandacss/preset-base": "^0.30.2",
-    "@pandacss/preset-panda": "^0.30.2"
+    "@pandacss/preset-base": "^1.8.1",
+    "@pandacss/preset-panda": "^1.8.1"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.30.0",
+    "@pandacss/dev": "^1.8.1",
     "@tanstack/eslint-config": "^0.3.4",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",

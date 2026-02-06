@@ -21,7 +21,7 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.30.2",
+    "@pandacss/dev": "^1.8.1",
     "@pandacss/eslint-plugin": "^0.3.0",
     "@tanstack/eslint-config": "^0.3.4",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
