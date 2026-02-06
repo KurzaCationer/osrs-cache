@@ -28,3 +28,4 @@ Thumbs.db
 # Project Specific
 # Ensure .gemini is NOT ignored
 !.gemini/
+external/

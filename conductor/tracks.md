@@ -31,3 +31,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Asset Type Browsing**
 *Link: [./tracks/browse_asset_types_20260205/](./tracks/browse_asset_types_20260205/)*
+
+---
+
+- [~] **Track: Clone cache2 and align osrs-cache-loader**
+*Link: [./tracks/align_cache2_20260206/](./tracks/align_cache2_20260206/)*

@@ -1,0 +1,10 @@
+{
+  "track_id": "align_cache2_20260206",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-02-06T12:00:00Z",
+  "updated_at": "2026-02-06T12:00:00Z",
+  "description": "Clone https://github.com/abextm/cache2 and use it to implement the loaders for the current implementation, ensuring test alignment and clean output.",
+  "track_root_sha": "fe2c7cea77ba76b0661bba9f62127b6d85957000",
+  "cache2_path": "external/cache2"
+}

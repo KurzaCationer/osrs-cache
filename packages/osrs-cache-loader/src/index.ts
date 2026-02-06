@@ -241,3 +241,9 @@ export const loadCache = async (options: LoadCacheOptions = {}): Promise<AssetCo
   const cache = await Cache.load(options);
   return await cache.getAssetCounts();
 };
+
+// New Cache System (Alignment with cache2)
+export { OpenRS2CacheProvider, OpenRS2IndexData } from "./cache/OpenRS2Cache";
+export { ArchiveData, ArchiveFile } from "./cache/Cache";
+export type { CacheProvider, IndexData, CacheVersion } from "./cache/Cache";
+export * from "./cache/loaders";
