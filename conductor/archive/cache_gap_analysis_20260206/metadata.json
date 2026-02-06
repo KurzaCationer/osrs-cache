@@ -1,0 +1,9 @@
+{
+  "track_id": "cache_gap_analysis_20260206",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-02-06T12:00:00Z",
+  "updated_at": "2026-02-06T12:00:00Z",
+  "track_root_sha": "d46084154def331664c980483bb4d30f8be16705",
+  "description": "Gap analysis between osrs-cache-loader and cache2 to identify and document missing asset decoding logic."
+}
