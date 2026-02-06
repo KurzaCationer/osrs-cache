@@ -6,6 +6,9 @@ import { decodeItem, decodeNPC, decodeObject } from "./definitions";
 import { TECHNICAL_ASSET_MAPPINGS } from "./constants";
 import type { AssetCounts, CacheMetadata, LoadCacheOptions, OpenRS2Cache } from "./types";
 import { HybridCacheProvider } from "./cache/HybridCacheProvider";
+import { Enum, Struct, Param, Underlay, Animation } from "./cache/loaders";
+import { Reader } from "./cache/Reader";
+import { EnumID, StructID, ParamID, UnderlayID, AnimationID } from "./cache/types";
 
 export * from "./types";
 export * from "./openrs2-client";
@@ -166,6 +169,76 @@ export class Cache {
               return decodeObject(id, data, version);
             } catch (e) {
               console.warn(`Failed to decode Object ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'enum') {
+        const loader = new ConfigLoader(this, 2, 8);
+        const files = await loader.getAllFiles();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              const decoded = Enum.decode(new Reader(data), id as EnumID);
+              return JSON.parse(JSON.stringify(decoded));
+            } catch (e) {
+              console.warn(`Failed to decode Enum ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'struct') {
+        const loader = new ConfigLoader(this, 2, 34);
+        const files = await loader.getAllFiles();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              const decoded = Struct.decode(new Reader(data), id as StructID);
+              return JSON.parse(JSON.stringify(decoded));
+            } catch (e) {
+              console.warn(`Failed to decode Struct ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'param') {
+        const loader = new ConfigLoader(this, 2, 11);
+        const files = await loader.getAllFiles();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              const decoded = Param.decode(new Reader(data), id as ParamID);
+              return JSON.parse(JSON.stringify(decoded));
+            } catch (e) {
+              console.warn(`Failed to decode Param ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'underlay') {
+        const loader = new ConfigLoader(this, 2, 1);
+        const files = await loader.getAllFiles();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              const decoded = Underlay.decode(new Reader(data), id as UnderlayID);
+              return JSON.parse(JSON.stringify(decoded));
+            } catch (e) {
+              console.warn(`Failed to decode Underlay ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'animation') {
+        const loader = new ConfigLoader(this, 2, 12);
+        const files = await loader.getAllFiles();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              const decoded = Animation.decode(new Reader(data), id as AnimationID);
+              return JSON.parse(JSON.stringify(decoded));
+            } catch (e) {
+              console.warn(`Failed to decode Animation ${id}:`, e);
               return { id, name: `Error Decoding (${id})`, error: true };
             }
           });

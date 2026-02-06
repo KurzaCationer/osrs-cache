@@ -4,25 +4,31 @@ import { DiskCacheProvider } from './DiskCache';
 import { OpenRS2CacheProvider } from './OpenRS2Cache';
 
 vi.mock('./DiskCache', () => {
-    return {
-        DiskCacheProvider: vi.fn().mockImplementation(() => ({
-            getIndex: vi.fn(),
-            getArchive: vi.fn(),
-            saveGroup: vi.fn(),
-            getKeys: vi.fn().mockResolvedValue({ size: 0 }),
-            saveKeys: vi.fn()
-        }))
-    };
+    const DiskCacheProvider = vi.fn();
+    DiskCacheProvider.prototype.getIndex = vi.fn();
+    DiskCacheProvider.prototype.getArchive = vi.fn();
+    DiskCacheProvider.prototype.saveGroup = vi.fn();
+    DiskCacheProvider.prototype.getKeys = vi.fn().mockResolvedValue({ size: 0 });
+    DiskCacheProvider.prototype.saveKeys = vi.fn();
+    // Add missing methods to avoid runtime errors if they are called
+    DiskCacheProvider.prototype.getArchives = vi.fn();
+    DiskCacheProvider.prototype.getArchiveByName = vi.fn();
+    DiskCacheProvider.prototype.getVersion = vi.fn();
+
+    return { DiskCacheProvider };
 });
 
 vi.mock('./OpenRS2Cache', () => {
-    return {
-        OpenRS2CacheProvider: vi.fn().mockImplementation(() => ({
-            getIndex: vi.fn(),
-            getArchive: vi.fn(),
-            getKeys: vi.fn().mockResolvedValue({ size: 0 })
-        }))
-    };
+    const OpenRS2CacheProvider = vi.fn();
+    OpenRS2CacheProvider.prototype.getIndex = vi.fn();
+    OpenRS2CacheProvider.prototype.getArchive = vi.fn();
+    OpenRS2CacheProvider.prototype.getKeys = vi.fn().mockResolvedValue({ size: 0 });
+     // Add missing methods
+    OpenRS2CacheProvider.prototype.getArchives = vi.fn();
+    OpenRS2CacheProvider.prototype.getArchiveByName = vi.fn();
+    OpenRS2CacheProvider.prototype.getVersion = vi.fn();
+
+    return { OpenRS2CacheProvider };
 });
 
 describe('HybridCacheProvider', () => {

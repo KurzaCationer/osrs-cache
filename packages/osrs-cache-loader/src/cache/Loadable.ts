@@ -9,6 +9,19 @@ type LoadableType<I extends Loadable, ARGS extends unknown[]> = {
 type OrNumber<T extends unknown[]> = T;
 
 export abstract class Loadable {
+	public toJSON(): any {
+		const obj: any = {};
+		for (const key of Object.getOwnPropertyNames(this)) {
+			const val = (this as any)[key];
+			if (val instanceof Map) {
+				obj[key] = Object.fromEntries(val);
+			} else {
+				obj[key] = val;
+			}
+		}
+		return obj;
+	}
+
 	public static load<I extends Loadable, ARGS extends unknown[]>(
 		this: LoadableType<I, ARGS>,
 		cache: CacheProvider | Promise<CacheProvider>,

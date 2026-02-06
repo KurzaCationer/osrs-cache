@@ -26,6 +26,16 @@ export class Enum<K extends number = number, V extends string | number = string 
 		return this.map.get(k) ?? this.defaultValue;
 	}
 
+	public override toJSON(): any {
+		return {
+			id: this.id,
+			keyTypeChar: this.keyTypeChar,
+			valueTypeChar: this.valueTypeChar,
+			defaultValue: this.defaultValue,
+			map: Object.fromEntries(this.map),
+		};
+	}
+
 	public static decode(reader: Reader, id: EnumID): Enum<any, any> {
 		const v = new Enum<any, any>(id);
 		for (let opcode: number; (opcode = reader.u8()) != 0;) {

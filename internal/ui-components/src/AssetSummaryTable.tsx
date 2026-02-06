@@ -29,7 +29,16 @@ export interface AssetSummaryRow {
   index: number
   /** The cache archive ID (if applicable). */
   archive?: number
+  /** Whether the decoding is implemented. */
+  status: 'Implemented' | 'Encoded Only'
 }
+
+/**
+ * List of asset types that have full decoding implementation in the loader.
+ */
+const IMPLEMENTED_TYPES: Array<keyof AssetCounts> = [
+  'item', 'npc', 'obj', 'enum', 'struct', 'param', 'underlay', 'animation'
+]
 
 /**
  * Props for the AssetSummaryTable component.
@@ -62,6 +71,7 @@ export function transformData(counts: Partial<AssetCounts>): Array<AssetSummaryR
         percentage: total > 0 ? (count / total) * 100 : 0,
         index: mapping.index,
         archive: mapping.archive,
+        status: IMPLEMENTED_TYPES.includes(id) ? 'Implemented' : 'Encoded Only',
       }
     })
 }
@@ -104,6 +114,14 @@ function ExpandedRowContent({
           
           <span className={css({ color: 'text.dim' })}>Type:</span>
           <span className={css({ color: 'text.main' })}>{row.archive ? 'Multiple Files per Archive' : 'Single File per Archive'}</span>
+
+          <span className={css({ color: 'text.dim' })}>Status:</span>
+          <span className={css({ 
+            fontWeight: 'bold', 
+            color: row.status === 'Implemented' ? 'secondary.default' : 'text.dim' 
+          })}>
+            {row.status}
+          </span>
         </div>
       </div>
       
@@ -113,7 +131,9 @@ function ExpandedRowContent({
         </h4>
         <p className={css({ fontSize: 'sm', color: 'text.muted', mb: '4', lineHeight: 'relaxed' })}>
           {row.name} are stored in the OSRS cache {row.archive ? `within archive ${row.archive} of index ${row.index}` : `across all archives of index ${row.index}`}. 
-          Each entry contains the raw configuration data used by the game client.
+          {row.status === 'Implemented' 
+            ? ' This type is fully decoded into structured data.' 
+            : ' Currently, only raw encoded data is accessible for this type.'}
         </p>
         {renderBrowseLink ? (
           renderBrowseLink(row.id, row.name)
@@ -186,6 +206,28 @@ export function AssetSummaryTable({ counts, renderBrowseLink }: AssetSummaryTabl
           {info.getValue().toLocaleString()}
         </span>
       ),
+    }),
+    columnHelper.accessor('status', {
+      header: 'Decoding Status',
+      cell: (info) => {
+        const isImplemented = info.getValue() === 'Implemented'
+        return (
+          <span className={css({
+            display: 'inline-flex',
+            px: '2.5',
+            py: '0.5',
+            rounded: 'full',
+            fontSize: 'xs',
+            fontWeight: 'bold',
+            bg: isImplemented ? 'rgba(34, 197, 94, 0.1)' : 'bg.muted',
+            color: isImplemented ? 'secondary.default' : 'text.dim',
+            border: '1px solid',
+            borderColor: isImplemented ? 'rgba(34, 197, 94, 0.2)' : 'border.default',
+          })}>
+            {info.getValue()}
+          </span>
+        )
+      }
     }),
     columnHelper.accessor('percentage', {
       header: 'Percentage',
