@@ -1,18 +1,18 @@
-import React, { useMemo, useState, useRef } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-  getSortedRowModel,
   getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
 } from '@tanstack/react-table'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { css } from './styled-system/css'
 import { Search } from 'lucide-react'
+import { css } from './styled-system/css'
 
 interface AssetDataTableProps<T extends Record<string, any>> {
-  data: T[]
+  data: Array<T>
 }
 
 /**
@@ -146,6 +146,8 @@ export function AssetDataTable<T extends Record<string, any>>({
                     top: 0,
                     left: 0,
                     w: 'full',
+                    display: 'table',
+                    tableLayout: 'fixed',
                     borderBottom: '1px solid', 
                     borderColor: 'border.subtle', 
                     _hover: { bg: 'bg.active' } 

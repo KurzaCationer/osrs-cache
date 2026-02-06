@@ -14,6 +14,7 @@
 - **TanStack Query:** Data fetching and state management.
 - **TanStack Table:** Headless UI for building powerful tables (useful for asset lists).
 - **TanStack Virtual:** Logic for displaying large lists with high performance.
+- **@uiw/react-json-view v1:** For collapsible, copy-capable JSON tree views.
 - **Astro:** Framework for building the documentation site.
 
 ## Styling & Design

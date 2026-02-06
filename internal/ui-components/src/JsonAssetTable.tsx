@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import {
   createColumnHelper,
   flexRender,
@@ -6,11 +6,12 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useVirtualizer } from '@tanstack/react-virtual'
+import { ChevronDown, ChevronRight } from 'lucide-react'
 import { css } from './styled-system/css'
-import { Search, ChevronDown, ChevronRight } from 'lucide-react'
+import { JsonViewer } from './JsonViewer'
 
 interface JsonAssetTableProps<T extends Record<string, any>> {
-  data: T[]
+  data: Array<T>
 }
 
 /**
@@ -20,7 +21,6 @@ interface JsonAssetTableProps<T extends Record<string, any>> {
 export function JsonAssetTable<T extends Record<string, any>>({ 
   data
 }: JsonAssetTableProps<T>) {
-  const [globalFilter, setGlobalFilter] = useState('')
   const tableContainerRef = useRef<HTMLDivElement>(null)
 
   const columns = useMemo(() => {
@@ -35,14 +35,15 @@ export function JsonAssetTable<T extends Record<string, any>>({
       columnHelper.accessor('name' as any, {
         header: 'Name',
         cell: (info) => info.getValue() || <span className={css({ color: 'text.dim', fontStyle: 'italic' })}>Unnamed</span>,
-        size: 200,
+        size: 180,
       }),
       columnHelper.display({
         id: 'data',
         header: 'Asset Data (JSON)',
         cell: (info) => {
-          return <JsonValue value={info.row.original} />
+          return <JsonValueWrapper value={info.row.original} />
         },
+        size: 500, // Large enough but will be flexible
       }),
     ]
   }, [data])
@@ -51,6 +52,7 @@ export function JsonAssetTable<T extends Record<string, any>>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    columnResizeMode: 'onChange',
   })
 
   const { rows } = table.getRowModel()
@@ -81,7 +83,12 @@ export function JsonAssetTable<T extends Record<string, any>>({
           position: 'relative'
         })}
       >
-        <table className={css({ w: 'full', borderCollapse: 'collapse', textAlign: 'left' })}>
+        <table className={css({ 
+          w: 'full', 
+          borderCollapse: 'collapse', 
+          textAlign: 'left',
+          tableLayout: 'fixed'
+        })}>
           <thead className={css({ position: 'sticky', top: 0, zIndex: '1', bg: 'bg.muted' })}>
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id} className={css({ borderBottom: '1px solid', borderColor: 'border.default' })}>
@@ -117,6 +124,8 @@ export function JsonAssetTable<T extends Record<string, any>>({
                     top: 0,
                     left: 0,
                     w: 'full',
+                    display: 'table', // Crucial for absolute tr to align columns
+                    tableLayout: 'fixed',
                     borderBottom: '1px solid', 
                     borderColor: 'border.subtle', 
                     _hover: { bg: 'bg.active' } 
@@ -124,7 +133,11 @@ export function JsonAssetTable<T extends Record<string, any>>({
                   style={{ transform: `translateY(${virtualRow.start}px)` }}
                 >
                   {row.getVisibleCells().map(cell => (
-                    <td key={cell.id} className={css({ p: '4', fontSize: 'sm', color: 'text.main', verticalAlign: 'top' })}>
+                    <td 
+                      key={cell.id} 
+                      className={css({ p: '4', fontSize: 'sm', color: 'text.main', verticalAlign: 'top' })}
+                      style={{ width: cell.column.getSize() }}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -138,7 +151,7 @@ export function JsonAssetTable<T extends Record<string, any>>({
   )
 }
 
-function JsonValue({ value }: { value: any }) {
+function JsonValueWrapper({ value }: { value: any }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   if (typeof value !== 'object' || value === null) {
@@ -146,7 +159,7 @@ function JsonValue({ value }: { value: any }) {
   }
 
   return (
-    <div className={css({ fontFamily: 'mono', fontSize: 'xs' })}>
+    <div className={css({ fontFamily: 'mono', fontSize: 'xs', maxWidth: '100%', overflow: 'hidden' })}>
       <button 
         onClick={() => setIsExpanded(!isExpanded)}
         className={css({ 
@@ -167,19 +180,9 @@ function JsonValue({ value }: { value: any }) {
       </button>
       
       {isExpanded && (
-        <pre className={css({ 
-          mt: '2', 
-          p: '3', 
-          bg: 'bg.muted', 
-          rounded: 'md', 
-          overflow: 'auto', 
-          maxH: '400px',
-          whiteSpace: 'pre-wrap',
-          wordBreak: 'break-all',
-          color: 'text.main'
-        })}>
-          {JSON.stringify(value, null, 2)}
-        </pre>
+        <div className={css({ mt: '2' })}>
+          <JsonViewer value={value} />
+        </div>
       )}
     </div>
   )

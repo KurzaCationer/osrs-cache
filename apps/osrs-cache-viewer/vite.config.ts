@@ -27,6 +27,9 @@ export default defineConfig({
       },
     }),
   ],
+  ssr: {
+    noExternal: ['@uiw/react-json-view'],
+  },
   // @ts-ignore - Vitest types are not picked up by Vite's defineConfig
   test: {
     globals: true,

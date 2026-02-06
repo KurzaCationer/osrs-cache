@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router'
+import { JsonAssetTable, Loader } from '@kurza/ui-components'
+import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 import { AssetBrowserLayout } from '../../components/AssetBrowserLayout'
 import { fetchAssets } from '../../integrations/osrs-cache-api'
-import { Loader, JsonAssetTable } from '@kurza/ui-components'
 import { css } from '../../styled-system/css'
-import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { AssetCounts } from '@kurza/osrs-cache-loader'
 
 export const Route = createFileRoute('/browse/$type')({
@@ -27,7 +27,7 @@ export const Route = createFileRoute('/browse/$type')({
 
 export function BrowseTypeContent({ type, data, isLoading, isError, limit, offset }: { 
   type: string, 
-  data?: any[], 
+  data?: Array<any>, 
   isLoading: boolean, 
   isError: boolean,
   limit: number,

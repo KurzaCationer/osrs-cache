@@ -1,16 +1,28 @@
-import { RefreshCw, ExternalLink } from 'lucide-react'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
+import { ExternalLink, RefreshCw } from 'lucide-react'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { AssetSummaryTable } from '@kurza/ui-components'
 import { css } from '../styled-system/css'
 import { fetchSummary } from '../integrations/osrs-cache-api'
+import type { CacheMetadata } from '@kurza/osrs-cache-loader'
 
 export const Route = createFileRoute('/')({
   component: Home,
   loader: async () => await fetchSummary(),
 })
 
-function Home() {
+export function Home() {
   const data = Route.useLoaderData()
+  return <HomeContent data={data as CacheMetadata} />
+}
+
+export function HomeContent({ data }: { data: CacheMetadata }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true)
+  }, [])
+
   const build = data.builds[0] ? `Build #${data.builds[0].major}` : 'Unknown Build'
   const date = data.timestamp ? new Date(data.timestamp).toLocaleDateString() : 'Unknown Date'
 
@@ -37,7 +49,7 @@ function Home() {
                 <span className={css({ color: 'text.dim', pr: '4' })}>Version:</span>
                 <span className={css({ color: 'text.main', fontWeight: 'medium' })}>{build}</span>
                 <span className={css({ color: 'text.dim', pr: '4' })}>Timestamp:</span>
-                <span className={css({ color: 'text.main' })}>{date}</span>
+                <span className={css({ color: 'text.main' })}>{mounted ? date : '---'}</span>
                 <span className={css({ color: 'text.dim', pr: '4' })}>Source:</span>
                 <span className={css({ color: 'text.muted' })}>{data.source}</span>
               </div>

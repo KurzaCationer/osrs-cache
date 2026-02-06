@@ -1,7 +1,7 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getAssetsByType, getMetadata } from '@kurza/osrs-cache-loader'
-import type { AssetCounts } from '@kurza/osrs-cache-loader'
 import { queryOptions } from '@tanstack/react-query'
+import type { AssetCounts } from '@kurza/osrs-cache-loader'
 
 /**
  * Server function to fetch the cache summary/metadata.
