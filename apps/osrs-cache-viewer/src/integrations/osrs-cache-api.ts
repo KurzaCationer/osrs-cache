@@ -1,7 +1,21 @@
 import { createServerFn } from '@tanstack/react-start'
-import { getAssetsByType } from '@kurza/osrs-cache-loader'
+import { getAssetsByType, getMetadata } from '@kurza/osrs-cache-loader'
 import type { AssetCounts } from '@kurza/osrs-cache-loader'
 import { queryOptions } from '@tanstack/react-query'
+
+/**
+ * Server function to fetch the cache summary/metadata.
+ */
+export const fetchSummary = createServerFn({
+  method: 'GET',
+}).handler(async () => {
+  try {
+    return await getMetadata({ game: 'oldschool' })
+  } catch (error) {
+    console.error('Failed to load cache metadata:', error)
+    throw new Error('Failed to load OSRS cache summary. Please try again later.')
+  }
+})
 
 /**
  * Server function to fetch all assets of a specific type.

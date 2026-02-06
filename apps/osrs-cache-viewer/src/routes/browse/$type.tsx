@@ -1,22 +1,52 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
+import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router'
 import { AssetBrowserLayout } from '../../components/AssetBrowserLayout'
-import { assetsQueryOptions } from '../../integrations/osrs-cache-api'
-import { Loader, AssetDataTable } from '@kurza/ui-components'
+import { fetchAssets } from '../../integrations/osrs-cache-api'
+import { Loader, JsonAssetTable } from '@kurza/ui-components'
 import { css } from '../../styled-system/css'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { AssetCounts } from '@kurza/osrs-cache-loader'
 
 export const Route = createFileRoute('/browse/$type')({
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      limit: Number(search?.limit ?? 50),
+      offset: Number(search?.offset ?? 0),
+    }
+  },
   component: BrowseType,
+  loader: async ({ params, search }) => {
+    return await fetchAssets({ 
+      data: { 
+        type: params.type as keyof AssetCounts,
+        limit: search?.limit ?? 50,
+        offset: search?.offset ?? 0
+      } 
+    })
+  }
 })
 
-export function BrowseTypeContent({ type, data, isLoading, isError }: { 
+export function BrowseTypeContent({ type, data, isLoading, isError, limit, offset }: { 
   type: string, 
   data?: any[], 
   isLoading: boolean, 
-  isError: boolean 
+  isError: boolean,
+  limit: number,
+  offset: number
 }) {
+  const navigate = useNavigate()
+
+  const handlePrev = () => {
+    navigate({
+      search: (old: any) => ({ ...old, offset: Math.max(0, offset - limit) })
+    })
+  }
+
+  const handleNext = () => {
+    navigate({
+      search: (old: any) => ({ ...old, offset: offset + limit })
+    })
+  }
+
   return (
     <AssetBrowserLayout title={`Browsing ${type}`}>
       {isLoading ? (
@@ -31,7 +61,59 @@ export function BrowseTypeContent({ type, data, isLoading, isError }: {
           <p className={css({ fontSize: 'sm', color: 'text.muted' })}>The requested asset type might not be supported yet or the cache is unavailable.</p>
         </div>
       ) : (
-        <AssetDataTable data={data ?? []} />
+        <div className={css({ display: 'flex', flexDirection: 'column', gap: '4' })}>
+          <JsonAssetTable data={data ?? []} />
+          
+          <div className={css({ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '4', mt: '4', py: '2' })}>
+            <button
+              onClick={handlePrev}
+              disabled={offset === 0}
+              className={css({
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1',
+                px: '4',
+                py: '2',
+                bg: 'bg.surface',
+                border: '1px solid',
+                borderColor: 'border.default',
+                rounded: 'md',
+                fontSize: 'sm',
+                cursor: 'pointer',
+                _disabled: { opacity: 0.5, cursor: 'not-allowed' },
+                _hover: { bg: 'bg.muted', _disabled: { bg: 'bg.surface' } }
+              })}
+            >
+              <ChevronLeft size={16} />
+              Previous
+            </button>
+            <span className={css({ fontSize: 'sm', color: 'text.muted' })}>
+              Offset: {offset.toLocaleString()}
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={(data?.length ?? 0) < limit}
+              className={css({
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1',
+                px: '4',
+                py: '2',
+                bg: 'bg.surface',
+                border: '1px solid',
+                borderColor: 'border.default',
+                rounded: 'md',
+                fontSize: 'sm',
+                cursor: 'pointer',
+                _disabled: { opacity: 0.5, cursor: 'not-allowed' },
+                _hover: { bg: 'bg.muted', _disabled: { bg: 'bg.surface' } }
+              })}
+            >
+              Next
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
       )}
     </AssetBrowserLayout>
   )
@@ -39,7 +121,10 @@ export function BrowseTypeContent({ type, data, isLoading, isError }: {
 
 export function BrowseType() {
   const { type } = Route.useParams()
-  const { data, isLoading, isError } = useQuery(assetsQueryOptions(type as keyof AssetCounts))
+  const data = Route.useLoaderData()
+  const search = useSearch({ from: '/browse/$type' })
+  const limit = search?.limit ?? 50
+  const offset = search?.offset ?? 0
   
-  return <BrowseTypeContent type={type} data={data} isLoading={isLoading} isError={isError} />
+  return <BrowseTypeContent type={type} data={data} isLoading={false} isError={false} limit={limit} offset={offset} />
 }

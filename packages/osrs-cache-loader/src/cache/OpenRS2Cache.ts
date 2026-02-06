@@ -13,6 +13,82 @@ export class OpenRS2IndexData implements IndexData {
 	public named!: boolean;
 	public sized!: boolean;
 	/** @internal */ archives: Map<number, ArchiveData> = new Map();
+
+	public static decode(cdata: Uint8Array, index: number): OpenRS2IndexData {
+		let ad = new ArchiveData(255, index);
+		ad.addFile(0, 0);
+		ad.compressedData = cdata;
+		
+		// Force decompression
+		ad.getDecryptedData();
+		const file = ad.getFile(0);
+		if (!file) {
+			throw new Error(`Failed to decompress index ${index}`);
+		}
+
+		let r = new Reader(file.data);
+
+		let out = new OpenRS2IndexData();
+		out.id = index;
+		let protocol = out.protocol = r.u8();
+		out.revision = protocol >= 6 ? r.i32() : -1;
+
+		let flags = r.u8();
+		let named = out.named = !!(flags & 1);
+		let sized = out.sized = !!(flags & 4);
+
+		let numArchives = protocol <= 6 ? r.u16() : r.u32o16();
+		let ams: ArchiveData[] = new Array(numArchives);
+		for (let i = 0, id = 0; i < numArchives; i++) {
+			id += protocol <= 6 ? r.u16() : r.u32o16();
+			let v = new ArchiveData(index, id);
+			ams[i] = v;
+			out.archives.set(id, v);
+		}
+
+		if (named) {
+			for (let am of ams) {
+				am.namehash = r.i32();
+			}
+		}
+		for (let am of ams) {
+			am.crc = r.i32();
+		}
+		if (sized) {
+			for (let am of ams) {
+				am.compressedSize = r.i32();
+				am.decompressedSize = r.i32();
+			}
+		}
+		for (let am of ams) {
+			am.revision = r.i32();
+		}
+
+		let numFileses = new Uint32Array(ams.length);
+		for (let i = 0; i < numArchives; i++) {
+			numFileses[i] = protocol <= 6 ? r.u16() : r.u32o16();
+		}
+
+		for (let i = 0; i < numArchives; i++) {
+			let am = ams[i];
+			let numFiles = numFileses[i];
+			let id = 0;
+			for (let i = 0; i < numFiles; i++) {
+				id += protocol <= 6 ? r.u16() : r.u32o16();
+				am.addFile(id, 0);
+			}
+		}
+
+		if (named) {
+			for (let am of ams) {
+				for (let file of am.files.values()) {
+					(file as any).namehash = r.i32();
+				}
+			}
+		}
+
+		return out;
+	}
 }
 
 export class OpenRS2CacheProvider implements CacheProvider {
@@ -39,87 +115,7 @@ export class OpenRS2CacheProvider implements CacheProvider {
 						return undefined;
 					}
 
-					let ad = new ArchiveData(255, index);
-					ad.addFile(0, 0);
-					ad.compressedData = cdata;
-					
-					// Force decompression
-					ad.getDecryptedData();
-					const file = ad.getFile(0);
-					if (!file) {
-						return undefined;
-					}
-
-					let r = new Reader(file.data);
-
-					let out = new OpenRS2IndexData();
-					out.id = index;
-					let protocol = out.protocol = r.u8();
-					out.revision = protocol >= 6 ? r.i32() : -1;
-
-					let flags = r.u8();
-					let named = out.named = !!(flags & 1);
-					let sized = out.sized = !!(flags & 4);
-
-					// Check for unsupported flags, but allow some leniency if needed?
-					// cache2 throws here.
-					if (flags & ~(1 | 4)) {
-						// console.warn(`unsupported flags ${flags.toString(16)} for index ${index}`);
-						// proceed? or throw? strict alignment implies throw.
-						throw new Error(`unsupported flags ${flags.toString(16)}`);
-					}
-
-					let numArchives = protocol <= 6 ? r.u16() : r.u32o16();
-					let ams: ArchiveData[] = new Array(numArchives);
-					for (let i = 0, id = 0; i < numArchives; i++) {
-						id += protocol <= 6 ? r.u16() : r.u32o16();
-						let v = new ArchiveData(index, id);
-						ams[i] = v;
-						out.archives.set(id, v);
-					}
-
-					if (named) {
-						for (let am of ams) {
-							am.namehash = r.i32();
-						}
-					}
-					for (let am of ams) {
-						am.crc = r.i32();
-					}
-					if (sized) {
-						for (let am of ams) {
-							am.compressedSize = r.i32();
-							am.decompressedSize = r.i32();
-						}
-					}
-					for (let am of ams) {
-						am.revision = r.i32();
-					}
-
-					let numFileses = new Uint32Array(ams.length);
-					for (let i = 0; i < numArchives; i++) {
-						numFileses[i] = protocol <= 6 ? r.u16() : r.u32o16();
-					}
-
-					for (let i = 0; i < numArchives; i++) {
-						let am = ams[i];
-						let numFiles = numFileses[i];
-						let id = 0;
-						for (let i = 0; i < numFiles; i++) {
-							id += protocol <= 6 ? r.u16() : r.u32o16();
-							am.addFile(id, 0);
-						}
-					}
-
-					if (named) {
-						for (let am of ams) {
-							for (let file of am.files.values()) {
-								(file as any).namehash = r.i32();
-							}
-						}
-					}
-
-					return out;
+					return OpenRS2IndexData.decode(cdata, index);
 				})(),
 			);
 		}
@@ -127,6 +123,11 @@ export class OpenRS2CacheProvider implements CacheProvider {
 	}
 
 	public async getArchives(index: number): Promise<number[] | undefined> {
+		if (index === 255) {
+			// Master index doesn't have a standard reference table.
+			// Return a range or just undefined if not needed.
+			return undefined;
+		}
 		let idx = await this.getIndex(index);
 		if (!idx) {
 			return;
@@ -136,6 +137,18 @@ export class OpenRS2CacheProvider implements CacheProvider {
 	}
 
 	public async getArchive(index: number, archive: number): Promise<ArchiveData | undefined> {
+		if (index === 255) {
+			// Special case for master index groups (indices themselves)
+			let am = new ArchiveData(255, archive);
+			try {
+				const buffer = await this.client.getGroup(this.metadata.scope, this.metadata.id, 255, archive);
+				am.compressedData = new Uint8Array(buffer);
+				return am;
+			} catch (e) {
+				return undefined;
+			}
+		}
+
 		let idx = await this.getIndex(index);
 		if (!idx) {
 			return;

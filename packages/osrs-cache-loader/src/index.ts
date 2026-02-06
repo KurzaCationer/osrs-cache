@@ -5,6 +5,7 @@ import { ArchiveLoader, ConfigLoader } from "./loaders";
 import { decodeItem, decodeNPC, decodeObject } from "./definitions";
 import { TECHNICAL_ASSET_MAPPINGS } from "./constants";
 import type { AssetCounts, CacheMetadata, LoadCacheOptions, OpenRS2Cache } from "./types";
+import { HybridCacheProvider } from "./cache/HybridCacheProvider";
 
 export * from "./types";
 export * from "./openrs2-client";
@@ -21,6 +22,8 @@ export class Cache {
     private readonly client: OpenRS2Client,
     /** A map of index IDs to their decoded reference tables. */
     public readonly tables: Map<number, ReferenceTable>,
+    /** The provider used for low-level data access. */
+    public readonly provider: HybridCacheProvider,
   ) {}
 
   /**
@@ -33,6 +36,7 @@ export class Cache {
   static async load(options: LoadCacheOptions = {}): Promise<Cache> {
     const client = new OpenRS2Client(options.openrs2BaseUrl);
     const cacheMetadata = await client.getLatestCache(options.game || "oldschool");
+    const provider = new HybridCacheProvider(cacheMetadata, client);
     
     // Core indices required for basic functionality
     const indicesToLoad = [2, 5, 7, 8, 9, 13, 21, 24];
@@ -40,18 +44,23 @@ export class Cache {
 
     await Promise.all(
       indicesToLoad.map(async (index) => {
-        const rawData = await client.getGroup(
-          cacheMetadata.scope,
-          cacheMetadata.id,
-          255,
-          index,
-        );
-        const decompressed = await decompress(new Uint8Array(rawData));
-        tables.set(index, ReferenceTable.decode(decompressed));
+        const idxData = await provider.getIndex(index);
+        if (idxData) {
+          // We need to convert IndexData back to ReferenceTable?
+          // Actually ReferenceTable.decode expects the raw decompressed data of the index.
+          // OpenRS2CacheProvider fetches raw and decodes.
+          
+          // To keep it simple, we'll fetch the raw data from provider (which might be disk)
+          const archive = await provider.getArchive(255, index);
+          if (archive && archive.compressedData) {
+            const decompressed = await decompress(new Uint8Array(archive.compressedData));
+            tables.set(index, ReferenceTable.decode(decompressed));
+          }
+        }
       }),
     );
 
-    return new Cache(cacheMetadata, client, tables);
+    return new Cache(cacheMetadata, client, tables, provider);
   }
 
   /**
@@ -100,13 +109,11 @@ export class Cache {
    * @returns A Promise that resolves to the raw bytes of the archive.
    */
   async getRawFile(index: number, archive: number): Promise<Uint8Array> {
-    const response = await this.client.getGroup(
-      this.metadata.scope,
-      this.metadata.id,
-      index,
-      archive,
-    );
-    return await decompress(new Uint8Array(response));
+    const am = await this.provider.getArchive(index, archive);
+    if (!am || !am.compressedData) {
+      throw new Error(`Failed to load archive ${index}:${archive}`);
+    }
+    return await decompress(new Uint8Array(am.compressedData));
   }
 
   /**
@@ -244,6 +251,9 @@ export const loadCache = async (options: LoadCacheOptions = {}): Promise<AssetCo
 
 // New Cache System (Alignment with cache2)
 export { OpenRS2CacheProvider, OpenRS2IndexData } from "./cache/OpenRS2Cache";
+export { DiskCacheProvider } from "./cache/DiskCache";
+export { HybridCacheProvider } from "./cache/HybridCacheProvider";
+export { CacheInstaller } from "./cache/CacheInstaller";
 export { ArchiveData, ArchiveFile } from "./cache/Cache";
 export type { CacheProvider, IndexData, CacheVersion } from "./cache/Cache";
 export * from "./cache/loaders";

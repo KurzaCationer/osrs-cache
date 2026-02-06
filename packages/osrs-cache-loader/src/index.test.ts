@@ -1,11 +1,26 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 import { getMetadata, loadCache } from "./index";
+import fs from "fs/promises";
+import path from "path";
+import os from "os";
+
+let tempDir: string;
+
+vi.mock('./paths', () => ({
+  getCacheDir: vi.fn(() => tempDir),
+  cacheExistsOnDisk: vi.fn(async () => false)
+}));
+
+beforeEach(async () => {
+  tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'osrs-cache-index-test-'));
+  global.fetch = vi.fn();
+});
+
+afterEach(async () => {
+  await fs.rm(tempDir, { recursive: true, force: true });
+});
 
 describe("loadCache", () => {
-  beforeEach(() => {
-    global.fetch = vi.fn();
-  });
-
   it("should load the latest cache and return asset counts", async () => {
     const mockCaches = [
       {
@@ -92,10 +107,6 @@ describe("loadCache", () => {
 });
 
 describe("getMetadata", () => {
-  beforeEach(() => {
-    global.fetch = vi.fn();
-  });
-
   it("should return detailed metadata including counts", async () => {
     const mockCaches = [
       {

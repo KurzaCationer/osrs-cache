@@ -1,24 +1,12 @@
 import { RefreshCw, ExternalLink } from 'lucide-react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
-import {  getMetadata } from '@kurza/osrs-cache-loader'
 import { AssetSummaryTable } from '@kurza/ui-components'
 import { css } from '../styled-system/css'
-
-const getCacheMetadata = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  try {
-    return await getMetadata({ game: 'oldschool' })
-  } catch (error) {
-    console.error('Failed to load cache metadata:', error)
-    throw new Error('Failed to load OSRS cache summary. Please try again later.')
-  }
-})
+import { fetchSummary } from '../integrations/osrs-cache-api'
 
 export const Route = createFileRoute('/')({
   component: Home,
-  loader: async () => await getCacheMetadata(),
+  loader: async () => await fetchSummary(),
 })
 
 function Home() {

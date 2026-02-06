@@ -177,7 +177,8 @@ export function decodeItem(id: number, data: Uint8Array, version?: CacheVersion)
     } else if (opcode === 249) {
       def.params = decodeParams(reader);
     } else {
-      throw new Error(`Unknown Item opcode: ${opcode} at offset ${reader.offset}`);
+      console.warn(`Unknown Item opcode: ${opcode} at offset ${reader.offset}`);
+      return def;
     }
   }
 
@@ -412,7 +413,8 @@ export function decodeNPC(id: number, data: Uint8Array, version?: CacheVersion):
     } else if (opcode === 249) {
       def.params = decodeParams(reader);
     } else {
-      throw new Error(`Unknown NPC opcode: ${opcode} at offset ${reader.offset}`);
+      console.warn(`Unknown NPC opcode: ${opcode} at offset ${reader.offset}`);
+      return def;
     }
   }
 
@@ -670,7 +672,8 @@ export function decodeObject(id: number, data: Uint8Array, version?: CacheVersio
     } else if (opcode === 249) {
       def.params = decodeParams(reader);
     } else {
-      throw new Error(`Unknown Object opcode: ${opcode} at offset ${reader.offset}`);
+      console.warn(`Unknown Object opcode: ${opcode} at offset ${reader.offset}`);
+      return def;
     }
   }
 
