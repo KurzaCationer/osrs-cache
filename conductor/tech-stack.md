@@ -22,7 +22,7 @@
 
 ## Data Processing
 - **fflate:** High-performance GZIP decompression.
-- **seek-bzip:** Synchronous BZIP2 decompression for binary OSRS cache blocks.
+- **Custom BZ2 Implementation:** Standalone, high-performance BZIP2 decompression ported for OSRS cache block handling.
 
 ## Development & Build Tooling
 - **Vite:** Build tool and dev server.
