@@ -6,9 +6,9 @@ import { decodeItem, decodeNPC, decodeObject } from "./definitions";
 import { TECHNICAL_ASSET_MAPPINGS } from "./constants";
 import type { AssetCounts, CacheMetadata, LoadCacheOptions, OpenRS2Cache } from "./types";
 import { HybridCacheProvider } from "./cache/HybridCacheProvider";
-import { Enum, Struct, Param, Underlay, Animation } from "./cache/loaders";
+import { Enum, Struct, Param, Underlay, Animation, HealthBar, Hitsplat, Sprites, DBRow, DBTable, WorldEntity } from "./cache/loaders";
 import { Reader } from "./cache/Reader";
-import { EnumID, StructID, ParamID, UnderlayID, AnimationID } from "./cache/types";
+import { EnumID, StructID, ParamID, UnderlayID, AnimationID, HealthBarID, HitsplatID, SpriteID, DBRowID, DBTableID, WorldEntityID } from "./cache/types";
 
 export * from "./types";
 export * from "./openrs2-client";
@@ -125,9 +125,10 @@ export class Cache {
    * @param type The type of assets to retrieve (e.g., 'item', 'npc').
    * @param limit Maximum number of assets to return.
    * @param offset Number of assets to skip.
+   * @param options Additional options for filtering (e.g., tableId for dbRows).
    * @returns A Promise resolving to an array of decoded asset objects.
    */
-  async getAssets(type: keyof AssetCounts, limit?: number, offset?: number): Promise<any[]> {
+  async getAssets(type: keyof AssetCounts, limit?: number, offset?: number, options?: { tableId?: number }): Promise<any[]> {
     let assets: any[] = [];
     try {
       if (type === 'item') {
@@ -242,6 +243,113 @@ export class Cache {
               return { id, name: `Error Decoding (${id})`, error: true };
             }
           });
+      } else if (type === 'healthBar') {
+        const loader = new ConfigLoader(this, 2, 33);
+        const files = await loader.getAllFiles();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              const decoded = HealthBar.decode(new Reader(data), id as HealthBarID);
+              return JSON.parse(JSON.stringify(decoded));
+            } catch (e) {
+              console.warn(`Failed to decode HealthBar ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'hitsplat') {
+        const loader = new ConfigLoader(this, 2, 32);
+        const files = await loader.getAllFiles();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              const decoded = Hitsplat.decode(new Reader(data), id as HitsplatID);
+              return JSON.parse(JSON.stringify(decoded));
+            } catch (e) {
+              console.warn(`Failed to decode Hitsplat ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'dbTable') {
+        const loader = new ConfigLoader(this, 2, 39);
+        const files = await loader.getAllFiles();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              const decoded = DBTable.decode(new Reader(data), id as DBTableID);
+              return JSON.parse(JSON.stringify(decoded));
+            } catch (e) {
+              console.warn(`Failed to decode DBTable ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'dbRow') {
+        if (options?.tableId !== undefined) {
+          const rows = await this.getDBRows(options.tableId);
+          assets = rows.map(r => JSON.parse(JSON.stringify(r)));
+        } else {
+          const loader = new ConfigLoader(this, 2, 38);
+          const files = await loader.getAllFiles();
+          assets = Array.from(files.entries())
+            .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+            .map(([id, data]) => {
+              try {
+                const decoded = DBRow.decode(new Reader(data), id as DBRowID);
+                return JSON.parse(JSON.stringify(decoded));
+              } catch (e) {
+                console.warn(`Failed to decode DBRow ${id}:`, e);
+                return { id, name: `Error Decoding (${id})`, error: true };
+              }
+            });
+        }
+      } else if (type === 'worldEntity') {
+        const loader = new ConfigLoader(this, 2, 72);
+        const files = await loader.getAllFiles();
+        assets = Array.from(files.entries())
+          .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
+          .map(([id, data]) => {
+            try {
+              const decoded = WorldEntity.decode(new Reader(data), id as WorldEntityID);
+              return JSON.parse(JSON.stringify(decoded));
+            } catch (e) {
+              console.warn(`Failed to decode WorldEntity ${id}:`, e);
+              return { id, name: `Error Decoding (${id})`, error: true };
+            }
+          });
+      } else if (type === 'sprite') {
+        const loader = new ArchiveLoader(this, 8);
+        const table = this.tables.get(8);
+        if (table) {
+             const archiveIds = Array.from(table.archives.keys());
+             assets = (await Promise.all(archiveIds.map(async (id) => {
+                 try {
+                     const data = await loader.getArchive(id);
+                     if (data) {
+                         const decoded = Sprites.decode(new Reader(data), id as SpriteID);
+                         // Convert to plain object to ensure Seroval serialization works
+                         return {
+                           id: decoded.id,
+                           width: decoded.width,
+                           height: decoded.height,
+                           palette: Array.from(decoded.palette),
+                           sprites: decoded.sprites.map(s => ({
+                             offsetX: s.offsetX,
+                             offsetY: s.offsetY,
+                             width: s.pixelsWidth,
+                             height: s.pixelsHeight,
+                             pixels: Array.from(s.pixels)
+                           }))
+                         };
+                     }
+                 } catch (e) {
+                     console.warn(`Failed to decode Sprite ${id}:`, e);
+                     return { id, name: `Error Decoding (${id})`, error: true };
+                 }
+                 return null;
+             }))).filter(a => a !== null);
+        }
       } else {
         const mapping = TECHNICAL_ASSET_MAPPINGS[type];
         if (mapping && mapping.index === 2 && mapping.archive !== undefined) {
@@ -249,7 +357,20 @@ export class Cache {
           const files = await loader.getAllFiles();
           assets = Array.from(files.entries())
             .filter(([_, data]) => data.length > 0 && (data.length > 1 || data[0] !== 0))
-            .map(([id, data]) => ({ id, size: data.length, status: 'Encoded' }));
+            .map(([id, data]) => {
+              try {
+                if ((type as any) === 'healthBar') return JSON.parse(JSON.stringify(HealthBar.decode(new Reader(data), id as HealthBarID)));
+                if ((type as any) === 'hitsplat') return JSON.parse(JSON.stringify(Hitsplat.decode(new Reader(data), id as HitsplatID)));
+                if ((type as any) === 'worldEntity') return JSON.parse(JSON.stringify(WorldEntity.decode(new Reader(data), id as WorldEntityID)));
+                if ((type as any) === 'dbRow') return JSON.parse(JSON.stringify(DBRow.decode(new Reader(data), id as DBRowID)));
+                if ((type as any) === 'dbTable') return JSON.parse(JSON.stringify(DBTable.decode(new Reader(data), id as DBTableID)));
+                
+                return { id, size: data.length, status: 'Encoded' };
+              } catch (e) {
+                console.warn(`Failed to decode ${type} ${id}:`, e);
+                return { id, name: `Error Decoding (${id})`, error: true };
+              }
+            });
         } else if (mapping && mapping.index !== undefined) {
           const loader = new ArchiveLoader(this, mapping.index);
           const count = await loader.getCount();
@@ -270,6 +391,16 @@ export class Cache {
     }
 
     return assets;
+  }
+
+  /**
+   * Helper method to retrieve all rows for a specific database table.
+   * 
+   * @param tableId The ID of the DBTable.
+   * @returns A Promise resolving to an array of DBRows.
+   */
+  async getDBRows(tableId: number): Promise<DBRow[]> {
+    return (await DBTable.loadRows(this.provider, tableId)) || [];
   }
 }
 
@@ -298,16 +429,18 @@ export const getMetadata = async (options: LoadCacheOptions = {}): Promise<Cache
  * @param options Configuration options for loading the cache.
  * @param limit Maximum number of assets to return.
  * @param offset Number of assets to skip.
+ * @param filtering Optional filtering options.
  * @returns A Promise resolving to an array of decoded asset objects.
  */
 export const getAssetsByType = async (
   type: keyof AssetCounts, 
   options: LoadCacheOptions = {},
   limit?: number,
-  offset?: number
+  offset?: number,
+  filtering?: { tableId?: number }
 ): Promise<any[]> => {
   const cache = await Cache.load(options);
-  return await cache.getAssets(type, limit, offset);
+  return await cache.getAssets(type, limit, offset, filtering);
 };
 
 /**

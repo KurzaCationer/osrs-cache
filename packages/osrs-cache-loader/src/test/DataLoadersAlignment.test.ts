@@ -202,4 +202,91 @@ describe("Data Loaders Alignment", () => {
 
     AlignmentTester.compare("HealthBars", expected, actual);
   }, 30000);
+
+  it("should align WorldEntity definitions", async () => {
+    const archive = await provider.getArchive(2, 72);
+    if (!archive) throw new Error("WorldEntity archive not found");
+
+    const expected = new Map<number, any>();
+    const actual = new Map<number, any>();
+
+    const version = await provider.getVersion(2);
+    const files = Array.from(archive.getFiles().values()).slice(0, 100);
+
+    for (const file of files) {
+        const c2Reader = new cache2.Reader(file.data, version as any);
+        // @ts-expect-error - cache2 might not have types for everything
+        if (!cache2.WorldEntity) {
+             console.warn("cache2.WorldEntity not available, skipping alignment");
+             return;
+        }
+        // @ts-expect-error - cache2 might not have types for everything
+        const exp = cache2.WorldEntity.decode(c2Reader, file.id as any);
+        expected.set(file.id, exp);
+
+        const ourReader = new (await import("../cache/Reader")).Reader(file.data, version);
+        const act = (await import("../cache/loaders/WorldEntity")).WorldEntity.decode(ourReader, file.id as any);
+        actual.set(file.id, act);
+    }
+
+    AlignmentTester.compare("WorldEntities", expected, actual);
+  }, 30000);
+
+  it("should align DBRow definitions", async () => {
+    const archive = await provider.getArchive(2, 38);
+    if (!archive) throw new Error("DBRow archive not found");
+
+    const expected = new Map<number, any>();
+    const actual = new Map<number, any>();
+
+    const version = await provider.getVersion(2);
+    const files = Array.from(archive.getFiles().values()).slice(0, 100);
+
+    for (const file of files) {
+        const c2Reader = new cache2.Reader(file.data, version as any);
+        // @ts-expect-error
+        if (!cache2.DBRow) {
+             console.warn("cache2.DBRow not available, skipping alignment");
+             return;
+        }
+        // @ts-expect-error
+        const exp = cache2.DBRow.decode(c2Reader, file.id as any);
+        expected.set(file.id, exp);
+
+        const ourReader = new (await import("../cache/Reader")).Reader(file.data, version);
+        const act = (await import("../cache/loaders/DBRow")).DBRow.decode(ourReader, file.id as any);
+        actual.set(file.id, act);
+    }
+
+    AlignmentTester.compare("DBRows", expected, actual);
+  }, 30000);
+
+  it("should align DBTable definitions", async () => {
+    const archive = await provider.getArchive(2, 39);
+    if (!archive) throw new Error("DBTable archive not found");
+
+    const expected = new Map<number, any>();
+    const actual = new Map<number, any>();
+
+    const version = await provider.getVersion(2);
+    const files = Array.from(archive.getFiles().values()).slice(0, 100);
+
+    for (const file of files) {
+        const c2Reader = new cache2.Reader(file.data, version as any);
+        // @ts-expect-error
+        if (!cache2.DBTable) {
+             console.warn("cache2.DBTable not available, skipping alignment");
+             return;
+        }
+        // @ts-expect-error
+        const exp = cache2.DBTable.decode(c2Reader, file.id as any);
+        expected.set(file.id, exp);
+
+        const ourReader = new (await import("../cache/Reader")).Reader(file.data, version);
+        const act = (await import("../cache/loaders/DBRow")).DBTable.decode(ourReader, file.id as any);
+        actual.set(file.id, act);
+    }
+
+    AlignmentTester.compare("DBTables", expected, actual);
+  }, 30000);
 });

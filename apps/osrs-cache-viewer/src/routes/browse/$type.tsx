@@ -2,6 +2,8 @@ import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router'
 import { JsonAssetTable, Loader } from '@kurza/ui-components'
 import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 import { AssetBrowserLayout } from '../../components/AssetBrowserLayout'
+import { SpriteCanvas } from '../../components/SpriteCanvas'
+import { DBTableBrowser } from '../../components/DBTableBrowser'
 import { fetchAssets } from '../../integrations/osrs-cache-api'
 import { css } from '../../styled-system/css'
 import type { AssetCounts } from '@kurza/osrs-cache-loader'
@@ -11,6 +13,7 @@ export const Route = createFileRoute('/browse/$type')({
     return {
       limit: Number(search?.limit ?? 50),
       offset: Number(search?.offset ?? 0),
+      tableId: search?.tableId !== undefined ? Number(search.tableId) : undefined,
     }
   },
   component: BrowseType,
@@ -19,19 +22,21 @@ export const Route = createFileRoute('/browse/$type')({
       data: { 
         type: params.type as keyof AssetCounts,
         limit: search?.limit ?? 50,
-        offset: search?.offset ?? 0
+        offset: search?.offset ?? 0,
+        tableId: search?.tableId,
       } 
     })
   }
 })
 
-export function BrowseTypeContent({ type, data, isLoading, isError, limit, offset }: { 
+export function BrowseTypeContent({ type, data, isLoading, isError, limit, offset, tableId }: { 
   type: string, 
   data?: Array<any>, 
   isLoading: boolean, 
   isError: boolean,
   limit: number,
-  offset: number
+  offset: number,
+  tableId?: number
 }) {
   const navigate = useNavigate()
 
@@ -47,8 +52,10 @@ export function BrowseTypeContent({ type, data, isLoading, isError, limit, offse
     })
   }
 
+  const title = `Browsing ${type}${tableId !== undefined ? ` (Table ${tableId})` : ''}`
+
   return (
-    <AssetBrowserLayout title={`Browsing ${type}`}>
+    <AssetBrowserLayout title={title}>
       {isLoading ? (
         <div className={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', py: '20', gap: '4' })}>
           <Loader size={48} />
@@ -62,7 +69,24 @@ export function BrowseTypeContent({ type, data, isLoading, isError, limit, offse
         </div>
       ) : (
         <div className={css({ display: 'flex', flexDirection: 'column', gap: '4' })}>
-          <JsonAssetTable data={data ?? []} />
+          {type === 'sprite' ? (
+            <div className={css({ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+                gap: '4'
+            })}>
+                {data?.map((item: any) => (
+                    <div key={item.id} className={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2' })}>
+                        <SpriteCanvas data={item} />
+                        <span className={css({ fontSize: 'xs', color: 'text.muted' })}>ID: {item.id}</span>
+                    </div>
+                ))}
+            </div>
+          ) : type === 'dbTable' ? (
+            <DBTableBrowser data={data ?? []} />
+          ) : (
+            <JsonAssetTable data={data ?? []} />
+          )}
           
           <div className={css({ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '4', mt: '4', py: '2' })}>
             <button
@@ -125,6 +149,7 @@ export function BrowseType() {
   const search = useSearch({ from: '/browse/$type' })
   const limit = search?.limit ?? 50
   const offset = search?.offset ?? 0
+  const tableId = (search as any)?.tableId
   
-  return <BrowseTypeContent type={type} data={data} isLoading={false} isError={false} limit={limit} offset={offset} />
+  return <BrowseTypeContent type={type} data={data} isLoading={false} isError={false} limit={limit} offset={offset} tableId={tableId} />
 }

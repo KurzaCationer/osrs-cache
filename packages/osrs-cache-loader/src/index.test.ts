@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
-import { getMetadata, loadCache } from "./index";
+import { getMetadata, loadCache, Cache } from "./index";
 import fs from "fs/promises";
 import path from "path";
 import os from "os";
@@ -144,5 +144,26 @@ describe("getMetadata", () => {
     expect(metadata.timestamp).toBe("2023-01-01T00:00:00Z");
     expect(metadata.source).toBe("OpenRS2 Archive");
     expect(metadata.counts.item).toBe(0);
+  });
+});
+
+describe("Cache Helpers", () => {
+  it("should have getDBRows method", async () => {
+    const mockCaches = [{ id: 1, scope: "runescape", game: "oldschool", timestamp: "2023-01-01T00:00:00Z" }];
+    
+    // Valid Table Mock
+    const mockTable = new Uint8Array([5, 0, 0, 1, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]);
+    const mockContainer = new Uint8Array(5 + mockTable.length);
+    mockContainer[0] = 0; mockContainer[1] = 0; mockContainer[2] = 0; mockContainer[3] = 0; mockContainer[4] = 18;
+    mockContainer.set(mockTable, 5);
+
+    (global.fetch as any).mockImplementation((url: string) => {
+        if (url.includes("caches.json")) return Promise.resolve({ ok: true, json: async () => mockCaches });
+        return Promise.resolve({ ok: true, arrayBuffer: async () => mockContainer.buffer });
+    });
+    
+    const cache = await Cache.load();
+    // @ts-expect-error - Method might not exist yet
+    expect(typeof cache.getDBRows).toBe('function');
   });
 });

@@ -1,0 +1,9 @@
+{
+  "track_id": "asset_decoding_gap_fill_20260207",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-02-07T14:45:00Z",
+  "updated_at": "2026-02-07T14:45:00Z",
+  "description": "Full asset decoding parity with cache2 for Database, Sprites, Health Bars, Hit Splats, and World Entities.",
+  "track_root_sha": "afd2db96ba683ceb0a10daa3c2294570e6be4fdf"
+}

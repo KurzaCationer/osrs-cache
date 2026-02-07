@@ -37,7 +37,8 @@ export interface AssetSummaryRow {
  * List of asset types that have full decoding implementation in the loader.
  */
 const IMPLEMENTED_TYPES: Array<keyof AssetCounts> = [
-  'item', 'npc', 'obj', 'enum', 'struct', 'param', 'underlay', 'animation'
+  'item', 'npc', 'obj', 'enum', 'struct', 'param', 'underlay', 'animation',
+  'sprite', 'hitsplat', 'healthBar', 'dbRow', 'dbTable', 'worldEntity'
 ]
 
 /**

@@ -22,10 +22,10 @@ export const fetchSummary = createServerFn({
  */
 export const fetchAssets = createServerFn({
   method: 'GET',
-}).handler(async ({ data }: { data: { type: keyof AssetCounts, limit?: number, offset?: number } }) => {
-    const { type, limit, offset } = data;
+}).handler(async ({ data }: { data: { type: keyof AssetCounts, limit?: number, offset?: number, tableId?: number } }) => {
+    const { type, limit, offset, tableId } = data;
     try {
-      return await getAssetsByType(type, { game: 'oldschool' }, limit, offset)
+      return await getAssetsByType(type, { game: 'oldschool' }, limit, offset, { tableId })
     } catch (error) {
       console.error(`Failed to load assets for type ${type}:`, error)
       throw new Error(`Failed to load ${type} data.`)
@@ -35,7 +35,7 @@ export const fetchAssets = createServerFn({
 /**
  * TanStack Query options for fetching assets by type.
  */
-export const assetsQueryOptions = (type: keyof AssetCounts, limit?: number, offset?: number) => queryOptions({
-  queryKey: ['assets', type, limit, offset],
-  queryFn: () => fetchAssets({ data: { type, limit, offset } }),
+export const assetsQueryOptions = (type: keyof AssetCounts, limit?: number, offset?: number, tableId?: number) => queryOptions({
+  queryKey: ['assets', type, limit, offset, tableId],
+  queryFn: () => fetchAssets({ data: { type, limit, offset, tableId } }),
 })
