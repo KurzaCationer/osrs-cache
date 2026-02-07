@@ -322,7 +322,15 @@ export class Cache {
         const loader = new ArchiveLoader(this, 8);
         const table = this.tables.get(8);
         if (table) {
-             const archiveIds = Array.from(table.archives.keys());
+             let archiveIds = Array.from(table.archives.keys());
+             
+             // Apply pagination BEFORE decoding to avoid OOM and network timeouts
+             if (offset !== undefined || limit !== undefined) {
+               const start = offset ?? 0;
+               const end = limit !== undefined ? start + limit : undefined;
+               archiveIds = archiveIds.slice(start, end);
+             }
+
              assets = (await Promise.all(archiveIds.map(async (id) => {
                  try {
                      const data = await loader.getArchive(id);
@@ -349,6 +357,9 @@ export class Cache {
                  }
                  return null;
              }))).filter(a => a !== null);
+             
+             // Return early since we already handled pagination
+             return assets;
         }
       } else {
         const mapping = TECHNICAL_ASSET_MAPPINGS[type];
