@@ -100,13 +100,7 @@ export function StandardTable<T extends Record<string, unknown>>({
     ) {
       onEndReached?.()
     }
-  }, [
-    virtualItems,
-    rows.length,
-    onEndReached,
-    hasNextPage,
-    isFetchingNextPage,
-  ])
+  }, [virtualItems, rows.length, onEndReached, hasNextPage, isFetchingNextPage])
 
   // In some test environments (like jsdom), the virtualizer might not report items correctly
   // due to missing DOM measurements. We'll fallback to rendering all rows if virtualItems

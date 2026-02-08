@@ -53,7 +53,8 @@ export function BrowseTypeContent({
 
     const handleScroll = () => {
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 500 &&
         hasNextPage &&
         !isFetchingNextPage
       ) {
@@ -78,26 +79,119 @@ export function BrowseTypeContent({
           <div
             className={css({
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+              gridAutoFlow: 'dense',
               gap: '4',
             })}
           >
-            {(data as Array<{ id: number }>).map((item) => (
-              <div
-                key={item.id}
-                className={css({
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '2',
-                })}
-              >
-                <SpriteCanvas data={item} />
-                <span className={css({ fontSize: 'xs', color: 'text.muted' })}>
-                  ID: {item.id}
-                </span>
-              </div>
-            ))}
+            {(data as Array<{ id: number; width: number; height: number }>).map(
+              (item) => {
+                const span = Math.max(
+                  1,
+                  Math.min(6, Math.ceil(item.width / 140)),
+                )
+
+                const handleDownload = () => {
+                  const canvas = document.querySelector(
+                    `[data-id="sprite-${item.id}"] canvas`,
+                  ) as HTMLCanvasElement
+                  if (canvas) {
+                    const url = canvas.toDataURL('image/png')
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = `sprite-${item.id}.png`
+                    a.click()
+                  }
+                }
+
+                return (
+                  <div
+                    key={item.id}
+                    data-id={`sprite-${item.id}`}
+                    style={{ gridColumn: `span ${span}` }}
+                    className={css({
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '3',
+                      border: '1px solid',
+                      borderColor: 'border.subtle',
+                      p: '4',
+                      rounded: 'xl',
+                      bg: 'bg.surface',
+                      maxWidth: '100%',
+                      overflow: 'hidden',
+                      boxShadow: 'sm',
+                    })}
+                  >
+                    <div
+                      className={css({
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flex: '1',
+                        width: '100%',
+                        minHeight: '100px',
+                      })}
+                    >
+                      <SpriteCanvas data={item as any} />
+                    </div>
+                    <div
+                      className={css({
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '2',
+                        mt: 'auto',
+                        width: '100%',
+                      })}
+                    >
+                      <div className={css({ textAlign: 'center' })}>
+                        <div
+                          className={css({
+                            fontSize: 'xs',
+                            fontWeight: 'bold',
+                            color: 'text.main',
+                          })}
+                        >
+                          ID: {item.id}
+                        </div>
+                        <div
+                          className={css({
+                            fontSize: '10px',
+                            color: 'text.dim',
+                            fontFamily: 'mono',
+                          })}
+                        >
+                          {item.width} × {item.height}
+                        </div>
+                      </div>
+                      <button
+                        onClick={handleDownload}
+                        className={css({
+                          width: '100%',
+                          px: '2',
+                          py: '1.5',
+                          fontSize: 'xs',
+                          fontWeight: 'bold',
+                          cursor: 'pointer',
+                          bg: 'bg.active',
+                          color: 'text.main',
+                          rounded: 'md',
+                          border: '1px solid',
+                          borderColor: 'border.default',
+                          _hover: { bg: 'bg.muted' },
+                          transition: 'background-color 0.2s',
+                        })}
+                      >
+                        Download PNG
+                      </button>
+                    </div>
+                  </div>
+                )
+              },
+            )}
           </div>
         ) : type === 'dbTable' ? (
           <DBTableBrowser

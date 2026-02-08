@@ -70,52 +70,20 @@ export const SpriteCanvas = ({ data }: { data: SpriteData }) => {
   }, [data])
 
   return (
-    <div
+    <canvas
+      ref={canvasRef}
+      width={data.width}
+      height={data.height}
+      data-testid="sprite-canvas"
       className={css({
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '2',
+        imageRendering: 'pixelated',
+        border: '1px solid',
+        borderColor: 'border.default',
+        maxWidth: '100%',
+        height: 'auto',
+        backgroundImage:
+          'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==")', // Checkerboard
       })}
-    >
-      <canvas
-        ref={canvasRef}
-        width={data.width}
-        height={data.height}
-        data-testid="sprite-canvas"
-        className={css({
-          imageRendering: 'pixelated',
-          border: '1px solid',
-          borderColor: 'border.default',
-          backgroundImage:
-            'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==")', // Checkerboard
-        })}
-      />
-      <button
-        onClick={() => {
-          const canvas = canvasRef.current
-          if (canvas) {
-            const url = canvas.toDataURL('image/png')
-            const a = document.createElement('a')
-            a.href = url
-            a.download = `sprite-${data.id}.png`
-            a.click()
-          }
-        }}
-        className={css({
-          px: '2',
-          py: '1',
-          fontSize: 'xs',
-          cursor: 'pointer',
-          bg: 'bg.active',
-          color: 'text.main',
-          rounded: 'sm',
-          border: 'none',
-          _hover: { bg: 'bg.muted' },
-        })}
-      >
-        Download PNG
-      </button>
-    </div>
+    />
   )
 }
