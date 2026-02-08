@@ -7,6 +7,9 @@ import { StandardTable } from './StandardTable'
 
 interface JsonAssetTableProps<T extends Record<string, unknown>> {
   data: Array<T>
+  onEndReached?: () => void
+  hasNextPage?: boolean
+  isFetchingNextPage?: boolean
 }
 
 /**
@@ -15,6 +18,9 @@ interface JsonAssetTableProps<T extends Record<string, unknown>> {
  */
 export function JsonAssetTable<T extends Record<string, unknown>>({
   data,
+  onEndReached,
+  hasNextPage,
+  isFetchingNextPage,
 }: JsonAssetTableProps<T>) {
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<T>()
@@ -67,6 +73,9 @@ export function JsonAssetTable<T extends Record<string, unknown>>({
         virtualized
         height="100%"
         estimateRowHeight={60}
+        onEndReached={onEndReached}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
       />
     </div>
   )

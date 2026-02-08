@@ -1,6 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getAssetsByType, getMetadata } from '@kurza/osrs-cache-loader'
-import { queryOptions } from '@tanstack/react-query'
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 import type { AssetCounts } from '@kurza/osrs-cache-loader'
 
 /**
@@ -76,4 +76,30 @@ export const assetsQueryOptions = (
   queryOptions({
     queryKey: ['assets', type, limit, offset, tableId],
     queryFn: () => fetchAssets({ data: { type, limit, offset, tableId } }),
+  })
+
+/**
+ * TanStack Query infinite options for fetching assets by type.
+ */
+export const infiniteAssetsQueryOptions = (
+  type: keyof AssetCounts,
+  limit: number = 50,
+  tableId?: number,
+) =>
+  infiniteQueryOptions({
+    queryKey: ['assets', 'infinite', type, limit, tableId],
+    queryFn: ({ pageParam }) =>
+      fetchAssets({
+        data: {
+          type,
+          limit,
+          offset: pageParam as number,
+          tableId,
+        },
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length < limit) return undefined
+      return allPages.length * limit
+    },
   })

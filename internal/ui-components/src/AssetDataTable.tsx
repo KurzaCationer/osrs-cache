@@ -6,6 +6,7 @@ import { StandardTable } from './StandardTable'
 
 interface AssetDataTableProps<T extends Record<string, unknown>> {
   data: Array<T>
+  onEndReached?: () => void
 }
 
 /**
@@ -13,6 +14,7 @@ interface AssetDataTableProps<T extends Record<string, unknown>> {
  */
 export function AssetDataTable<T extends Record<string, unknown>>({
   data,
+  onEndReached,
 }: AssetDataTableProps<T>) {
   const [globalFilter, setGlobalFilter] = useState('')
 
@@ -88,6 +90,7 @@ export function AssetDataTable<T extends Record<string, unknown>>({
         virtualized
         height="100%"
         estimateRowHeight={45}
+        onEndReached={onEndReached}
       />
 
       <div className={css({ fontSize: 'xs', color: 'text.dim', px: '2' })}>

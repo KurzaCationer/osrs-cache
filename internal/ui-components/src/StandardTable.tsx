@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import {
   flexRender,
   getCoreRowModel,
@@ -36,6 +36,9 @@ interface StandardTableProps<T extends Record<string, unknown>> {
   virtualized?: boolean
   height?: string | number
   estimateRowHeight?: number
+  onEndReached?: () => void
+  hasNextPage?: boolean
+  isFetchingNextPage?: boolean
 }
 
 const tableRecipe = cva({
@@ -61,6 +64,9 @@ export function StandardTable<T extends Record<string, unknown>>({
   virtualized = false,
   height = 'auto',
   estimateRowHeight = 45,
+  onEndReached,
+  hasNextPage,
+  isFetchingNextPage,
 }: StandardTableProps<T>) {
   const tableContainerRef = useRef<HTMLDivElement>(null)
 
@@ -81,6 +87,26 @@ export function StandardTable<T extends Record<string, unknown>>({
   })
 
   const virtualItems = rowVirtualizer.getVirtualItems()
+
+  // Trigger onEndReached when the last item becomes visible
+  useEffect(() => {
+    const lastItem = virtualItems[virtualItems.length - 1]
+    if (!lastItem) return
+
+    if (
+      lastItem.index >= rows.length - 1 &&
+      hasNextPage &&
+      !isFetchingNextPage
+    ) {
+      onEndReached?.()
+    }
+  }, [
+    virtualItems,
+    rows.length,
+    onEndReached,
+    hasNextPage,
+    isFetchingNextPage,
+  ])
 
   // In some test environments (like jsdom), the virtualizer might not report items correctly
   // due to missing DOM measurements. We'll fallback to rendering all rows if virtualItems

@@ -6,8 +6,14 @@ import { css } from '../styled-system/css'
 
 export function DBTableBrowser({
   data,
+  onEndReached,
+  hasNextPage,
+  isFetchingNextPage,
 }: {
   data: Array<Record<string, unknown>>
+  onEndReached?: () => void
+  hasNextPage?: boolean
+  isFetchingNextPage?: boolean
 }) {
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Record<string, unknown>>()
@@ -51,7 +57,13 @@ export function DBTableBrowser({
 
   return (
     <div data-testid="db-table-browser">
-      <StandardTable data={data} columns={columns} />
+      <StandardTable
+        data={data}
+        columns={columns}
+        onEndReached={onEndReached}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+      />
     </div>
   )
 }

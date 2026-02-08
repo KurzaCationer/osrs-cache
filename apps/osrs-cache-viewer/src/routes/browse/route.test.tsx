@@ -57,40 +57,13 @@ describe('Browse Type Route', () => {
       <BrowseTypeContent
         type="items"
         data={[{ id: 1, name: 'Bronze sword' }]}
-        isLoading={false}
-        isError={false}
-        limit={50}
-        offset={0}
+        isFetchingNextPage={false}
+        hasNextPage={false}
+        fetchNextPage={vi.fn()}
       />,
     )
     expect(screen.getByText('Browsing items')).toBeDefined()
     expect(screen.getByTestId('json-asset-table')).toBeDefined()
-  })
-
-  it('renders loading state', () => {
-    render(
-      <BrowseTypeContent
-        type="items"
-        isLoading={true}
-        isError={false}
-        limit={50}
-        offset={0}
-      />,
-    )
-    expect(screen.getByText(/Loading assets from cache/i)).toBeDefined()
-  })
-
-  it('renders error state', () => {
-    render(
-      <BrowseTypeContent
-        type="items"
-        isLoading={false}
-        isError={true}
-        limit={50}
-        offset={0}
-      />,
-    )
-    expect(screen.getByText(/Failed to load assets/i)).toBeDefined()
   })
 
   it('renders SpriteCanvas grid for sprites', () => {
@@ -98,10 +71,9 @@ describe('Browse Type Route', () => {
       <BrowseTypeContent
         type="sprite"
         data={[{ id: 100, width: 10 }]}
-        isLoading={false}
-        isError={false}
-        limit={50}
-        offset={0}
+        isFetchingNextPage={false}
+        hasNextPage={false}
+        fetchNextPage={vi.fn()}
       />,
     )
     expect(screen.getAllByTestId('sprite-canvas').length).toBe(1)
@@ -113,10 +85,9 @@ describe('Browse Type Route', () => {
       <BrowseTypeContent
         type="healthBar"
         data={[{ id: 1, duration: 50 }]}
-        isLoading={false}
-        isError={false}
-        limit={50}
-        offset={0}
+        isFetchingNextPage={false}
+        hasNextPage={false}
+        fetchNextPage={vi.fn()}
       />,
     )
     expect(screen.getByTestId('json-asset-table')).toBeDefined()
@@ -128,10 +99,9 @@ describe('Browse Type Route', () => {
       <BrowseTypeContent
         type="dbTable"
         data={[{ id: 1 }]}
-        isLoading={false}
-        isError={false}
-        limit={50}
-        offset={0}
+        isFetchingNextPage={false}
+        hasNextPage={false}
+        fetchNextPage={vi.fn()}
       />,
     )
     expect(screen.getByTestId('db-table-browser')).toBeDefined()
@@ -143,10 +113,9 @@ describe('Browse Type Route', () => {
         type="dbRow"
         tableId={1}
         data={[{ id: 1, values: [] }]}
-        isLoading={false}
-        isError={false}
-        limit={50}
-        offset={0}
+        isFetchingNextPage={false}
+        hasNextPage={false}
+        fetchNextPage={vi.fn()}
       />,
     )
     expect(screen.getByText('Browsing dbRow (Table 1)')).toBeDefined()
