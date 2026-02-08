@@ -28,6 +28,10 @@ vi.mock('@kurza/ui-components', async () => {
   }
 })
 
+vi.mock('../../components/DBTableBrowser', () => ({
+  DBTableBrowser: ({ data }: any) => <div data-testid="db-table-browser">DB Table with {data?.length} rows</div>
+}))
+
 vi.mock('../../components/SpriteCanvas', () => ({
   SpriteCanvas: ({ data }: any) => <div data-testid="sprite-canvas">Sprite {data.id}</div>
 }))

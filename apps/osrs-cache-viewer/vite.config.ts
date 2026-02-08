@@ -35,5 +35,10 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     resolveSnapshotPath: (path: string, extension: string) => path + extension,
+    server: {
+      deps: {
+        inline: ['@kurza/ui-components'],
+      },
+    },
   },
 })

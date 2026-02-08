@@ -11,10 +11,10 @@ interface JsonViewerProps {
 
 const customTheme = {
   '--w-rjv-font-family': 'inherit',
-  '--w-rjv-color': '#f97316', // Orange for keys (using general color for now as key color)
-  '--w-rjv-key-color': '#f97316',
+  '--w-rjv-color': '#ff9800', // osrsGold
+  '--w-rjv-key-color': '#ff9800', // osrsGold
   '--w-rjv-background-color': 'transparent',
-  '--w-rjv-line-color': '#323232',
+  '--w-rjv-line-color': '#262626', // neutral.800
   '--w-rjv-arrow-color': '#94a3b8',
   
   '--w-rjv-curlybraces-color': '#94a3b8',
@@ -22,9 +22,9 @@ const customTheme = {
   '--w-rjv-brackets-color': '#94a3b8',
 
   '--w-rjv-type-string-color': '#22c55e', // Green
-  '--w-rjv-type-int-color': '#3b82f6',    // Blue
-  '--w-rjv-type-float-color': '#3b82f6',  // Blue
-  '--w-rjv-type-bigint-color': '#3b82f6', // Blue
+  '--w-rjv-type-int-color': '#2196f3',    // osrsBlue
+  '--w-rjv-type-float-color': '#2196f3',  // osrsBlue
+  '--w-rjv-type-bigint-color': '#2196f3', // osrsBlue
   '--w-rjv-type-boolean-color': '#a855f7', // Purple
   '--w-rjv-type-null-color': '#64748b',    // Slate
   '--w-rjv-type-nan-color': '#ef4444',     // Red
@@ -60,6 +60,12 @@ export function JsonViewer({ value, collapsed = 1, keyName = false }: JsonViewer
       fontFamily: 'mono',
       w: 'full',
       maxWidth: '100%',
+      '& .w-rjv-object-size': {
+        color: 'secondary.default !important',
+        opacity: '1 !important',
+        fontWeight: 'bold',
+        ml: '1',
+      }
     })}>
       <div className={css({ 
         position: 'absolute', 

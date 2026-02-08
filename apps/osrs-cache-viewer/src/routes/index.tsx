@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ExternalLink, RefreshCw, CheckCircle, AlertTriangle } from 'lucide-react'
+import { AlertTriangle, CheckCircle, ExternalLink, RefreshCw } from 'lucide-react'
 import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import { AssetSummaryTable } from '@kurza/ui-components'
 import { css } from '../styled-system/css'
@@ -16,7 +16,7 @@ export function Home() {
   return <HomeContent data={data as CacheMetadata} />
 }
 
-export function HomeContent({ data }: { data: CacheMetadata }) {
+export function HomeContent({ data, isLoading = false }: { data: CacheMetadata, isLoading?: boolean }) {
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
@@ -51,63 +51,79 @@ export function HomeContent({ data }: { data: CacheMetadata }) {
     })}>
       <div className={css({ maxW: '6xl', mx: 'auto' })}>
         <header className={css({ mb: '10' })}>
-          <div className={css({ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '4' })}>
-            <div>
+          <div className={css({ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8' })}>
+            <div className={css({ flex: '1', minW: '300px' })}>
               <h2 className={css({ fontSize: '3xl', fontWeight: 'bold', mb: '2' })}>Cache Summary</h2>
               <p className={css({ color: 'text.muted' })}>
                 Overview of assets loaded from the latest OpenRS2 OSRS cache.
               </p>
             </div>
-            <div className={css({ bg: 'bg.surface', p: '4', rounded: 'lg', border: '1px solid', borderColor: 'border.default', fontSize: 'sm', minW: '300px' })}>
-              <div className={css({ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 'x-4 y-2' })}>
-                <span className={css({ color: 'text.dim' })}>Cache ID:</span>
-                <span className={css({ color: 'secondary.default', fontFamily: 'mono' })}>{data.id}</span>
-                
-                <span className={css({ color: 'text.dim' })}>Version:</span>
-                <span className={css({ color: 'text.main', fontWeight: 'medium' })}>{build}</span>
-                
-                <span className={css({ color: 'text.dim' })}>Timestamp:</span>
-                <span className={css({ color: 'text.main' })}>{mounted ? date : '---'}</span>
-
-                <span className={css({ color: 'text.dim' })}>Sync Status:</span>
-                <div className={css({ display: 'flex', alignItems: 'center', gap: '2' })}>
-                  {data.isStale ? (
-                    <span className={css({ color: 'primary.default', display: 'flex', alignItems: 'center', gap: '1', fontWeight: 'bold' })}>
-                      <AlertTriangle size={14} /> Update Available
-                    </span>
-                  ) : (
-                    <span className={css({ color: 'secondary.default', display: 'flex', alignItems: 'center', gap: '1' })}>
-                      <CheckCircle size={14} /> Synced
-                    </span>
-                  )}
-                </div>
-
-                <span className={css({ color: 'text.dim' })}>Last Checked:</span>
-                <span className={css({ color: 'text.muted', fontSize: 'xs' })}>{lastChecked}</span>
+            
+            <div className={css({ 
+              bg: 'bg.surface', 
+              p: '6', 
+              rounded: 'xl', 
+              border: '1px solid', 
+              borderColor: 'border.default', 
+              fontSize: 'sm', 
+              minW: { base: 'full', md: '400px' },
+              boxShadow: 'sm'
+            })}>
+              <h3 className={css({ fontSize: 'xs', fontWeight: 'bold', textTransform: 'uppercase', color: 'text.muted', mb: '4', letterSpacing: 'wider' })}>
+                Technical Summary
+              </h3>
+              
+              <div className={css({ display: 'flex', flexDirection: 'column' })}>
+                {isLoading ? (
+                  <div className={css({ py: '8', display: 'flex', justifyContent: 'center' })}>
+                    <RefreshCw className={css({ animation: 'spin 2s linear infinite', color: 'text.dim' })} size={24} />
+                  </div>
+                ) : (
+                  <>
+                    <SummaryRow label="Cache ID" value={data.id} isMono />
+                    <SummaryRow label="Version" value={build} />
+                    <SummaryRow label="Timestamp" value={mounted ? date : '---'} />
+                    <SummaryRow 
+                      label="Sync Status" 
+                      value={
+                        data.isStale ? (
+                          <span className={css({ color: 'primary.default', display: 'flex', alignItems: 'center', gap: '1.5', fontWeight: 'bold' })}>
+                            <AlertTriangle size={14} /> Update Available
+                          </span>
+                        ) : (
+                          <span className={css({ color: 'secondary.default', display: 'flex', alignItems: 'center', gap: '1.5', fontWeight: 'medium' })}>
+                            <CheckCircle size={14} /> Synced
+                          </span>
+                        )
+                      } 
+                    />
+                    <SummaryRow label="Last Checked" value={lastChecked} isLast />
+                  </>
+                )}
               </div>
 
               <button
                 onClick={handleRefresh}
-                disabled={refreshing}
+                disabled={refreshing || isLoading}
                 className={css({
-                  mt: '4',
+                  mt: '6',
                   width: '100%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '2',
-                  py: '2',
+                  py: '2.5',
                   px: '4',
-                  bg: refreshing ? 'bg.muted' : 'bg.active',
+                  bg: (refreshing || isLoading) ? 'bg.muted' : 'bg.active',
                   color: 'text.main',
-                  rounded: 'md',
+                  rounded: 'lg',
                   fontSize: 'xs',
                   fontWeight: 'bold',
-                  cursor: refreshing ? 'not-allowed' : 'pointer',
+                  cursor: (refreshing || isLoading) ? 'not-allowed' : 'pointer',
                   border: '1px solid',
                   borderColor: 'border.default',
                   transition: 'all',
-                  _hover: { bg: refreshing ? 'bg.muted' : 'border.default' }
+                  _hover: { bg: (refreshing || isLoading) ? 'bg.muted' : 'border.default' }
                 })}
               >
                 <RefreshCw size={14} className={css({ animation: refreshing ? 'spin 2s linear infinite' : 'none' })} />
@@ -117,33 +133,40 @@ export function HomeContent({ data }: { data: CacheMetadata }) {
           </div>
         </header>
 
-        <AssetSummaryTable 
-          counts={data.counts} 
-          renderBrowseLink={(id, name) => (
-            <Link 
-              to="/browse/$type" 
-              params={{ type: id }}
-              className={css({ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '2', 
-                px: '3', 
-                py: '2', 
-                bg: 'bg.active', 
-                _hover: { bg: 'bg.muted' }, 
-                rounded: 'lg', 
-                fontSize: 'xs', 
-                fontWeight: 'medium', 
-                transition: 'colors',
-                color: 'text.main',
-                textDecoration: 'none'
-              })}
-            >
-              <ExternalLink size={14} />
-              Browse {name}
-            </Link>
-          )}
-        />
+        {isLoading ? (
+          <div className={css({ py: '20', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4' })}>
+            <RefreshCw className={css({ animation: 'spin 3s linear infinite', color: 'text.dim' })} size={48} />
+            <p className={css({ color: 'text.muted' })}>Loading cache data...</p>
+          </div>
+        ) : (
+          <AssetSummaryTable 
+            counts={data.counts} 
+            renderBrowseLink={(id, name) => (
+              <Link 
+                to="/browse/$type" 
+                params={{ type: id }}
+                className={css({ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '2', 
+                  px: '3', 
+                  py: '2', 
+                  bg: 'bg.active', 
+                  _hover: { bg: 'bg.muted' }, 
+                  rounded: 'lg', 
+                  fontSize: 'xs', 
+                  fontWeight: 'medium', 
+                  transition: 'colors',
+                  color: 'text.main',
+                  textDecoration: 'none'
+                })}
+              >
+                <ExternalLink size={14} />
+                Browse {name}
+              </Link>
+            )}
+          />
+        )}
 
         <footer className={css({ mt: '12', p: '6', bg: 'bg.muted', rounded: 'xl', borderWidth: '1px', borderColor: 'border.subtle', display: 'flex', alignItems: 'center', gap: '4' })}>
           <RefreshCw className={css({ color: 'secondary.default' })} size={20} />
@@ -153,5 +176,28 @@ export function HomeContent({ data }: { data: CacheMetadata }) {
         </footer>
       </div>
     </main>
+  )
+}
+
+function SummaryRow({ label, value, isMono = false, isLast = false }: { label: string, value: React.ReactNode, isMono?: boolean, isLast?: boolean }) {
+  return (
+    <div className={css({ 
+      display: 'flex', 
+      justifyContent: 'space-between', 
+      alignItems: 'center',
+      py: '3',
+      borderBottom: isLast ? 'none' : '1px solid',
+      borderColor: 'border.subtle'
+    })}>
+      <span className={css({ color: 'text.muted', fontWeight: 'medium' })}>{label}</span>
+      <span className={css({ 
+        color: isMono ? 'secondary.default' : 'text.main', 
+        fontFamily: isMono ? 'mono' : 'sans',
+        fontWeight: isMono ? 'normal' : 'medium',
+        fontSize: label === 'Last Checked' ? 'xs' : 'sm'
+      })}>
+        {value}
+      </span>
+    </div>
   )
 }

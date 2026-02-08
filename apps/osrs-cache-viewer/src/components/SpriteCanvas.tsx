@@ -1,6 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { css } from '../styled-system/css';
 
-export const SpriteCanvas = ({ data }: { data: any }) => {
+export const SpriteCanvas = ({ data }: { data: Record<string, any> }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -13,7 +14,7 @@ export const SpriteCanvas = ({ data }: { data: any }) => {
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (data.sprites && data.sprites.length > 0) {
+        if (data.sprites.length > 0) {
             // Render first frame
             const sprite = data.sprites[0];
             const imageData = ctx.createImageData(data.width, data.height);
@@ -54,17 +55,18 @@ export const SpriteCanvas = ({ data }: { data: any }) => {
     }, [data]);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+        <div className={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2' })}>
             <canvas
                 ref={canvasRef}
-                width={data?.width || 0}
-                height={data?.height || 0}
+                width={data.width}
+                height={data.height}
                 data-testid="sprite-canvas"
-                style={{
+                className={css({
                     imageRendering: 'pixelated',
-                    border: '1px solid #333',
+                    border: '1px solid',
+                    borderColor: 'border.default',
                     background: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==")' // Checkerboard
-                }}
+                })}
             />
             <button
                 onClick={() => {
@@ -73,15 +75,21 @@ export const SpriteCanvas = ({ data }: { data: any }) => {
                         const url = canvas.toDataURL('image/png');
                         const a = document.createElement('a');
                         a.href = url;
-                        a.download = `sprite-${data?.id ?? 'unknown'}.png`;
+                        a.download = `sprite-${data.id}.png`;
                         a.click();
                     }
                 }}
-                style={{
-                    padding: '4px 8px',
-                    fontSize: '12px',
-                    cursor: 'pointer'
-                }}
+                className={css({
+                    px: '2',
+                    py: '1',
+                    fontSize: 'xs',
+                    cursor: 'pointer',
+                    bg: 'bg.active',
+                    color: 'text.main',
+                    rounded: 'sm',
+                    border: 'none',
+                    _hover: { bg: 'bg.muted' }
+                })}
             >
                 Download PNG
             </button>

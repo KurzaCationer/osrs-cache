@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
-// @ts-ignore
+// @ts-ignore - Resolving workspace components in tests can sometimes cause false type errors
 import { AssetBrowserLayout } from './AssetBrowserLayout'
 
 describe('AssetBrowserLayout', () => {

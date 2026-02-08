@@ -1,0 +1,9 @@
+{
+  "track_id": "frontend_table_alignment_20260208",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-02-08T12:00:00Z",
+  "updated_at": "2026-02-08T12:00:00Z",
+  "track_root_sha": "f978da54feca798f8b8516664eab07547f57f417",
+  "description": "Align frontend table styles and improve property counter visibility in detail views."
+}
