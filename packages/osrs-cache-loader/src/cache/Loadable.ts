@@ -3,7 +3,10 @@ import type { CacheProvider } from './Cache'
 
 type LoadableType<T extends Loadable, TArgs extends Array<unknown>> = {
   decode: (reader: Reader, ...args: TArgs) => T
-  loadData: (cache: CacheProvider, ...args: TArgs) => Promise<Reader | undefined>
+  loadData: (
+    cache: CacheProvider,
+    ...args: TArgs
+  ) => Promise<Reader | undefined>
 }
 
 type OrNumber<T extends Array<unknown>> = T

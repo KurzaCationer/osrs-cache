@@ -3,7 +3,7 @@ import {
   AmbientSoundCurve,
   AmbientSoundVisibility,
   ObjShape,
-  Params
+  Params,
 } from '../types'
 import type { Reader } from '../Reader'
 import type {
@@ -17,7 +17,8 @@ import type {
   SoundEffectID,
   TextureID,
   VarPID,
-  VarbitID} from '../types';
+  VarbitID,
+} from '../types'
 
 export class Obj extends PerFileLoadable {
   constructor(public id: ObjID) {

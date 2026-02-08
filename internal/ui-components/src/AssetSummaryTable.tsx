@@ -466,7 +466,9 @@ export function AssetSummaryTable({
         cell: (info) => (
           <button
             onClick={info.row.getToggleExpandedHandler()}
-            className={actionButtonStyle({ isExpanded: info.row.getIsExpanded() })}
+            className={actionButtonStyle({
+              isExpanded: info.row.getIsExpanded(),
+            })}
           >
             <Info size={18} />
           </button>
@@ -567,7 +569,9 @@ export function AssetSummaryTable({
         <tbody>
           {table.getRowModel().rows.map((row) => (
             <Fragment key={row.id}>
-              <tr className={tableRowStyle({ isExpanded: row.getIsExpanded() })}>
+              <tr
+                className={tableRowStyle({ isExpanded: row.getIsExpanded() })}
+              >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className={css({ p: '4' })}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

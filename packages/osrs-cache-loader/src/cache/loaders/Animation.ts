@@ -1,7 +1,5 @@
 import { PerFileLoadable } from '../Loadable'
-import {
-  AnimRestartMode
-} from '../types'
+import { AnimRestartMode } from '../types'
 import type { Reader } from '../Reader'
 import type {
   AnimMayaID,
@@ -11,7 +9,8 @@ import type {
   PostAnimMoveMode,
   PreAnimMoveMode,
   SkeletonID,
-  SoundEffectID} from '../types';
+  SoundEffectID,
+} from '../types'
 
 export class FrameSound {
   constructor(

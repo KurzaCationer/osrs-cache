@@ -26,7 +26,6 @@ const copyButtonStyle = cva({
   },
 })
 
-
 interface JsonViewerProps {
   value: unknown
   collapsed?: boolean | number

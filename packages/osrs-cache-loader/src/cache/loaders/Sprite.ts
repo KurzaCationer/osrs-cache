@@ -1,6 +1,6 @@
 import { NamedPerArchiveLoadable } from '../Loadable'
 import type { Reader } from '../Reader'
-import type { SpriteID } from '../types';
+import type { SpriteID } from '../types'
 
 export class Sprite {
   constructor(

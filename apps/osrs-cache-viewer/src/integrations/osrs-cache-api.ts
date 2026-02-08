@@ -35,6 +35,9 @@ export const fetchAssets = createServerFn({
       tableId?: number
     }
   }) => {
+    if (!data) {
+      throw new Error('Data is required for fetchAssets')
+    }
     const { type, limit, offset, tableId } = data
     try {
       return await getAssetsByType(type, { game: 'oldschool' }, limit, offset, {

@@ -7,7 +7,7 @@ import { Cache, getMetadata, loadCache } from './index'
 let tempDir: string
 
 vi.mock('./paths', async (importOriginal) => {
-  const actual = (await importOriginal())
+  const actual = await importOriginal()
   return {
     ...actual,
     getCacheDir: vi.fn(() => tempDir),

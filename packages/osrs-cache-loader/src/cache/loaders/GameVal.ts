@@ -35,11 +35,7 @@ export class GameVal extends Loadable {
   ): Promise<string | undefined> {
     const clazz = obj.constructor as typeof Loadable & { gameval?: number }
     if (typeof clazz.gameval === 'number') {
-      const gv = await (this).load(
-        cache,
-        clazz.gameval as GameValID,
-        obj.id,
-      )
+      const gv = await this.load(cache, clazz.gameval as GameValID, obj.id)
       return gv?.name
     }
     return undefined

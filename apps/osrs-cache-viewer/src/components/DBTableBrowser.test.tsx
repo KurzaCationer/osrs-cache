@@ -9,7 +9,13 @@ vi.mock('@tanstack/react-router', () => ({
 
 // Mock StandardTable
 vi.mock('@kurza/ui-components', () => ({
-  StandardTable: ({ data, columns }: { data: Array<Record<string, unknown>>, columns: Array<{ header: string | (() => React.ReactNode) }> }) => (
+  StandardTable: ({
+    data,
+    columns,
+  }: {
+    data: Array<Record<string, unknown>>
+    columns: Array<{ header: string | (() => React.ReactNode) }>
+  }) => (
     <div data-testid="standard-table">
       <table>
         <thead>

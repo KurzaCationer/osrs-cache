@@ -22,9 +22,9 @@ export const Route = createFileRoute('/browse/$type')({
     return await fetchAssets({
       data: {
         type: params.type as keyof AssetCounts,
-        limit: search.limit ?? 50,
-        offset: search.offset ?? 0,
-        tableId: search.tableId,
+        limit: search?.limit ?? 50,
+        offset: search?.offset ?? 0,
+        tableId: search?.tableId,
       },
     })
   },
@@ -51,13 +51,19 @@ export function BrowseTypeContent({
 
   const handlePrev = () => {
     navigate({
-      search: (old: Record<string, unknown>) => ({ ...old, offset: Math.max(0, offset - limit) }),
+      search: (old: Record<string, unknown>) => ({
+        ...old,
+        offset: Math.max(0, offset - limit),
+      }),
     })
   }
 
   const handleNext = () => {
     navigate({
-      search: (old: Record<string, unknown>) => ({ ...old, offset: offset + limit }),
+      search: (old: Record<string, unknown>) => ({
+        ...old,
+        offset: offset + limit,
+      }),
     })
   }
 
@@ -134,9 +140,13 @@ export function BrowseTypeContent({
               ))}
             </div>
           ) : type === 'dbTable' ? (
-            <DBTableBrowser data={(data ?? []) as Array<Record<string, unknown>>} />
+            <DBTableBrowser
+              data={(data ?? []) as Array<Record<string, unknown>>}
+            />
           ) : (
-            <JsonAssetTable data={(data ?? []) as Array<Record<string, unknown>>} />
+            <JsonAssetTable
+              data={(data ?? []) as Array<Record<string, unknown>>}
+            />
           )}
 
           <div
@@ -206,9 +216,9 @@ export function BrowseTypeContent({
 export function BrowseType() {
   const { type } = Route.useParams()
   const data = Route.useLoaderData()
-  const search = useSearch({ from: '/browse/$type' })
-  const limit = search.limit
-  const offset = search.offset
+  const search = Route.useSearch()
+  const limit = search.limit ?? 50
+  const offset = search.offset ?? 0
   const tableId = search.tableId
 
   return (

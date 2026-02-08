@@ -1,7 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import {
-  createColumnHelper,
-} from '@tanstack/react-table'
+import { createColumnHelper } from '@tanstack/react-table'
 import { Search } from 'lucide-react'
 import { css } from './styled-system/css'
 import { StandardTable } from './StandardTable'

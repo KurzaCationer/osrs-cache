@@ -1,5 +1,5 @@
 import { Reader } from './reader'
-import type { CacheVersion } from './reader';
+import type { CacheVersion } from './reader'
 
 /**
  * Represents a decoded OSRS item definition.

@@ -196,7 +196,10 @@ describe('Data Loaders Alignment', () => {
         file.data,
         version as unknown as cache2.CacheVersion,
       )
-      const exp = cache2.Animation.decode(c2Reader, file.id as unknown as number)
+      const exp = cache2.Animation.decode(
+        c2Reader,
+        file.id as unknown as number,
+      )
       expected.set(file.id, { ...exp, sounds: Object.fromEntries(exp.sounds) })
 
       const ourReader = new (await import('../cache/Reader')).Reader(
@@ -260,7 +263,10 @@ describe('Data Loaders Alignment', () => {
         file.data,
         version as unknown as cache2.CacheVersion,
       )
-      const exp = cache2.HealthBar.decode(c2Reader, file.id as unknown as number)
+      const exp = cache2.HealthBar.decode(
+        c2Reader,
+        file.id as unknown as number,
+      )
       expected.set(file.id, exp)
 
       const ourReader = new (await import('../cache/Reader')).Reader(
@@ -293,7 +299,10 @@ describe('Data Loaders Alignment', () => {
         version as unknown as cache2.CacheVersion,
       )
       // @ts-expect-error - cache2 might not have types for everything
-      const exp = cache2.WorldEntity.decode(c2Reader, file.id as unknown as number)
+      const exp = cache2.WorldEntity.decode(
+        c2Reader,
+        file.id as unknown as number,
+      )
       expected.set(file.id, exp)
 
       const ourReader = new (await import('../cache/Reader')).Reader(

@@ -3,12 +3,15 @@ import * as bz2 from './bz2'
 import { Reader } from './Reader'
 import { CompressionType } from './types'
 import { decryptXTEA } from './xtea'
-import type { XTEAKey } from './types';
-import type { XTEAKeyManager } from './xtea';
+import type { XTEAKey } from './types'
+import type { XTEAKeyManager } from './xtea'
 
 export interface CacheProvider {
   getIndex: (index: number) => Promise<IndexData | undefined>
-  getArchive: (index: number, archive: number) => Promise<ArchiveData | undefined>
+  getArchive: (
+    index: number,
+    archive: number,
+  ) => Promise<ArchiveData | undefined>
   getArchiveByName: (
     index: number,
     name: string | number,

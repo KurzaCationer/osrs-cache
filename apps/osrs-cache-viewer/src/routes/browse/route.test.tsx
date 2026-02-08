@@ -6,7 +6,18 @@ vi.mock('@tanstack/react-router', async () => {
   const actual = await vi.importActual('@tanstack/react-router')
   return {
     ...actual,
-    Link: ({ children, to: _to, params: _params, search: _search, ...props }: { children: React.ReactNode, to?: string, params?: unknown, search?: unknown }) => (
+    Link: ({
+      children,
+      to: _to,
+      params: _params,
+      search: _search,
+      ...props
+    }: {
+      children: React.ReactNode
+      to?: string
+      params?: unknown
+      search?: unknown
+    }) => (
       <a href="#" data-testid="router-link" {...props}>
         {children}
       </a>

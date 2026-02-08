@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react'
 import { css } from '../styled-system/css'
 
 interface SpriteFrame {
-  pixelsWidth: number
-  pixelsHeight: number
+  width: number
+  height: number
   offsetX: number
   offsetY: number
   pixels: Uint8Array
@@ -36,10 +36,10 @@ export const SpriteCanvas = ({ data }: { data: SpriteData }) => {
       const imageData = ctx.createImageData(data.width, data.height)
       const buf32 = new Uint32Array(imageData.data.buffer)
 
-      for (let y = 0; y < sprite.pixelsHeight; y++) {
-        for (let x = 0; x < sprite.pixelsWidth; x++) {
+      for (let y = 0; y < sprite.height; y++) {
+        for (let x = 0; x < sprite.width; x++) {
           // Safety check for pixel array bounds
-          const pxIndex = y * sprite.pixelsWidth + x
+          const pxIndex = y * sprite.width + x
           if (pxIndex >= sprite.pixels.length) continue
 
           const idx = sprite.pixels[pxIndex]

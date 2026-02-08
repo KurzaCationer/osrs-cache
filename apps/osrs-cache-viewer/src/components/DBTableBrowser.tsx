@@ -4,14 +4,20 @@ import { StandardTable } from '@kurza/ui-components'
 import { createColumnHelper } from '@tanstack/react-table'
 import { css } from '../styled-system/css'
 
-export function DBTableBrowser({ data }: { data: Array<Record<string, unknown>> }) {
+export function DBTableBrowser({
+  data,
+}: {
+  data: Array<Record<string, unknown>>
+}) {
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Record<string, unknown>>()
     return [
       columnHelper.accessor('id', {
         header: 'ID',
         cell: (info) => (
-          <span className={css({ fontWeight: 'bold' })}>{String(info.getValue())}</span>
+          <span className={css({ fontWeight: 'bold' })}>
+            {String(info.getValue())}
+          </span>
         ),
       }),
       columnHelper.accessor('types', {

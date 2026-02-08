@@ -14,7 +14,7 @@ vi.mock('./cache/CacheInstaller', () => {
 })
 
 vi.mock('./paths', async () => {
-  const actual = (await vi.importActual('./paths'))
+  const actual = await vi.importActual('./paths')
   return {
     ...actual,
     cacheExistsOnDisk: vi.fn(),

@@ -1,7 +1,7 @@
 import { Reader } from './Reader'
 import { CompressionType } from './types'
 import type { ArchiveData } from './Cache'
-import type { XTEAKey } from './types';
+import type { XTEAKey } from './types'
 
 const ROUNDS = 32
 const GOLDEN = 0x9e3779b9
@@ -176,7 +176,10 @@ export class XTEAKeyManager {
   constructor() {}
 
   public loadKeys(document: Record<string, unknown> | Array<unknown>): number {
-    if (typeof (document as unknown) !== 'object' || (document as unknown) === null) {
+    if (
+      typeof (document as unknown) !== 'object' ||
+      (document as unknown) === null
+    ) {
       throw new Error(
         `document must be an object or array, not ${typeof document}`,
       )
@@ -204,8 +207,12 @@ export class XTEAKeyManager {
           // {mapsquare: packed region id, key: XTEAKey}[]
           // RuneLite xtea service
           // {region: packed region id, keys: XTEAKey}[]
-          const key = (item as Record<string, unknown>).key ?? (item as Record<string, unknown>).keys
-          const mapsquare = (item as Record<string, unknown>).mapsquare ?? (item as Record<string, unknown>).region
+          const key =
+            (item as Record<string, unknown>).key ??
+            (item as Record<string, unknown>).keys
+          const mapsquare =
+            (item as Record<string, unknown>).mapsquare ??
+            (item as Record<string, unknown>).region
           if (key === undefined || mapsquare === undefined) {
             throw new Error(
               `document must contain key & mapsquare/region, not ${JSON.stringify(item)}`,

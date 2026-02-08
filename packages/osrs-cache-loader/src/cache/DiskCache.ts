@@ -1,15 +1,10 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getCacheDir } from '../paths'
-import {
-  ArchiveData,
-  hash,
-} from './Cache'
+import { ArchiveData, hash } from './Cache'
 import { OpenRS2IndexData } from './OpenRS2Cache'
 import { XTEAKeyManager } from './xtea'
-import type {
-  CacheProvider,
-  CacheVersion} from './Cache';
+import type { CacheProvider, CacheVersion } from './Cache'
 
 export class DiskCacheProvider implements CacheProvider {
   private indexData: Map<number, Promise<OpenRS2IndexData | undefined>> =

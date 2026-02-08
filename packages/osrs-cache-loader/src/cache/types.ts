@@ -16,10 +16,12 @@ type TypedArray =
   | BigInt64Array
   | Float32Array
   | Float64Array
-export type PrimitiveArray<T extends TArray[0], TArray extends TypedArray> =
-  TArray & {
-    [index: number]: T
-  }
+export type PrimitiveArray<
+  T extends TArray[0],
+  TArray extends TypedArray,
+> = TArray & {
+  [index: number]: T
+}
 
 export enum CompressionType {
   NONE = 0,
@@ -225,7 +227,9 @@ export const DBColumnID = {
       ((column & 0xff) << 4) |
       (tupleIndex & 0xf)) as DBColumnID
   },
-  unpack(c: DBColumnID): [table: DBTableID, column: number, tupleIndex: number] {
+  unpack(
+    c: DBColumnID,
+  ): [table: DBTableID, column: number, tupleIndex: number] {
     return [(c >>> 12) as DBTableID, (c >>> 4) & 0xff, c & 0xf]
   },
 } as const

@@ -16,8 +16,6 @@ Standardize the foundation for linting and formatting across the monorepo.
 
 Apply formatting and address straightforward linting issues.
 
-
-
 - [x] Task: Execute `pnpm run format` across the entire monorepo
 
 - [x] Task: Run `pnpm run lint` and identify all violations
@@ -27,8 +25,6 @@ Apply formatting and address straightforward linting issues.
 ## Phase 3: PandaCSS Idiomatic Refactoring [checkpoint: e1bc795]
 
 Audit and refactor PandaCSS usage using the librarian skill and official documentation.
-
-
 
 - [x] Task: Identify all instances of dynamic interpolation inside `css()` calls
 

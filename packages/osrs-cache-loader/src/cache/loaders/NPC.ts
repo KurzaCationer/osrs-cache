@@ -1,7 +1,5 @@
 import { PerFileLoadable } from '../Loadable'
-import {
-  Params
-} from '../types'
+import { Params } from '../types'
 import type { Reader } from '../Reader'
 import type {
   AnimationID,
@@ -12,7 +10,8 @@ import type {
   SpriteID,
   TextureID,
   VarPID,
-  VarbitID} from '../types';
+  VarbitID,
+} from '../types'
 
 export class NPC extends PerFileLoadable {
   constructor(public id: NPCID) {

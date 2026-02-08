@@ -1,7 +1,5 @@
 import { PerFileLoadable } from '../Loadable'
-import {
-  Params
-} from '../types'
+import { Params } from '../types'
 import type { Reader } from '../Reader'
 import type {
   CategoryID,
@@ -9,7 +7,8 @@ import type {
   ItemID,
   ModelID,
   TextureID,
-  WearPos} from '../types';
+  WearPos,
+} from '../types'
 
 export class Item extends PerFileLoadable {
   constructor(public id: ItemID) {
@@ -42,7 +41,13 @@ export class Item extends PerFileLoadable {
   public femaleOffset = 0
   public femaleModel1 = -1 as ModelID
   public groundActions: Array<string | null> = [null, null, 'Take', null, null]
-  public inventoryActions: Array<string | null> = [null, null, null, null, 'Drop']
+  public inventoryActions: Array<string | null> = [
+    null,
+    null,
+    null,
+    null,
+    'Drop',
+  ]
   public subops: Array<Array<string>> = []
   public recolorFrom: Array<HSL> = [] as Array<HSL>
   public recolorTo: Array<HSL> = [] as Array<HSL>

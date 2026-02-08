@@ -121,7 +121,6 @@ export function HomeContent({
   const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
-     
     setMounted(true)
   }, [])
 

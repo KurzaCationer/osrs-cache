@@ -1,7 +1,7 @@
 import { PerFileLoadable } from '../Loadable'
 import { Params } from '../types'
 import type { Reader } from '../Reader'
-import type { StructID } from '../types';
+import type { StructID } from '../types'
 
 export class Struct extends PerFileLoadable {
   constructor(public id: StructID) {

@@ -3,7 +3,7 @@ import * as path from 'node:path'
 import { expect } from 'vitest'
 import { OpenRS2CacheProvider } from '../cache/OpenRS2Cache'
 import { OpenRS2Client } from '../openrs2-client'
-import type { FileProvider } from '../cache/Cache';
+import type { FileProvider } from '../cache/Cache'
 
 // Ported from cache2 node loader
 export class NodeFSFileProvider implements FileProvider {

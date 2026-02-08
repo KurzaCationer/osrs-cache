@@ -1,6 +1,13 @@
 import { PerFileLoadable } from '../Loadable'
 import type { Reader } from '../Reader'
-import type { FontID, HitsplatID, RGB, SpriteID, VarPID, VarbitID } from '../types'
+import type {
+  FontID,
+  HitsplatID,
+  RGB,
+  SpriteID,
+  VarPID,
+  VarbitID,
+} from '../types'
 
 export class Hitsplat extends PerFileLoadable {
   constructor(public id: HitsplatID) {

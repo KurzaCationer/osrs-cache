@@ -2,8 +2,8 @@ import { Loadable, PerFileLoadable } from '../Loadable'
 import { Reader } from '../Reader'
 import { BaseVarType, ScriptVarType } from '../ScriptVarType'
 import { DBColumnID } from '../types'
-import type { DBRowID, DBTableID, ScriptVarID } from '../types';
-import type { CacheProvider } from '../Cache';
+import type { DBRowID, DBTableID, ScriptVarID } from '../types'
+import type { CacheProvider } from '../Cache'
 
 function readTypes(r: Reader): Array<ScriptVarID> {
   const size = r.u8()

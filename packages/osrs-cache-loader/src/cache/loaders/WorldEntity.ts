@@ -1,13 +1,7 @@
 import { PerFileLoadable } from '../Loadable'
-import {
-  MenuFilterMode
-} from '../types'
+import { MenuFilterMode } from '../types'
 import type { Reader } from '../Reader'
-import type {
-  AnimationID,
-  HSL,
-  SpriteID,
-  WorldEntityID} from '../types';
+import type { AnimationID, HSL, SpriteID, WorldEntityID } from '../types'
 
 export class WorldEntity extends PerFileLoadable {
   constructor(public id: WorldEntityID) {

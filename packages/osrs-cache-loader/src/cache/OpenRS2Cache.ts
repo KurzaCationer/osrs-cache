@@ -1,13 +1,7 @@
-import {
-  ArchiveData,
-  hash,
-} from './Cache'
+import { ArchiveData, hash } from './Cache'
 import { Reader } from './Reader'
 import { XTEAKeyManager } from './xtea'
-import type {
-  CacheProvider,
-  CacheVersion,
-  IndexData} from './Cache';
+import type { CacheProvider, CacheVersion, IndexData } from './Cache'
 import type { OpenRS2Client } from '../openrs2-client'
 import type { OpenRS2Cache as OpenRS2CacheMetadata } from '../types'
 

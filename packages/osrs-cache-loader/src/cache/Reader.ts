@@ -1,7 +1,7 @@
 import { Params } from './types'
 import { isAfter } from './Cache'
 import type { CacheVersion } from './Cache'
-import type { ItemID, KitID, KitOrItem, ParamID} from './types';
+import type { ItemID, KitID, KitOrItem, ParamID } from './types'
 
 export const cp1252CharMap: Array<string> = (() => {
   const ext = '€?‚ƒ„…†‡ˆ‰Š‹Œ?Ž??‘’“”•–—˜™š›œ?žŸ'

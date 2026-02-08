@@ -139,9 +139,7 @@ export class Cache {
     // Proactive Installation if not on disk
     const isInstalled = await cacheExistsOnDisk(cacheMetadata.id)
     if (!isInstalled) {
-      console.log(
-        `Cache ${cacheMetadata.id} not found on disk. Installing...`,
-      )
+      console.log(`Cache ${cacheMetadata.id} not found on disk. Installing...`)
       const { CacheInstaller } = await import('./cache/CacheInstaller')
       const installer = new CacheInstaller(cacheMetadata, client)
       await installer.install()
@@ -461,7 +459,10 @@ export class Cache {
             )
             .map(([id, data]) => {
               try {
-                const decoded = DBTable.decode(new Reader(data), id as DBTableID)
+                const decoded = DBTable.decode(
+                  new Reader(data),
+                  id as DBTableID,
+                )
                 return JSON.parse(JSON.stringify(decoded))
               } catch (e) {
                 console.warn(`Failed to decode DBTable ${id}:`, e)

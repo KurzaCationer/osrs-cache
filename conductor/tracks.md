@@ -25,4 +25,4 @@ This file tracks all major tracks for the project. Each track has its own detail
 ---
 
 - [x] **Track: Rigorous quality check of the entire codebase, focusing on ESLint rules, PandaCSS optimization, and project-wide Prettier formatting.**
-  _Link: [./tracks/codebase_quality_audit_20260208/](./tracks/codebase_quality_audit_20260208/)_
+      _Link: [./tracks/codebase_quality_audit_20260208/](./tracks/codebase_quality_audit_20260208/)_

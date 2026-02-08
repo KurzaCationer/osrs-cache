@@ -45,9 +45,7 @@ describe('Persistence Integration', () => {
     // because getArchive calls getIndex first.
     vi.spyOn(disk, 'getIndex').mockResolvedValue({
       id: 1,
-      archives: new Map([
-        [10, new ArchiveData(1, 10)],
-      ]),
+      archives: new Map([[10, new ArchiveData(1, 10)]]),
       revision: 1,
     } as unknown as OpenRS2IndexData)
 

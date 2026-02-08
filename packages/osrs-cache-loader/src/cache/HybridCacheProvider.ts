@@ -1,7 +1,12 @@
 import { OpenRS2CacheProvider } from './OpenRS2Cache'
 import { DiskCacheProvider } from './DiskCache'
 import type { OpenRS2Client } from '../openrs2-client'
-import type { ArchiveData, CacheProvider, CacheVersion, IndexData } from './Cache'
+import type {
+  ArchiveData,
+  CacheProvider,
+  CacheVersion,
+  IndexData,
+} from './Cache'
 import type { XTEAKeyManager } from './xtea'
 import type { OpenRS2Cache as OpenRS2CacheMetadata } from '../types'
 
