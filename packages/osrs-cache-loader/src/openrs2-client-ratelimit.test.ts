@@ -1,9 +1,16 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { OpenRS2Client } from "./openrs2-client";
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { OpenRS2Client } from './openrs2-client'
+import type { Mock } from 'vitest'
+import type { MetadataStore } from './metadata-store'
 
-describe("OpenRS2Client Rate Limiting", () => {
-  let client: OpenRS2Client;
-  let mockMetadataStore: any;
+describe('OpenRS2Client Rate Limiting', () => {
+  let client: OpenRS2Client
+  let mockMetadataStore: {
+    getGameMetadata: Mock
+    setGameMetadata: Mock
+    load: Mock
+    save: Mock
+  }
 
   beforeEach(() => {
     mockMetadataStore = {
@@ -11,92 +18,104 @@ describe("OpenRS2Client Rate Limiting", () => {
       setGameMetadata: vi.fn(),
       load: vi.fn(),
       save: vi.fn(),
-    };
-    client = new OpenRS2Client("https://archive.openrs2.org", mockMetadataStore);
-    global.fetch = vi.fn();
-  });
+    }
+    client = new OpenRS2Client(
+      'https://archive.openrs2.org',
+      mockMetadataStore as unknown as MetadataStore,
+    )
+    global.fetch = vi.fn()
+  })
 
-  it("should fetch from API if no cached metadata exists", async () => {
-    mockMetadataStore.getGameMetadata.mockResolvedValue(null);
-    const mockCaches = [{ id: 123, game: "oldschool", timestamp: "2023-01-01T00:00:00Z" }];
-    (global.fetch as any).mockResolvedValue({
+  it('should fetch from API if no cached metadata exists', async () => {
+    mockMetadataStore.getGameMetadata.mockResolvedValue(null)
+    const mockCaches = [
+      { id: 123, game: 'oldschool', timestamp: '2023-01-01T00:00:00Z' },
+    ]
+    ;(global.fetch as Mock).mockResolvedValue({
       ok: true,
-      json: async () => mockCaches,
-    });
+      json: async () => await Promise.resolve(mockCaches),
+    })
 
-    const latest = await client.getLatestCache("oldschool");
-    
-    expect(latest.id).toBe(123);
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(mockMetadataStore.setGameMetadata).toHaveBeenCalledWith("oldschool", expect.objectContaining({
-      latestCacheId: 123
-    }));
-  });
+    const latest = await client.getLatestCache('oldschool')
 
-  it("should use cached metadata if checked less than 1 hour ago", async () => {
-    const oneMinuteAgo = Date.now() - 60000;
-    const mockCache = { id: 123, game: "oldschool" };
+    expect(latest.id).toBe(123)
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+    expect(mockMetadataStore.setGameMetadata).toHaveBeenCalledWith(
+      'oldschool',
+      expect.objectContaining({
+        latestCacheId: 123,
+      }),
+    )
+  })
+
+  it('should use cached metadata if checked less than 1 hour ago', async () => {
+    const oneMinuteAgo = Date.now() - 60000
+    const mockCache = { id: 123, game: 'oldschool' }
     mockMetadataStore.getGameMetadata.mockResolvedValue({
       latestCacheId: 123,
       lastCheckedAt: oneMinuteAgo,
-      cache: mockCache
-    });
-    
-    const latest = await client.getLatestCache("oldschool");
-    expect(latest.id).toBe(123);
-    expect(global.fetch).not.toHaveBeenCalled();
-  });
+      cache: mockCache,
+    })
 
-  it("should fetch from API if cached metadata is older than 1 hour", async () => {
-    const twoHoursAgo = Date.now() - 2 * 60 * 60 * 1000;
-    const mockCache = { id: 123, game: "oldschool" };
+    const latest = await client.getLatestCache('oldschool')
+    expect(latest.id).toBe(123)
+    expect(global.fetch).not.toHaveBeenCalled()
+  })
+
+  it('should fetch from API if cached metadata is older than 1 hour', async () => {
+    const twoHoursAgo = Date.now() - 2 * 60 * 60 * 1000
+    const mockCache = { id: 123, game: 'oldschool' }
     mockMetadataStore.getGameMetadata.mockResolvedValue({
       latestCacheId: 123,
       lastCheckedAt: twoHoursAgo,
-      cache: mockCache
-    });
-    
-    const mockCaches = [{ id: 124, game: "oldschool", timestamp: "2023-01-01T00:00:00Z" }];
-    (global.fetch as any).mockResolvedValue({
+      cache: mockCache,
+    })
+
+    const mockCaches = [
+      { id: 124, game: 'oldschool', timestamp: '2023-01-01T00:00:00Z' },
+    ]
+    ;(global.fetch as Mock).mockResolvedValue({
       ok: true,
-      json: async () => mockCaches,
-    });
+      json: async () => await Promise.resolve(mockCaches),
+    })
 
-    const latest = await client.getLatestCache("oldschool");
-    expect(latest.id).toBe(124);
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-  });
+    const latest = await client.getLatestCache('oldschool')
+    expect(latest.id).toBe(124)
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+  })
 
-  it("should fetch from API if forceRefresh is true and checked more than 5 minutes ago", async () => {
-    const tenMinutesAgo = Date.now() - 10 * 60 * 1000;
-    const mockCache = { id: 123, game: "oldschool" };
+  it('should fetch from API if forceRefresh is true and checked more than 5 minutes ago', async () => {
+    const tenMinutesAgo = Date.now() - 10 * 60 * 1000
+    const mockCache = { id: 123, game: 'oldschool' }
     mockMetadataStore.getGameMetadata.mockResolvedValue({
       latestCacheId: 123,
       lastCheckedAt: tenMinutesAgo,
-      cache: mockCache
-    });
+      cache: mockCache,
+    })
 
-    const mockCaches = [{ id: 123, game: "oldschool", timestamp: "2023-01-01T00:00:00Z" }];
-    (global.fetch as any).mockResolvedValue({
+    const mockCaches = [
+      { id: 123, game: 'oldschool', timestamp: '2023-01-01T00:00:00Z' },
+    ]
+    ;(global.fetch as Mock).mockResolvedValue({
       ok: true,
-      json: async () => mockCaches,
-    });
+      json: async () => await Promise.resolve(mockCaches),
+    })
 
-    await client.getLatestCache("oldschool", true);
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-  });
+    await client.getLatestCache('oldschool', true)
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+  })
 
-  it("should NOT fetch from API if forceRefresh is true but checked less than 5 minutes ago", async () => {
-    const oneMinuteAgo = Date.now() - 60000;
-    const mockCache = { id: 123, game: "oldschool" };
+  it('should NOT fetch from API if forceRefresh is true but checked less than 5 minutes ago', async () => {
+    const oneMinuteAgo = Date.now() - 60000
+    const mockCache = { id: 123, game: 'oldschool' }
     mockMetadataStore.getGameMetadata.mockResolvedValue({
       latestCacheId: 123,
       lastCheckedAt: oneMinuteAgo,
-      cache: mockCache
-    });
+      cache: mockCache,
+    })
 
-    const latest = await client.getLatestCache("oldschool", true);
-    expect(latest.id).toBe(123);
-    expect(global.fetch).not.toHaveBeenCalled();
-  });
-});
+    const latest = await client.getLatestCache('oldschool', true)
+    expect(latest.id).toBe(123)
+    expect(global.fetch).not.toHaveBeenCalled()
+  })
+})

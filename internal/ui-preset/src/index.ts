@@ -1,6 +1,6 @@
-import { definePreset } from '@pandacss/dev';
-import presetBase from "@pandacss/preset-base"
-import presetPanda from "@pandacss/preset-panda"
+import { definePreset } from '@pandacss/dev'
+import presetBase from '@pandacss/preset-base'
+import presetPanda from '@pandacss/preset-panda'
 
 export const uiPreset = definePreset({
   presets: [presetBase, presetPanda],
@@ -17,45 +17,50 @@ export const uiPreset = definePreset({
             900: { value: '#141414' },
             850: { value: '#1f1f1f' },
             800: { value: '#262626' },
-            750: { value: '#1a1a1a' }
-          }
+            750: { value: '#1a1a1a' },
+          },
         },
         fonts: {
           body: { value: 'Inter, system-ui, sans-serif' },
-          mono: { value: 'JetBrains Mono, Menlo, monospace' }
-        }
+          mono: { value: 'JetBrains Mono, Menlo, monospace' },
+        },
       },
       semanticTokens: {
         colors: {
-          primary: { 
+          primary: {
             default: { value: '{colors.osrsGold}' },
-            muted: { value: '{colors.osrsGoldMuted}' }
+            muted: { value: '{colors.osrsGoldMuted}' },
           },
-          secondary: { 
+          secondary: {
             default: { value: '{colors.osrsBlue}' },
-            muted: { value: '{colors.osrsBlueMuted}' }
+            muted: { value: '{colors.osrsBlueMuted}' },
           },
           bg: {
             default: { value: '{colors.neutral.950}' },
             surface: { value: '{colors.neutral.900}' },
             muted: { value: '{colors.neutral.850}' },
-            active: { value: '{colors.gray.800}' }
+            active: { value: '{colors.gray.800}' },
           },
           text: {
             main: { value: '#ffffff' },
             muted: { value: '{colors.gray.400}' },
-            dim: { value: '{colors.gray.500}' }
+            dim: { value: '{colors.gray.500}' },
           },
           error: {
             default: { value: '{colors.red.500}' },
-            muted: { value: '{colors.red.700}' }
+            muted: { value: '{colors.red.700}' },
+          },
+          success: {
+            default: { value: '#22c55e' },
+            muted: { value: 'rgba(34, 197, 94, 0.1)' },
+            border: { value: 'rgba(34, 197, 94, 0.2)' },
           },
           border: {
             default: { value: '{colors.neutral.800}' },
-            subtle: { value: '{colors.neutral.750}' }
-          }
-        }
-      }
-    }
-  }
-});
+            subtle: { value: '{colors.neutral.750}' },
+          },
+        },
+      },
+    },
+  },
+})

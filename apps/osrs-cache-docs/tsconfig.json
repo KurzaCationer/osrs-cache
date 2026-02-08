@@ -5,7 +5,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@kurza/osrs-cache-loader": ["../../packages/osrs-cache-loader/src/index.ts"],
+      "@kurza/osrs-cache-loader": [
+        "../../packages/osrs-cache-loader/src/index.ts"
+      ],
       "@kurza/ui-preset": ["../../internal/ui-preset/src/index.ts"]
     }
   }

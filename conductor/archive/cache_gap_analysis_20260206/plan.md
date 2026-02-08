@@ -3,6 +3,7 @@
 This plan outlines the steps to perform a gap analysis between `@kurza/osrs-cache-loader` and `cache2`, documenting missing decoding logic to guide future implementation.
 
 ## Phase 1: Environment Setup & Source Analysis
+
 Goal: Prepare the environment and analyze the current state of both libraries.
 
 - [x] Task: Clone the `cache2` repository to the `external/` directory.
@@ -11,6 +12,7 @@ Goal: Prepare the environment and analyze the current state of both libraries.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Environment Setup & Source Analysis' (Protocol in workflow.md)
 
 ## Phase 2: Gap Identification & Research
+
 Goal: Compare the libraries and extract implementation details for missing types.
 
 - [x] Task: Map `cache2` asset types to `@kurza/osrs-cache-loader` types and identify gaps.
@@ -19,6 +21,7 @@ Goal: Compare the libraries and extract implementation details for missing types
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Gap Identification & Research' (Protocol in workflow.md)
 
 ## Phase 3: Documentation & Handover [checkpoint: aa829b5]
+
 Goal: Formalize findings in the documentation and prepare for the implementation track.
 
 - [x] Task: Create `reference-material/docs/cache-gap-analysis.md` with the mapped gap table and implementation details.

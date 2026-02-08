@@ -1,48 +1,48 @@
-import fs from 'fs/promises';
-import { getMetadataPath } from './paths';
-import type { OpenRS2Cache } from './types';
+import fs from 'node:fs/promises'
+import { getMetadataPath } from './paths'
+import type { OpenRS2Cache } from './types'
 
 export interface GameMetadata {
-  latestCacheId: number;
-  lastCheckedAt: number;
-  cache: OpenRS2Cache;
+  latestCacheId: number
+  lastCheckedAt: number
+  cache: OpenRS2Cache
 }
 
 export interface Metadata {
-  games: Record<string, GameMetadata>;
+  games: Record<string, GameMetadata | undefined>
 }
 
 export class MetadataStore {
-  private cache: Metadata | null = null;
+  private cache?: Metadata
 
   async load(): Promise<Metadata> {
-    if (this.cache) return this.cache;
+    if (this.cache !== undefined) return this.cache
 
     try {
-      const data = await fs.readFile(getMetadataPath(), 'utf-8');
-      this.cache = JSON.parse(data);
+      const data = await fs.readFile(getMetadataPath(), 'utf-8')
+      this.cache = JSON.parse(data)
     } catch {
-      this.cache = { games: {} };
+      this.cache = { games: {} }
     }
 
-    return this.cache!;
+    return this.cache as Metadata
   }
 
   async save(metadata: Metadata): Promise<void> {
-    this.cache = metadata;
-    const dir = (await import('path')).dirname(getMetadataPath());
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(getMetadataPath(), JSON.stringify(metadata, null, 2));
+    this.cache = metadata
+    const dir = (await import('node:path')).dirname(getMetadataPath())
+    await fs.mkdir(dir, { recursive: true })
+    await fs.writeFile(getMetadataPath(), JSON.stringify(metadata, null, 2))
   }
 
   async getGameMetadata(game: string): Promise<GameMetadata | null> {
-    const metadata = await this.load();
-    return metadata.games[game] || null;
+    const metadata = await this.load()
+    return metadata.games[game] || null
   }
 
   async setGameMetadata(game: string, data: GameMetadata): Promise<void> {
-    const metadata = await this.load();
-    metadata.games[game] = data;
-    await this.save(metadata);
+    const metadata = await this.load()
+    metadata.games[game] = data
+    await this.save(metadata)
   }
 }

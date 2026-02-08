@@ -4,6 +4,7 @@ import pandaPlugin from '@pandacss/eslint-plugin'
 import reactPlugin from 'eslint-plugin-react'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
+import eslintConfigPrettier from 'eslint-config-prettier'
 
 export default [
   {
@@ -40,6 +41,11 @@ export default [
       ...reactPlugin.configs.recommended.rules,
       ...tsPlugin.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
+      '@pandacss/no-dynamic-styling': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
     settings: {
       react: {
@@ -54,6 +60,8 @@ export default [
     },
     rules: {
       ...pandaPlugin.configs.recommended.rules,
+      '@pandacss/no-dynamic-styling': 'error',
     },
   },
+  eslintConfigPrettier,
 ]

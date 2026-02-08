@@ -1,0 +1,16 @@
+# Dependencies
+node_modules
+dist
+.turbo
+.output
+.tanstack
+.astro
+
+# Locks
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Build artifacts
+*.log
+coverage

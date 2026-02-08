@@ -4,6 +4,7 @@ archived_at: 2026-02-04
 summary: Comprehensive documentation for Panda CSS, including installation, configuration, core concepts (cva, sva), and theming.
 version: latest
 ---
+
 # Panda CSS Documentation
 
 (Source: https://panda-css.com/llms.txt)
@@ -53,20 +54,20 @@ module.exports = {
 Panda is configured via `panda.config.ts`.
 
 ```ts
-import { defineConfig } from "@pandacss/dev"
+import { defineConfig } from '@pandacss/dev'
 
 export default defineConfig({
   // Whether to use css reset
   preflight: true,
-  
+
   // Where to look for your css declarations
-  include: ["./src/**/*.{js,jsx,ts,tsx}"],
-  
+  include: ['./src/**/*.{js,jsx,ts,tsx}'],
+
   // Files to exclude
   exclude: [],
-  
+
   // The output directory for your css system
-  outdir: "styled-system",
+  outdir: 'styled-system',
 })
 ```
 
@@ -82,7 +83,7 @@ import { css } from '../styled-system/css'
 const className = css({
   fontSize: '2xl',
   fontWeight: 'bold',
-  color: 'red.500'
+  color: 'red.500',
 })
 ```
 
@@ -97,7 +98,7 @@ const className = css({
   bg: 'red.200',
   _hover: { bg: 'red.300' },
   _dark: { bg: 'red.800' },
-  md: { fontSize: 'lg' } // media query
+  md: { fontSize: 'lg' }, // media query
 })
 ```
 
@@ -131,17 +132,17 @@ const button = cva({
   variants: {
     visual: {
       solid: { bg: 'blue.500', color: 'white' },
-      outline: { borderWidth: '1px', borderColor: 'blue.500' }
+      outline: { borderWidth: '1px', borderColor: 'blue.500' },
     },
     size: {
       sm: { padding: '2', fontSize: 'sm' },
-      lg: { padding: '4', fontSize: 'lg' }
-    }
+      lg: { padding: '4', fontSize: 'lg' },
+    },
   },
   defaultVariants: {
     visual: 'solid',
-    size: 'sm'
-  }
+    size: 'sm',
+  },
 })
 
 // Usage
@@ -160,11 +161,11 @@ const card = sva({
   base: {
     root: { p: '6', bg: 'white', rounded: 'lg' },
     title: { fontSize: 'xl', fontWeight: 'bold' },
-    content: { mt: '2', color: 'gray.600' }
+    content: { mt: '2', color: 'gray.600' },
   },
   variants: {
     // ... variants
-  }
+  },
 })
 
 // Usage
@@ -183,7 +184,9 @@ function App() {
   return (
     <Box p="4" bg="gray.100">
       <Flex align="center">
-        <Text fontSize="xl" fontWeight="bold">Hello</Text>
+        <Text fontSize="xl" fontWeight="bold">
+          Hello
+        </Text>
       </Flex>
     </Box>
   )
@@ -207,4 +210,3 @@ Customize tokens, semantic tokens, breakpoints, and more in `panda.config.ts`.
 - [GitHub Repository](https://github.com/chakra-ui/panda)
 - [PostCSS Installation Guide](./postcss-installation.md)
 - [Panda CSS LLMS.txt](https://panda-css.com/llms.txt)
-

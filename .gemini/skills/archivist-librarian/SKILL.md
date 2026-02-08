@@ -8,17 +8,20 @@ description: Organizes and standardizes documentation files within the library.
 Maintain a clean, consistent, and well-organized documentation library.
 
 ## Triggers
+
 - Triggered after `archivist-researcher` successfully prepares ingestion files.
 - When files are present in `./reference-material/ingestion/`.
 - User request to organize or re-categorize documentation.
 
 ## Core Mandates
+
 - **Consistent Naming:** Always use `kebab-case` for folder and file names.
 - **Standard Formatting:** Ensure all documentation files have valid Markdown structure and appropriate YAML frontmatter.
 - **Logical Categorization:** Place documentation in relevant subfolders within `./reference-material/docs/`.
 - **Atomic Commits:** Always commit documentation moves and additions immediately.
 
 ## Workflow: Sorting & Organization
+
 1. **Identify Pending Files:** Check `./reference-material/ingestion/` for new files.
 2. **Standardize Content:**
    - Ensure the file has a YAML frontmatter with `name` and `description`.

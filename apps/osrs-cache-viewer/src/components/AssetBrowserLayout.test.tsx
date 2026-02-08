@@ -8,7 +8,7 @@ describe('AssetBrowserLayout', () => {
     render(
       <AssetBrowserLayout title="Items">
         <div>Table Content</div>
-      </AssetBrowserLayout>
+      </AssetBrowserLayout>,
     )
     expect(screen.getByText('Items')).toBeDefined()
     expect(screen.getByText('Table Content')).toBeDefined()

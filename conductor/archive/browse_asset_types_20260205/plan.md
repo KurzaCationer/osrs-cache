@@ -1,6 +1,7 @@
 # Implementation Plan: Asset Type Browsing (`browse_asset_types`)
 
 ## Phase 1: Foundation & Routing [checkpoint: 0cad8a0]
+
 Setup the dynamic routing structure and basic page layout for the browsing experience.
 
 - [x] Task: Define dynamic route for `/browse/$type` in `osrs-cache-viewer`
@@ -8,6 +9,7 @@ Setup the dynamic routing structure and basic page layout for the browsing exper
 - [x] Task: Update the `AssetSummaryTable` to link each type to its corresponding `/browse/$type` route
 
 ## Phase 2: Data Fetching & State [checkpoint: 3dc0d6e]
+
 Implement the data fetching logic to retrieve individual asset records from the loader package.
 
 - [x] Task: Define TanStack Query hooks for fetching all assets of a specific type
@@ -15,6 +17,7 @@ Implement the data fetching logic to retrieve individual asset records from the 
 - [x] Task: Add loading and error states for the asset type detail page
 
 ## Phase 3: Dynamic Table Implementation [checkpoint: 3dc0d6e]
+
 Build the core table UI that dynamically adapts to different asset properties.
 
 - [x] Task: Create a generic `AssetDataTable` component using TanStack Table
@@ -23,6 +26,7 @@ Build the core table UI that dynamically adapts to different asset properties.
 - [x] Task: Implement pagination or virtualization to handle large datasets (e.g., Items, Objects)
 
 ## Phase 4: Refinement & Verification [checkpoint: 551774f]
+
 Final polish, performance optimization, and comprehensive testing.
 
 - [x] Task: Optimize table rendering performance for large asset lists

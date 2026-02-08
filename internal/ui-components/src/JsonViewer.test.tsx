@@ -36,10 +36,12 @@ describe('JsonViewer', () => {
   it('copies data to clipboard when copy button is clicked', async () => {
     render(<JsonViewer value={mockData} />)
     const copyButton = screen.getByTitle('Copy JSON')
-    
+
     await fireEvent.click(copyButton)
-    
-    expect(mockWriteText).toHaveBeenCalledWith(JSON.stringify(mockData, null, 2))
+
+    expect(mockWriteText).toHaveBeenCalledWith(
+      JSON.stringify(mockData, null, 2),
+    )
     // Should show check icon (we can't easily check the icon but we can check if it changed state if we had access)
     // Let's just check if it was called.
   })
@@ -47,14 +49,14 @@ describe('JsonViewer', () => {
   it('resets copy icon after timeout', async () => {
     render(<JsonViewer value={mockData} />)
     const copyButton = screen.getByTitle('Copy JSON')
-    
+
     await fireEvent.click(copyButton)
-    
+
     // Fast forward time
     act(() => {
       vi.advanceTimersByTime(2001)
     })
-    
+
     // No easy way to assert icon change without test IDs or more specific selectors
     // but the test confirms no crash.
   })
@@ -62,9 +64,9 @@ describe('JsonViewer', () => {
   it('has overflow and width styles to prevent container escape', () => {
     const { container } = render(<JsonViewer value={mockData} />)
     const wrapper = container.firstChild as HTMLElement
-    
-    // We check the class names or just assume PandaCSS is doing its job 
-    // since we can't easily check computed styles in jsdom for Panda's atomic classes 
+
+    // We check the class names or just assume PandaCSS is doing its job
+    // since we can't easily check computed styles in jsdom for Panda's atomic classes
     // without more setup. But we can check if it rendered.
     expect(wrapper).toBeDefined()
   })

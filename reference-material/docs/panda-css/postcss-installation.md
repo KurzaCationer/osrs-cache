@@ -4,6 +4,7 @@ archived_at: 2026-02-04
 summary: Guide for installing and configuring Panda CSS with PostCSS.
 version: latest
 ---
+
 # Panda CSS PostCSS Installation
 
 Panda CSS integrates with PostCSS as a plugin, which is the recommended installation method.
@@ -31,21 +32,21 @@ module.exports = {
 Define the files you want Panda to scan for tokens/utilities:
 
 ```typescript
-import { defineConfig } from "@pandacss/dev";
+import { defineConfig } from '@pandacss/dev'
 
 export default defineConfig({
   // Whether to use css reset
   preflight: true,
 
   // Where to look for your css declarations
-  include: ["./src/**/*.{js,jsx,ts,tsx}", "./pages/**/*.{js,jsx,ts,tsx}"],
+  include: ['./src/**/*.{js,jsx,ts,tsx}', './pages/**/*.{js,jsx,ts,tsx}'],
 
   // Files to exclude
   exclude: [],
 
   // The output directory for your css system
-  outdir: "styled-system",
-});
+  outdir: 'styled-system',
+})
 ```
 
 ### Package JSON Scripts
@@ -79,7 +80,7 @@ import { css } from '../styled-system/css'
 
 function App() {
   return (
-    <div className={css({ fontSize: "2xl", fontWeight: 'bold' })}>
+    <div className={css({ fontSize: '2xl', fontWeight: 'bold' })}>
       Hello 🐼!
     </div>
   )
@@ -91,7 +92,6 @@ function App() {
 - [Official PostCSS Installation Guide](https://panda-css.com/docs/installation/postcss)
 - [Full Documentation](./full-documentation.md)
 - [Panda CSS Config Reference](https://panda-css.com/docs/references/config)
-
 
 ## IDE Setup (TSConfig)
 

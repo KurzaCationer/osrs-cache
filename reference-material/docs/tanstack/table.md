@@ -19,7 +19,7 @@ A headless UI library for building powerful tables and datagrids.
 
 ### Memoization
 
-In React, you MUST memoize your `data` and `columns` definitions using `useMemo`. 
+In React, you MUST memoize your `data` and `columns` definitions using `useMemo`.
 
 Because TanStack Table uses these objects as dependencies in its own internal hooks, recreating them on every render will trigger an infinite re-render loop, which can cause performance issues or browser hangs.
 

@@ -30,11 +30,12 @@ description: A brief summary of the file's content.
 - **Titles:** Use a single `# ` heading at the top for the main title.
 - **Links:** Use relative links when referencing other documents within the library.
 - **Code Blocks:** Always specify the language for syntax highlighting.
-- **Clarity:** Focus on *why* and *how*. Document established patterns, architectural decisions, and technical research.
+- **Clarity:** Focus on _why_ and _how_. Document established patterns, architectural decisions, and technical research.
 
 ## Maintenance
 
 The `archivist` skills are responsible for:
+
 - **`archivist-retriever`:** Finding and applying existing documentation.
 - **`archivist-researcher`:** Investigating new technologies and preparing ingestion files.
 - **`archivist-librarian`:** Organizing, standardizing, and committing new documentation.

@@ -6,6 +6,9 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import pandaPlugin from '@pandacss/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
+import pluginQuery from '@tanstack/eslint-plugin-query'
+import pluginRouter from '@tanstack/eslint-plugin-router'
+import eslintConfigPrettier from 'eslint-config-prettier'
 
 export default [
   {
@@ -27,6 +30,8 @@ export default [
       'react-hooks': reactHooksPlugin,
       '@typescript-eslint': tsPlugin,
       '@pandacss': pandaPlugin,
+      '@tanstack/query': pluginQuery,
+      '@tanstack/router': pluginRouter,
     },
     languageOptions: {
       parser: tsParser,
@@ -41,7 +46,14 @@ export default [
       ...reactHooksPlugin.configs.recommended.rules,
       ...tsPlugin.configs.recommended.rules,
       ...pandaPlugin.configs.recommended.rules,
+      ...pluginQuery.configs.recommended.rules,
+      ...pluginRouter.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off', // React 17+
+      '@pandacss/no-dynamic-styling': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
     settings: {
       react: {
@@ -49,4 +61,5 @@ export default [
       },
     },
   },
+  eslintConfigPrettier,
 ]

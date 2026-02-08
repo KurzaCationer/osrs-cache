@@ -3,12 +3,14 @@
 This plan covers adding `cache2` as a dependency, implementing the comparison logic, and ensuring the test is a permanent part of the suite.
 
 ## Phase 1: Environment & Dependencies [checkpoint: ]
+
 Goal: Prepare the loader package for integration with `cache2`.
 
 - [x] Task: Install `cache2` and any required peer dependencies as dev-dependencies in `packages/osrs-cache-loader`.
 - [x] Task: Research the `cache2` API to identify the correct methods for loading a remote/buffer-based cache and extracting asset counts.
 
 ## Phase 2: Integration Test Implementation [checkpoint: ]
+
 Goal: Create the automated test comparing our loader results with `cache2`.
 
 - [x] Task: Create `packages/osrs-cache-loader/src/cache2-comparison.test.ts`.
@@ -18,6 +20,7 @@ Goal: Create the automated test comparing our loader results with `cache2`.
 - [x] Task: Verify that the test passes against the live OpenRS2 API.
 
 ## Phase 3: Final Verification & Cleanup [checkpoint: ]
+
 Goal: End-to-end check, squashing, and archival.
 
 - [x] Task: Run `pnpm run build` to ensure no dependency or type conflicts were introduced.

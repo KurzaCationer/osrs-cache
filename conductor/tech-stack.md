@@ -1,13 +1,16 @@
 # Tech Stack
 
 ## Monorepo Management
+
 - **Turbo:** Build system for orchestrating tasks across the monorepo.
 - **pnpm Workspaces:** Package management and workspace orchestration.
 
 ## Programming Languages
+
 - **TypeScript:** Primary language for all packages and applications.
 
 ## Frontend Frameworks & Libraries
+
 - **React (v19):** UI library for both the Viewer and Docs.
 - **TanStack Start:** Framework for building the Viewer application.
 - **TanStack Router:** Type-safe routing for the Viewer.
@@ -18,18 +21,22 @@
 - **Astro:** Framework for building the documentation site.
 
 ## Styling & Design
+
 - **PandaCSS:** Build-time CSS-in-JS for type-safe styling.
 - **Lucide React:** Icon library.
 
 ## Data Processing
+
 - **fflate:** High-performance GZIP decompression.
 - **tar-stream:** Flat-file tarball extraction for proactive cache installation.
 - **Custom BZ2 Implementation:** Standalone, high-performance BZIP2 decompression ported for OSRS cache block handling.
 
 ## Development & Build Tooling
+
 - **Vite:** Build tool and dev server.
 - **tsup:** TypeScript bundler for packages (`osrs-cache-loader`).
 - **Vitest:** Testing framework.
 - **cache2:** Used as a source of truth for verifying asset counts in integration tests.
-- **ESLint:** Pluggable linting utility for JavaScript and TypeScript.
-- **Prettier:** Opinionated code formatter.
+- **ESLint:** Pluggable linting utility with a strict **No-Disable Policy**. Includes specialized plugins for TanStack, React, and PandaCSS.
+- **Prettier:** Centralized, project-wide code formatter enforced across the entire monorepo.
+- **PandaCSS Optimization:** Strictly idiomatic usage requiring CVAs or Recipes for dynamic styling to ensure build-time static analysis.

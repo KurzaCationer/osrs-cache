@@ -3,6 +3,7 @@
 This plan outlines the steps to upgrade the `library-archivist` skill to be more proactive, traceable, and reliable, adhering to the approved specification.
 
 ## Phase 1: Ingestion & Metadata Standards [checkpoint: 44928ac]
+
 Focus on defining the new frontmatter structure and updating the ingestion/sorting logic.
 
 - [x] Task: Define the YAML Frontmatter schema and update `SKILL.md` instructions for the Ingestion/Sorting workflows.
@@ -11,6 +12,7 @@ Focus on defining the new frontmatter structure and updating the ingestion/sorti
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Ingestion & Metadata' (Protocol in workflow.md)
 
 ## Phase 2: Proactive Behavior & Fallback Logic [checkpoint: 64839f9]
+
 Focus on the skill's trigger logic and the search-search-verify-archive flow.
 
 - [x] Task: Update the `Core Mandate` and `Retrieval` sections of `SKILL.md` to enforce proactive checking on all technical queries.
@@ -19,6 +21,7 @@ Focus on the skill's trigger logic and the search-search-verify-archive flow.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Proactive Behavior' (Protocol in workflow.md)
 
 ## Phase 3: Migration & Final Verification [checkpoint: 5f50959]
+
 Update existing documents and perform a full end-to-end test.
 
 - [x] Task: Update all existing files in `reference-material/docs/` to follow the new YAML frontmatter format.

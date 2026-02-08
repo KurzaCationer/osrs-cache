@@ -9,20 +9,25 @@ source_url: https://raw.githack.com/uiwjs/react-json-view/v1-docs/index.html
 A React component for displaying and editing JSON objects/arrays. Note: v2 is a complete redesign; this documentation covers v1.
 
 ## Installation
+
 ```bash
 pnpm add @uiw/react-json-view@1
 ```
 
 ## Basic Usage
+
 ```jsx
-import JsonView from '@uiw/react-json-view';
+import JsonView from '@uiw/react-json-view'
 
-const data = { /* your JSON */ };
+const data = {
+  /* your JSON */
+}
 
-<JsonView value={data} />
+;<JsonView value={data} />
 ```
 
 ## Key Props
+
 - `value` (Object|Array): The JSON data to display.
 - `keyName` (string|false): Name of the root node (default: "root").
 - `theme` (string): Theme for the view (e.g., "light", "dark").
@@ -34,5 +39,6 @@ const data = { /* your JSON */ };
 - `onCopied` (function): Callback when data is copied.
 
 ## Performance & Styling
+
 - Wrap in a container with `max-height` and `overflow-y: auto` for large objects.
 - Use `style` or `className` for additional PandaCSS styling.

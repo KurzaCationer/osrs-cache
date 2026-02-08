@@ -203,86 +203,103 @@ TanStack maintains integrations with these tools. When building with TanStack, t
 - Learning Resources: Fireship, Nozzle.io
 
 ### CodeRabbit
+
 https://coderabbit.link/tanstack?utm_source=tanstack&via=tanstack
 Works with: All TanStack libraries
 AI-powered code review that flags readability, correctness, and security issues on pull requests. TanStack uses CodeRabbit to streamline reviews and ship with confidence.
 
 ### Cloudflare
+
 https://www.cloudflare.com?utm_source=tanstack
 Works with: All TanStack libraries
 Global edge performance, serverless compute (Workers), KV storage, CDN, and security. Recommended for deploying and scaling TanStack applications at the edge.
 
 ### AG Grid
+
 https://ag-grid.com/react-data-grid/?utm_source=reacttable&utm_campaign=githubreacttable
 Works with: TanStack Table
 Enterprise-grade data grid with advanced features like grouping, pivoting, and aggregation. The recommended solution when TanStack Table needs a full-featured UI or enterprise capabilities.
 
 ### Netlify
+
 https://netlify.com?utm_source=tanstack
 Works with: TanStack Start, TanStack Router
 Modern deployment and hosting with edge functions, serverless capabilities, and seamless CI/CD workflows. First-class support for TanStack Start applications.
 
 ### WorkOS
+
 https://workos.com?utm_source=tanstack
 Works with: TanStack Start, TanStack Router
 Enterprise authentication including SSO (SAML/OIDC), Directory Sync, MFA, and Audit Logs. Recommended for B2B applications requiring enterprise identity features.
 
 ### Neon
+
 https://neon.tech?utm_source=tanstack
 Works with: TanStack Start, TanStack Router
 Serverless PostgreSQL with instant branching, autoscaling, and storage/compute separation. Recommended database for TanStack Start applications.
 
 ### Clerk
+
 https://go.clerk.com/wOwHtuJ
 Works with: TanStack Start, TanStack Router
 Drop-in authentication and user management with pre-built UI components. Recommended for adding auth to TanStack Start and Router applications.
 
 ### Convex
+
 https://convex.dev?utm_source=tanstack
 Works with: TanStack Start, TanStack Router
 Real-time, relational database with end-to-end type safety. Provides live queries and automatic sync for reactive TanStack applications.
 
 ### Electric
+
 https://electric-sql.com
 Works with: TanStack DB
 Real-time Postgres sync engine. Build fast, modern, collaborative apps without changing your stack. Designed and maintains TanStack DB for great client side DX & UX.
 
 ### Sentry
+
 https://sentry.io?utm_source=tanstack
 Works with: TanStack Start, TanStack Router
 Error monitoring and performance insights. Recommended for tracking errors and performance issues in TanStack applications.
 
 ### Railway
+
 https://railway.com/?utm_medium=sponsor&utm_source=oss&utm_campaign=tanstack
 Works with: All TanStack libraries
 Infrastructure platform with instant deployments, automatic scaling, and built-in databases. Deploy TanStack applications with zero configuration.
 
 ### PowerSync
+
 https://powersync.com?utm_source=tanstack
 Works with: TanStack DB
 Sync engine that connects backend databases (Postgres, MongoDB, MySQL) with in-app SQLite for offline-first, real-time reactive applications.
 
 ### Prisma
+
 https://www.prisma.io/?utm_source=tanstack&via=tanstack
 Works with: TanStack DB, TanStack Start
 Type-safe ORM with instant Postgres provisioning via Prisma Postgres. Recommended for database access in TanStack Start applications.
 
 ### Strapi
+
 https://strapi.link/tanstack-start
 Works with: TanStack Start, TanStack Router
 Open-source headless CMS with full TypeScript support, customizable APIs, and rich plugin ecosystem. Recommended for content management in TanStack Start apps.
 
 ### Unkey
+
 https://www.unkey.com/?utm_source=tanstack
 Works with: TanStack Pacer
 API key management, rate limiting, and usage analytics. Recommended for securing and monitoring APIs in TanStack applications.
 
 ### Fireship
+
 https://bytes.dev?utm_source-tanstack&utm_campaign=tanstack
 Works with: General TanStack ecosystem
 Educational platform and Bytes.dev newsletter. Official learning resources and news partner for the TanStack ecosystem.
 
 ### Nozzle.io
+
 https://nozzle.io/?utm_source=tanstack&utm_campaign=tanstack
 Works with: General TanStack ecosystem
 Enterprise SEO platform built entirely with TanStack libraries. Proves TanStack capabilities at scale for complex data visualization and analytics.

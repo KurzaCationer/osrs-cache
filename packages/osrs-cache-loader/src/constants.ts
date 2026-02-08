@@ -1,11 +1,14 @@
-import type { AssetCounts } from "./types";
+import type { AssetCounts } from './types'
 
 export interface TechnicalAssetMapping {
-  index: number;
-  archive?: number;
+  index: number
+  archive?: number
 }
 
-export const TECHNICAL_ASSET_MAPPINGS: Record<keyof AssetCounts, TechnicalAssetMapping> = {
+export const TECHNICAL_ASSET_MAPPINGS: Record<
+  keyof AssetCounts,
+  TechnicalAssetMapping
+> = {
   item: { index: 2, archive: 10 },
   npc: { index: 2, archive: 9 },
   obj: { index: 2, archive: 6 },
@@ -31,4 +34,4 @@ export const TECHNICAL_ASSET_MAPPINGS: Record<keyof AssetCounts, TechnicalAssetM
   font: { index: 13 },
   dbTableIndex: { index: 21 },
   gameVal: { index: 24 },
-};
+}

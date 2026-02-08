@@ -9,21 +9,23 @@ vi.mock('@tanstack/react-router', () => ({
 
 // Mock StandardTable
 vi.mock('@kurza/ui-components', () => ({
-  StandardTable: ({ data, columns }: any) => (
+  StandardTable: ({ data, columns }: { data: Array<Record<string, unknown>>, columns: Array<{ header: string | (() => React.ReactNode) }> }) => (
     <div data-testid="standard-table">
       <table>
         <thead>
           <tr>
-            {columns.map((col: any, i: number) => (
-              <th key={i}>{typeof col.header === 'string' ? col.header : 'Header'}</th>
+            {columns.map((col, i) => (
+              <th key={i}>
+                {typeof col.header === 'string' ? col.header : 'Header'}
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {data.map((row: any) => (
-            <tr key={row.id}>
-              <td>{row.id}</td>
-              <td>{row.types?.length}</td>
+          {data.map((row: Record<string, unknown>) => (
+            <tr key={row.id as number}>
+              <td>{String(row.id)}</td>
+              <td>{(row.types as Array<unknown>).length}</td>
               <td>View Rows</td>
             </tr>
           ))}

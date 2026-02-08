@@ -1,26 +1,33 @@
 export interface CacheVersion {
-  era: "osrs" | "rs3";
-  indexRevision: number;
+  era: 'osrs' | 'rs3'
+  indexRevision: number
 }
 
 /**
  * A utility class for reading OSRS-specific binary data types from a buffer.
  */
 export class Reader {
-  private view: DataView;
+  private view: DataView
   /** The current reading offset in bytes. */
-  public offset = 0;
+  public offset = 0
 
   /**
    * Creates a new Reader instance.
    * @param buffer The buffer to read from.
    * @param version Optional cache version for revision-dependent decoding.
    */
-  constructor(buffer: ArrayBuffer | Uint8Array, public version?: CacheVersion) {
+  constructor(
+    buffer: ArrayBuffer | Uint8Array,
+    public version?: CacheVersion,
+  ) {
     if (buffer instanceof Uint8Array) {
-      this.view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
+      this.view = new DataView(
+        buffer.buffer,
+        buffer.byteOffset,
+        buffer.byteLength,
+      )
     } else {
-      this.view = new DataView(buffer);
+      this.view = new DataView(buffer)
     }
   }
 
@@ -28,16 +35,16 @@ export class Reader {
    * Checks if the current cache version is after the specified version.
    */
   isAfter(ver: CacheVersion): boolean {
-    if (!this.version) return true; // Default to latest if version unknown
-    if (this.version.era !== ver.era) return false;
-    return this.version.indexRevision >= ver.indexRevision;
+    if (!this.version) return true // Default to latest if version unknown
+    if (this.version.era !== ver.era) return false
+    return this.version.indexRevision >= ver.indexRevision
   }
 
   /**
    * The total length of the buffer in bytes.
    */
   get length(): number {
-    return this.view.byteLength;
+    return this.view.byteLength
   }
 
   /**
@@ -45,7 +52,7 @@ export class Reader {
    * @returns The read integer.
    */
   u8(): number {
-    return this.view.getUint8(this.offset++);
+    return this.view.getUint8(this.offset++)
   }
 
   /**
@@ -53,7 +60,7 @@ export class Reader {
    * @returns The read integer.
    */
   i8(): number {
-    return this.view.getInt8(this.offset++);
+    return this.view.getInt8(this.offset++)
   }
 
   /**
@@ -61,9 +68,9 @@ export class Reader {
    * @returns The read integer.
    */
   u16(): number {
-    const val = this.view.getUint16(this.offset);
-    this.offset += 2;
-    return val;
+    const val = this.view.getUint16(this.offset)
+    this.offset += 2
+    return val
   }
 
   /**
@@ -71,8 +78,8 @@ export class Reader {
    * @returns The read integer.
    */
   u24(): number {
-    const val = (this.u8() << 16) | this.u16();
-    return val;
+    const val = (this.u8() << 16) | this.u16()
+    return val
   }
 
   /**
@@ -80,9 +87,9 @@ export class Reader {
    * @returns The read integer.
    */
   u32(): number {
-    const val = this.view.getUint32(this.offset);
-    this.offset += 4;
-    return val;
+    const val = this.view.getUint32(this.offset)
+    this.offset += 4
+    return val
   }
 
   /**
@@ -90,9 +97,9 @@ export class Reader {
    * @returns The read integer.
    */
   i32(): number {
-    const val = this.view.getInt32(this.offset);
-    this.offset += 4;
-    return val;
+    const val = this.view.getInt32(this.offset)
+    this.offset += 4
+    return val
   }
 
   /**
@@ -100,9 +107,9 @@ export class Reader {
    * @returns The read integer.
    */
   i16(): number {
-    const val = this.view.getInt16(this.offset);
-    this.offset += 2;
-    return val;
+    const val = this.view.getInt16(this.offset)
+    this.offset += 2
+    return val
   }
 
   /**
@@ -110,9 +117,9 @@ export class Reader {
    * @returns The read integer as a bigint.
    */
   i64(): bigint {
-    const val = this.view.getBigInt64(this.offset);
-    this.offset += 8;
-    return val;
+    const val = this.view.getBigInt64(this.offset)
+    this.offset += 8
+    return val
   }
 
   /**
@@ -120,8 +127,8 @@ export class Reader {
    * @returns The read value.
    */
   u16n(): number {
-    const val = this.u16();
-    return val === 0xffff ? -1 : val;
+    const val = this.u16()
+    return val === 0xffff ? -1 : val
   }
 
   /**
@@ -129,7 +136,7 @@ export class Reader {
    * @returns The read value plus 1.
    */
   u8p1(): number {
-    return this.u8() + 1;
+    return this.u8() + 1
   }
 
   /**
@@ -139,18 +146,18 @@ export class Reader {
    * @returns The read value.
    */
   smart(): number {
-    const first = this.view.getUint8(this.offset);
+    const first = this.view.getUint8(this.offset)
     if (first < 128) {
-      return this.u8();
+      return this.u8()
     }
-    return this.u16() - 0x8000;
+    return this.u16() - 0x8000
   }
 
   /**
    * Alias for smart().
    */
   u8o16(): number {
-    return this.smart();
+    return this.smart()
   }
 
   /**
@@ -158,18 +165,18 @@ export class Reader {
    * @returns The read value minus 1.
    */
   smartm1(): number {
-    const first = this.view.getUint8(this.offset);
+    const first = this.view.getUint8(this.offset)
     if (first < 128) {
-      return this.u8() - 1;
+      return this.u8() - 1
     }
-    return this.u16() - 0x8001;
+    return this.u16() - 0x8001
   }
 
   /**
    * Alias for smartm1().
    */
   u8o16m1(): number {
-    return this.smartm1();
+    return this.smartm1()
   }
 
   /**
@@ -179,18 +186,18 @@ export class Reader {
    * @returns The read value.
    */
   bigSmart(): number {
-    const first = this.view.getUint8(this.offset);
+    const first = this.view.getUint8(this.offset)
     if ((first & 0x80) === 0) {
-      return this.u16();
+      return this.u16()
     }
-    return this.u32() & 0x7fffffff;
+    return this.u32() & 0x7fffffff
   }
 
   /**
    * Alias for bigSmart().
    */
   u32o16(): number {
-    return this.bigSmart();
+    return this.bigSmart()
   }
 
   /**
@@ -198,26 +205,26 @@ export class Reader {
    * @returns The read value.
    */
   bigSmartn(): number {
-    const first = this.view.getUint8(this.offset);
+    const first = this.view.getUint8(this.offset)
     if ((first & 0x80) === 0) {
-      return this.u16n();
+      return this.u16n()
     }
-    const val = this.u32() & 0x7fffffff;
-    return val === 0x7fffffff ? -1 : val;
+    const val = this.u32() & 0x7fffffff
+    return val === 0x7fffffff ? -1 : val
   }
 
   /**
    * Alias for bigSmartn().
    */
   s2o4n(): number {
-    return this.bigSmartn();
+    return this.bigSmartn()
   }
 
   /**
    * Alias for bigSmartn().
    */
   u32o16n(): number {
-    return this.bigSmartn();
+    return this.bigSmartn()
   }
 
   /**
@@ -225,7 +232,7 @@ export class Reader {
    * @deprecated Use bigSmart() instead.
    */
   smart32(): number {
-    return this.bigSmart();
+    return this.bigSmart()
   }
 
   /**
@@ -233,17 +240,17 @@ export class Reader {
    * @returns The read string.
    */
   string(): string {
-    const cp1252 = "€?‚ƒ„…†‡ˆ‰Š‹Œ?Ž??‘’“”•–—˜™š›œ?žŸ";
-    let str = '';
-    let b: number;
+    const cp1252 = '€?‚ƒ„…†‡ˆ‰Š‹Œ?Ž??‘’“”•–—˜™š›œ?žŸ'
+    let str = ''
+    let b: number
     while ((b = this.u8()) !== 0) {
       if (b >= 128 && b <= 159) {
-        str += cp1252[b - 128];
+        str += cp1252[b - 128]
       } else {
-        str += String.fromCharCode(b);
+        str += String.fromCharCode(b)
       }
     }
-    return str;
+    return str
   }
 
   /**
@@ -251,8 +258,8 @@ export class Reader {
    * @returns The read string or null.
    */
   stringNullHidden(): string | null {
-    const s = this.string();
-    return s === "hidden" ? null : s;
+    const s = this.string()
+    return s === 'hidden' ? null : s
   }
 
   /**
@@ -261,10 +268,10 @@ export class Reader {
    * @returns A Uint8Array containing the read bytes.
    */
   bytes(length: number): Uint8Array {
-    const start = this.view.byteOffset + this.offset;
-    const val = new Uint8Array(this.view.buffer, start, length);
-    this.offset += length;
-    return val;
+    const start = this.view.byteOffset + this.offset
+    const val = new Uint8Array(this.view.buffer, start, length)
+    this.offset += length
+    return val
   }
 
   /**
@@ -272,6 +279,6 @@ export class Reader {
    * @returns The number of bytes remaining.
    */
   remaining(): number {
-    return this.length - this.offset;
+    return this.length - this.offset
   }
 }

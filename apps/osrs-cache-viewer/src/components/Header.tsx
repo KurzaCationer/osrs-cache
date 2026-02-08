@@ -11,7 +11,7 @@ const linkStyle = css({
   rounded: 'lg',
   transition: 'colors',
   mb: '2',
-  _hover: { bg: 'bg.muted' }
+  _hover: { bg: 'bg.muted' },
 })
 
 const activeLinkStyle = css({
@@ -23,7 +23,7 @@ const activeLinkStyle = css({
   transition: 'colors',
   mb: '2',
   bg: 'primary.default',
-  _hover: { bg: 'primary.muted' }
+  _hover: { bg: 'primary.muted' },
 })
 
 /**
@@ -34,30 +34,37 @@ export default function Header() {
 
   return (
     <>
-      <header className={css({
-        p: '4',
-        display: 'flex',
-        alignItems: 'center',
-        bg: 'bg.surface',
-        color: 'text.main',
-        shadow: 'lg',
-        borderBottom: '1px solid',
-        borderColor: 'border.default'
-      })}>
+      <header
+        className={css({
+          p: '4',
+          display: 'flex',
+          alignItems: 'center',
+          bg: 'bg.surface',
+          color: 'text.main',
+          shadow: 'lg',
+          borderBottom: '1px solid',
+          borderColor: 'border.default',
+        })}
+      >
         <button
           onClick={() => setIsOpen(true)}
           className={css({
             p: '2',
             rounded: 'lg',
             transition: 'colors',
-            _hover: { bg: 'bg.active' }
+            _hover: { bg: 'bg.active' },
           })}
           aria-label="Open menu"
         >
           <Menu size={24} />
         </button>
-        <h1 className={css({ ml: '4', fontSize: 'xl', fontWeight: 'semibold' })}>
-          <Link to="/" className={css({ textDecoration: 'none', color: 'text.main' })}>
+        <h1
+          className={css({ ml: '4', fontSize: 'xl', fontWeight: 'semibold' })}
+        >
+          <Link
+            to="/"
+            className={css({ textDecoration: 'none', color: 'text.main' })}
+          >
             OSRS Cache Viewer
           </Link>
         </h1>
@@ -79,25 +86,29 @@ export default function Header() {
           display: 'flex',
           flexDirection: 'column',
           borderRight: '1px solid',
-          borderColor: 'border.default'
+          borderColor: 'border.default',
         })}
       >
-        <div className={css({
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          p: '4',
-          borderBottomWidth: '1px',
-          borderColor: 'border.default'
-        })}>
-          <h2 className={css({ fontSize: 'xl', fontWeight: 'bold' })}>Navigation</h2>
+        <div
+          className={css({
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            p: '4',
+            borderBottomWidth: '1px',
+            borderColor: 'border.default',
+          })}
+        >
+          <h2 className={css({ fontSize: 'xl', fontWeight: 'bold' })}>
+            Navigation
+          </h2>
           <button
             onClick={() => setIsOpen(false)}
             className={css({
               p: '2',
               rounded: 'lg',
               transition: 'colors',
-              _hover: { bg: 'bg.active' }
+              _hover: { bg: 'bg.active' },
             })}
             aria-label="Close menu"
           >

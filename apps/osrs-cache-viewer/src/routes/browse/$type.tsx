@@ -11,44 +11,53 @@ import type { AssetCounts } from '@kurza/osrs-cache-loader'
 export const Route = createFileRoute('/browse/$type')({
   validateSearch: (search: Record<string, unknown>) => {
     return {
-      limit: Number(search?.limit ?? 50),
-      offset: Number(search?.offset ?? 0),
-      tableId: search?.tableId !== undefined ? Number(search.tableId) : undefined,
+      limit: Number(search.limit ?? 50),
+      offset: Number(search.offset ?? 0),
+      tableId:
+        search.tableId !== undefined ? Number(search.tableId) : undefined,
     }
   },
   component: BrowseType,
   loader: async ({ params, search }) => {
-    return await fetchAssets({ 
-      data: { 
+    return await fetchAssets({
+      data: {
         type: params.type as keyof AssetCounts,
-        limit: search?.limit ?? 50,
-        offset: search?.offset ?? 0,
-        tableId: search?.tableId,
-      } 
+        limit: search.limit ?? 50,
+        offset: search.offset ?? 0,
+        tableId: search.tableId,
+      },
     })
-  }
+  },
 })
 
-export function BrowseTypeContent({ type, data, isLoading, isError, limit, offset, tableId }: { 
-  type: string, 
-  data?: Array<any>, 
-  isLoading: boolean, 
-  isError: boolean,
-  limit: number,
-  offset: number,
+export function BrowseTypeContent({
+  type,
+  data,
+  isLoading,
+  isError,
+  limit,
+  offset,
+  tableId,
+}: {
+  type: string
+  data?: Array<unknown>
+  isLoading: boolean
+  isError: boolean
+  limit: number
+  offset: number
   tableId?: number
 }) {
   const navigate = useNavigate()
 
   const handlePrev = () => {
     navigate({
-      search: (old: any) => ({ ...old, offset: Math.max(0, offset - limit) })
+      search: (old: Record<string, unknown>) => ({ ...old, offset: Math.max(0, offset - limit) }),
     })
   }
 
   const handleNext = () => {
     navigate({
-      search: (old: any) => ({ ...old, offset: offset + limit })
+      search: (old: Record<string, unknown>) => ({ ...old, offset: offset + limit }),
     })
   }
 
@@ -57,38 +66,89 @@ export function BrowseTypeContent({ type, data, isLoading, isError, limit, offse
   return (
     <AssetBrowserLayout title={title}>
       {isLoading ? (
-        <div className={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', py: '20', gap: '4' })}>
+        <div
+          className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            py: '20',
+            gap: '4',
+          })}
+        >
           <Loader size={48} />
-          <p className={css({ color: 'text.muted', animate: 'pulse' })}>Loading assets from cache...</p>
+          <p className={css({ color: 'text.muted', animate: 'pulse' })}>
+            Loading assets from cache...
+          </p>
         </div>
       ) : isError ? (
-        <div className={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', py: '20', gap: '4', color: 'error.default' })}>
+        <div
+          className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            py: '20',
+            gap: '4',
+            color: 'error.default',
+          })}
+        >
           <AlertCircle size={48} />
           <p className={css({ fontWeight: 'bold' })}>Failed to load assets.</p>
-          <p className={css({ fontSize: 'sm', color: 'text.muted' })}>The requested asset type might not be supported yet or the cache is unavailable.</p>
+          <p className={css({ fontSize: 'sm', color: 'text.muted' })}>
+            The requested asset type might not be supported yet or the cache is
+            unavailable.
+          </p>
         </div>
       ) : (
-        <div className={css({ display: 'flex', flexDirection: 'column', gap: '4' })}>
+        <div
+          className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4',
+          })}
+        >
           {type === 'sprite' ? (
-            <div className={css({ 
-                display: 'grid', 
+            <div
+              className={css({
+                display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-                gap: '4'
-            })}>
-                {data?.map((item: any) => (
-                    <div key={item.id} className={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2' })}>
-                        <SpriteCanvas data={item} />
-                        <span className={css({ fontSize: 'xs', color: 'text.muted' })}>ID: {item.id}</span>
-                    </div>
-                ))}
+                gap: '4',
+              })}
+            >
+              {(data as Array<{ id: number }>).map((item) => (
+                <div
+                  key={item.id}
+                  className={css({
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '2',
+                  })}
+                >
+                  <SpriteCanvas data={item} />
+                  <span
+                    className={css({ fontSize: 'xs', color: 'text.muted' })}
+                  >
+                    ID: {item.id}
+                  </span>
+                </div>
+              ))}
             </div>
           ) : type === 'dbTable' ? (
-            <DBTableBrowser data={data ?? []} />
+            <DBTableBrowser data={(data ?? []) as Array<Record<string, unknown>>} />
           ) : (
-            <JsonAssetTable data={data ?? []} />
+            <JsonAssetTable data={(data ?? []) as Array<Record<string, unknown>>} />
           )}
-          
-          <div className={css({ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '4', mt: '4', py: '2' })}>
+
+          <div
+            className={css({
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '4',
+              mt: '4',
+              py: '2',
+            })}
+          >
             <button
               onClick={handlePrev}
               disabled={offset === 0}
@@ -105,7 +165,7 @@ export function BrowseTypeContent({ type, data, isLoading, isError, limit, offse
                 fontSize: 'sm',
                 cursor: 'pointer',
                 _disabled: { opacity: 0.5, cursor: 'not-allowed' },
-                _hover: { bg: 'bg.muted', _disabled: { bg: 'bg.surface' } }
+                _hover: { bg: 'bg.muted', _disabled: { bg: 'bg.surface' } },
               })}
             >
               <ChevronLeft size={16} />
@@ -130,7 +190,7 @@ export function BrowseTypeContent({ type, data, isLoading, isError, limit, offse
                 fontSize: 'sm',
                 cursor: 'pointer',
                 _disabled: { opacity: 0.5, cursor: 'not-allowed' },
-                _hover: { bg: 'bg.muted', _disabled: { bg: 'bg.surface' } }
+                _hover: { bg: 'bg.muted', _disabled: { bg: 'bg.surface' } },
               })}
             >
               Next
@@ -147,9 +207,19 @@ export function BrowseType() {
   const { type } = Route.useParams()
   const data = Route.useLoaderData()
   const search = useSearch({ from: '/browse/$type' })
-  const limit = search?.limit ?? 50
-  const offset = search?.offset ?? 0
-  const tableId = (search as any)?.tableId
-  
-  return <BrowseTypeContent type={type} data={data} isLoading={false} isError={false} limit={limit} offset={offset} tableId={tableId} />
+  const limit = search.limit
+  const offset = search.offset
+  const tableId = search.tableId
+
+  return (
+    <BrowseTypeContent
+      type={type}
+      data={data as Array<unknown>}
+      isLoading={false}
+      isError={false}
+      limit={limit}
+      offset={offset}
+      tableId={tableId}
+    />
+  )
 }

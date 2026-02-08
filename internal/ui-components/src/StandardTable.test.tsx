@@ -30,10 +30,12 @@ describe('StandardTable', () => {
 
   it('supports custom cell rendering', () => {
     const customColumns = [
-      { 
-        header: 'ID', 
+      {
+        header: 'ID',
         accessorKey: 'id',
-        cell: (info: any) => <span data-testid="custom-id">{info.getValue()}</span>
+        cell: (info: { getValue: () => React.ReactNode }) => (
+          <span data-testid="custom-id">{info.getValue()}</span>
+        ),
       },
     ]
     render(<StandardTable columns={customColumns} data={data} />)

@@ -1,0 +1,9 @@
+{
+  "track_id": "codebase_quality_audit_20260208",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-02-08T12:00:00Z",
+  "updated_at": "2026-02-08T12:00:00Z",
+  "description": "I want to do a rigorous quality check of the entire codebase, mainly focussing on eslint rules, using pandacss styling effectively and using prettier on the entire codebase.",
+  "track_root_sha": "181bf75733ef2020d23cf5b8098a1cfe98e830b4"
+}

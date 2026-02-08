@@ -8,16 +8,19 @@ description: Conducts external research and prepares documentation for ingestion
 Find and verify external documentation to fill gaps in the local library.
 
 ## Triggers
+
 - Explicitly activated by `archivist-retriever` when local info is missing.
 - When new technologies or tools are requested that are not yet in the library.
 - When library-related errors occur that are not documented locally.
 
 ## Core Mandates
+
 - **Verified Sources:** Prioritize official documentation, reputable GitHub repositories, and established community wikis.
 - **User Approval:** Always summarize findings and obtain user confirmation before adding information to the library.
 - **Ingestion Ready:** Prepare information in a standardized format for the `archivist-librarian`.
 
 ## Workflow: Research & Ingestion
+
 1. **Define Research Goal:** Identify exactly what information is missing.
 2. **External Search:**
    - Use `google_web_search` to find relevant online resources.

@@ -7,7 +7,7 @@ import { routeTree } from './routeTree.gen'
 
 /**
  * Initializes and configures the application router with TanStack Router and Query integration.
- * 
+ *
  * @returns A configured TanStack Router instance.
  */
 export const getRouter = () => {

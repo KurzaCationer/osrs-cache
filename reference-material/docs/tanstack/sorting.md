@@ -42,10 +42,12 @@ const table = useReactTable({
 ```
 
 ### Initial Sorting
+
 You can set an initial sort order by initializing the state:
+
 ```tsx
 const [sorting, setSorting] = useState<SortingState>([
-  { id: 'count', desc: true }
+  { id: 'count', desc: true },
 ])
 ```
 
@@ -58,9 +60,12 @@ const [sorting, setSorting] = useState<SortingState>([
 3.  **Stable Row IDs:** Use `getRowId` to provide a unique, stable ID for each row to help React's reconciliation.
 
 ```tsx
-const columns = useMemo(() => [
-  // ...
-], [])
+const columns = useMemo(
+  () => [
+    // ...
+  ],
+  [],
+)
 
 const data = useMemo(() => transform(props.data), [props.data])
 ```
@@ -74,8 +79,10 @@ const data = useMemo(() => transform(props.data), [props.data])
 - [ ] Header click handlers are correctly attached via `header.column.getToggleSortingHandler()`.
 
 ## Troubleshooting Browser Hangs
+
 Browser hangs during sorting usually indicate an unstable `data` or `columns` reference being passed to `useReactTable`. Ensure these are correctly wrapped in `useMemo`. If the data is extremely large, consider `manualSorting: true` and server-side processing.
 
 ---
+
 Source: https://tanstack.com/table/latest/docs/framework/react/guide/table-state
 Source: https://tanstack.com/table/latest/docs/api/features/sorting

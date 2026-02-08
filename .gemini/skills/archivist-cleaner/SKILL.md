@@ -8,15 +8,18 @@ description: Performs maintenance and cleanup of the documentation library.
 Ensure the documentation library is free of redundancy, broken links, and formatting inconsistencies.
 
 ## Triggers
+
 - Explicit user request (e.g., "Clean up the documentation library", "Audit the links in the docs").
 
 ## Core Mandates
+
 - **Deduplication:** Remove identical paragraphs, sections, or redundant YAML frontmatter included in the document body.
 - **Link Integrity:** Normalize link formats and verify that all internal and external links are valid.
 - **Reference Accuracy:** Audit cross-references between different documentation files to ensure they resolve correctly.
 - **Non-Destructive:** Always verify proposed deletions or major changes with the user unless the change is a clear-cut duplicate.
 
 ## Workflow: Maintenance & Cleanup
+
 1. **Initiate Audit:**
    - Scan `./reference-material/docs/` for potential issues.
 2. **Deduplicate Content:**

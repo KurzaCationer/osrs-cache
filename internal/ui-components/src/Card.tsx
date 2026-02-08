@@ -24,9 +24,5 @@ export const Card = ({ children, className }: CardProps) => {
     shadow: 'sm',
   })
 
-  return (
-    <div className={cx(cardStyles, className)}>
-      {children}
-    </div>
-  )
+  return <div className={cx(cardStyles, className)}>{children}</div>
 }

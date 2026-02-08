@@ -3,6 +3,7 @@
 This plan covers researching implementation details from `cache2`, fixing the zero-count bug, and expanding the frontend to display all available asset categories dynamically.
 
 ## Phase 0: Research & Discovery [checkpoint: 5a58922]
+
 Goal: Understand the precise archive and file structure by investigating the `cache2` implementation.
 
 - [x] Task: Clone the `cache2` repository into a temporary directory.
@@ -11,6 +12,7 @@ Goal: Understand the precise archive and file structure by investigating the `ca
 - [x] Task: Conductor - User Manual Verification 'Phase 0: Research & Discovery' (Protocol in workflow.md)
 
 ## Phase 1: Loader Core Implementation [checkpoint: c10303a]
+
 Goal: Implement the OSRS cache protocol and data access from scratch in `@kurza/osrs-cache-loader` based on `cache2` research.
 
 - [x] Task: Update `AssetCounts` type in `packages/osrs-cache-loader/src/types.ts` to include all categories.
@@ -24,6 +26,7 @@ Goal: Implement the OSRS cache protocol and data access from scratch in `@kurza/
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Loader Core Implementation' (Protocol in workflow.md)
 
 ## Phase 2: Frontend Dynamic Rendering [checkpoint: 2b534e4]
+
 Goal: Update the viewer to show all categories returned by the loader.
 
 - [x] Task: Create a mapping utility for Icons and Colors for all asset categories.
@@ -32,6 +35,7 @@ Goal: Update the viewer to show all categories returned by the loader.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Frontend Dynamic Rendering' (Protocol in workflow.md)
 
 ## Phase 3: Final Verification & Cleanup [checkpoint: 8767358]
+
 Goal: End-to-end check, squashing, and archival.
 
 - [x] Task: Run `pnpm run build` to ensure no type errors or build failures across the monorepo.

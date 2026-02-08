@@ -8,15 +8,18 @@ description: Proactively searches and applies local documentation from `./refere
 Prioritize local documentation over internal knowledge for every technical query.
 
 ## Triggers
+
 - Any task involving libraries, tools, or technical concepts (e.g., "How do I use PandaCSS?", "Implement a TanStack Router").
 - Direct questions about how something works within the project's tech stack.
 
 ## Core Mandates
+
 - **Library First:** You MUST check `./reference-material/docs` for information before relying on your internal knowledge or performing external searches.
 - **Exhaustive Search:** Use `glob` and `search_file_content` to find relevant information in the local documentation library.
 - **Contextual Application:** Apply the found documentation precisely to the current task, adhering to the documented patterns and versions.
 
 ## Workflow: Retrieval & Activation
+
 1. **Identify Need:** Recognize when a task involves a technology or concept likely documented in `./reference-material/docs`.
 2. **Search Library:**
    - Use `glob` to find relevant files in `./reference-material/docs/`.

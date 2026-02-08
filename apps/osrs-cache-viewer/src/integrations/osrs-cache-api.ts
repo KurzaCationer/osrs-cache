@@ -13,7 +13,9 @@ export const fetchSummary = createServerFn({
     return await getMetadata({ game: 'oldschool' })
   } catch (error) {
     console.error('Failed to load cache metadata:', error)
-    throw new Error('Failed to load OSRS cache summary. Please try again later.')
+    throw new Error(
+      'Failed to load OSRS cache summary. Please try again later.',
+    )
   }
 })
 
@@ -22,15 +24,28 @@ export const fetchSummary = createServerFn({
  */
 export const fetchAssets = createServerFn({
   method: 'GET',
-}).handler(async ({ data }: { data: { type: keyof AssetCounts, limit?: number, offset?: number, tableId?: number } }) => {
-    const { type, limit, offset, tableId } = data;
+}).handler(
+  async ({
+    data,
+  }: {
+    data: {
+      type: keyof AssetCounts
+      limit?: number
+      offset?: number
+      tableId?: number
+    }
+  }) => {
+    const { type, limit, offset, tableId } = data
     try {
-      return await getAssetsByType(type, { game: 'oldschool' }, limit, offset, { tableId })
+      return await getAssetsByType(type, { game: 'oldschool' }, limit, offset, {
+        tableId,
+      })
     } catch (error) {
       console.error(`Failed to load assets for type ${type}:`, error)
       throw new Error(`Failed to load ${type} data.`)
     }
-  })
+  },
+)
 
 /**
  * Server function to manually refresh/update the cache.
@@ -49,7 +64,13 @@ export const refreshCache = createServerFn({
 /**
  * TanStack Query options for fetching assets by type.
  */
-export const assetsQueryOptions = (type: keyof AssetCounts, limit?: number, offset?: number, tableId?: number) => queryOptions({
-  queryKey: ['assets', type, limit, offset, tableId],
-  queryFn: () => fetchAssets({ data: { type, limit, offset, tableId } }),
-})
+export const assetsQueryOptions = (
+  type: keyof AssetCounts,
+  limit?: number,
+  offset?: number,
+  tableId?: number,
+) =>
+  queryOptions({
+    queryKey: ['assets', type, limit, offset, tableId],
+    queryFn: () => fetchAssets({ data: { type, limit, offset, tableId } }),
+  })

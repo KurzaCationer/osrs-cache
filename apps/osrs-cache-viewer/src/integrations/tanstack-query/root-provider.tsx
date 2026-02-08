@@ -13,7 +13,7 @@ export function getContext() {
 
 /**
  * The root provider for TanStack Query, wrapping the application with QueryClientProvider.
- * 
+ *
  * @param props The provider props.
  * @param props.children The child components to wrap.
  * @param props.queryClient The query client instance.

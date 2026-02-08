@@ -12,7 +12,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 /**
  * A standard button component with multiple style variants.
  */
-export const Button = ({ variant = 'primary', className, children, ...props }: ButtonProps) => {
+export const Button = ({
+  variant = 'primary',
+  className,
+  children,
+  ...props
+}: ButtonProps) => {
   const buttonStyles = css({
     display: 'inline-flex',
     alignItems: 'center',
@@ -48,10 +53,7 @@ export const Button = ({ variant = 'primary', className, children, ...props }: B
   })
 
   return (
-    <button 
-      className={cx(buttonStyles, className)} 
-      {...props}
-    >
+    <button className={cx(buttonStyles, className)} {...props}>
       {children}
     </button>
   )

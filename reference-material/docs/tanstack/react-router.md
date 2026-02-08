@@ -20,7 +20,11 @@ A fully type-safe React router with built-in data fetching, nested routing, and 
 ### 1. Define Routes
 
 ```tsx
-import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router'
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+} from '@tanstack/react-router'
 
 const rootRoute = createRootRoute()
 

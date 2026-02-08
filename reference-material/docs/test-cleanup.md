@@ -4,8 +4,10 @@ description: A file with issues to test the cleaner.
 ---
 
 ---
+
 name: Duplicate Frontmatter
 description: This should not be here.
+
 ---
 
 # Test Cleanup

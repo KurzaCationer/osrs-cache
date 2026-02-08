@@ -3,6 +3,7 @@
 This plan outlines the steps to implement server-side persistent caching, migrate to TanStack Start loaders, and refactor the asset browser to a JSON-focused table.
 
 ## Phase 1: Server-Side Cache Persistence
+
 Implement the OS-standard persistent storage for the `@kurza/osrs-cache-loader` or the viewer's server-side logic.
 
 - [x] Task: Research and implement OS-specific data directory resolution (e.g., using `env-paths` or similar logic).
@@ -11,6 +12,7 @@ Implement the OS-standard persistent storage for the `@kurza/osrs-cache-loader` 
 - [x] Task: Write tests verifying that caches are retrieved from disk after the first download.
 
 ## Phase 2: TanStack Start Loader Migration
+
 Refactor the `osrs-cache-viewer` to use server-side loaders for data fetching.
 
 - [x] Task: Define TanStack Start loaders for the main cache info and asset list routes.
@@ -20,6 +22,7 @@ Refactor the `osrs-cache-viewer` to use server-side loaders for data fetching.
 - [x] Task: Verify that navigation feels faster and that data is pre-rendered.
 
 ## Phase 3: JSON-Focused Asset View
+
 Refactor the asset tables to display raw data in a flexible JSON format.
 
 - [x] Task: Create a reusable `JsonAssetTable` component using `TanStack Table`.
@@ -29,6 +32,7 @@ Refactor the asset tables to display raw data in a flexible JSON format.
 - [x] Task: Write tests for the `JsonAssetTable` component and its data formatting.
 
 ## Phase 4: Verification and Finalization
+
 Ensure all features work together and meet the performance goals.
 
 - [x] Task: Verify that large asset lists load efficiently using the new pagination/streaming.
