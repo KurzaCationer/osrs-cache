@@ -6,10 +6,15 @@ import os from "os";
 
 let tempDir: string;
 
-vi.mock('./paths', () => ({
-  getCacheDir: vi.fn(() => tempDir),
-  cacheExistsOnDisk: vi.fn(async () => false)
-}));
+vi.mock('./paths', async (importOriginal) => {
+  const actual = await importOriginal() as any;
+  return {
+    ...actual,
+    getCacheDir: vi.fn(() => tempDir),
+    getMetadataPath: vi.fn(() => path.join(tempDir, 'metadata.json')),
+    cacheExistsOnDisk: vi.fn(async () => true)
+  };
+});
 
 beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'osrs-cache-index-test-'));

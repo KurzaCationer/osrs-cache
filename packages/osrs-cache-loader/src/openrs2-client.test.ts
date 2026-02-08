@@ -88,4 +88,19 @@ describe("OpenRS2Client", () => {
     await expect(client.listCaches()).rejects.toThrow(OpenRS2Error);
     await expect(client.listCaches()).rejects.toThrow("OpenRS2 Error (404): Not Found");
   });
+
+  it("should download flat tarball export", async () => {
+    const mockBuffer = new ArrayBuffer(1024);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      arrayBuffer: async () => await Promise.resolve(mockBuffer),
+    });
+
+    const buffer = await client.downloadFlatExport(123);
+    expect(buffer).toBe(mockBuffer);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://archive.openrs2.org/caches/runescape/123/flat-file.tar.gz",
+    );
+  });
 });

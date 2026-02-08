@@ -23,6 +23,7 @@
 
 ## Data Processing
 - **fflate:** High-performance GZIP decompression.
+- **tar-stream:** Flat-file tarball extraction for proactive cache installation.
 - **Custom BZ2 Implementation:** Standalone, high-performance BZIP2 decompression ported for OSRS cache block handling.
 
 ## Development & Build Tooling

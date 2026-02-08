@@ -6,6 +6,8 @@ services:
     command: pnpm --filter osrs-cache-viewer dev --host 0.0.0.0
     ports:
       - "3000:3000"
+    volumes:
+      - osrs-cache-data:/root/.local/share/osrs-cache-nodejs
     develop:
       watch:
         - action: sync
@@ -42,3 +44,6 @@ services:
             - node_modules/
         - action: rebuild
           path: package.json
+
+volumes:
+  osrs-cache-data:

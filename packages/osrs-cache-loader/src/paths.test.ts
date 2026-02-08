@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getPersistentDataDir, getCacheDir } from './paths';
+import { getPersistentDataDir, getCacheDir, getMetadataPath } from './paths';
 import os from 'os';
 
 describe('paths', () => {
@@ -16,5 +16,11 @@ describe('paths', () => {
     const cacheDir = getCacheDir(cacheId);
     expect(cacheDir).toContain('osrs-cache');
     expect(cacheDir).toContain('caches/123');
+  });
+
+  it('should return the metadata store path', () => {
+    const metadataPath = getMetadataPath();
+    expect(metadataPath).toContain('osrs-cache');
+    expect(metadataPath).toContain('metadata.json');
   });
 });

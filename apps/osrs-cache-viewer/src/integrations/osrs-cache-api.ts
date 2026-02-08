@@ -33,6 +33,20 @@ export const fetchAssets = createServerFn({
   })
 
 /**
+ * Server function to manually refresh/update the cache.
+ */
+export const refreshCache = createServerFn({
+  method: 'POST',
+}).handler(async () => {
+  try {
+    return await getMetadata({ game: 'oldschool', forceUpdate: true })
+  } catch (error) {
+    console.error('Failed to refresh cache:', error)
+    throw new Error('Failed to refresh OSRS cache.')
+  }
+})
+
+/**
  * TanStack Query options for fetching assets by type.
  */
 export const assetsQueryOptions = (type: keyof AssetCounts, limit?: number, offset?: number, tableId?: number) => queryOptions({

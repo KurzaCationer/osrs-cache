@@ -155,6 +155,8 @@ export interface LoadCacheOptions {
   game?: string;
   /** Custom base URL for the OpenRS2 Archive API. */
   openrs2BaseUrl?: string;
+  /** Whether to bypass the local metadata rate-limit and check OpenRS2 for a newer cache version. */
+  forceUpdate?: boolean;
 }
 
 /**
@@ -174,4 +176,8 @@ export interface CacheMetadata {
   source: string;
   /** Detailed asset counts for this cache. */
   counts: AssetCounts;
+  /** Whether the current local cache is stale (newer version available on OpenRS2). */
+  isStale?: boolean;
+  /** Timestamp of the last check for updates from OpenRS2. */
+  lastCheckedAt?: number;
 }

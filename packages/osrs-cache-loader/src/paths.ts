@@ -12,6 +12,13 @@ export function getPersistentDataDir(): string {
 }
 
 /**
+ * Returns the path to the metadata store file.
+ */
+export function getMetadataPath(): string {
+  return path.join(getPersistentDataDir(), 'metadata.json');
+}
+
+/**
  * Returns the path to a specific cache directory.
  * @param cacheId The OpenRS2 cache ID.
  */

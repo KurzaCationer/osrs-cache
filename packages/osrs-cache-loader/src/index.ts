@@ -9,6 +9,9 @@ import { HybridCacheProvider } from "./cache/HybridCacheProvider";
 import { Enum, Struct, Param, Underlay, Animation, HealthBar, Hitsplat, Sprites, DBRow, DBTable, WorldEntity } from "./cache/loaders";
 import { Reader } from "./cache/Reader";
 import { EnumID, StructID, ParamID, UnderlayID, AnimationID, HealthBarID, HitsplatID, SpriteID, DBRowID, DBTableID, WorldEntityID } from "./cache/types";
+import { cacheExistsOnDisk } from "./paths";
+import { CacheInstaller } from "./cache/CacheInstaller";
+import { MetadataStore } from "./metadata-store";
 
 export * from "./types";
 export * from "./openrs2-client";
@@ -37,8 +40,20 @@ export class Cache {
    * @returns A Promise that resolves to a new Cache instance.
    */
   static async load(options: LoadCacheOptions = {}): Promise<Cache> {
-    const client = new OpenRS2Client(options.openrs2BaseUrl);
-    const cacheMetadata = await client.getLatestCache(options.game || "oldschool");
+    const metadataStore = new MetadataStore();
+    const client = new OpenRS2Client(options.openrs2BaseUrl, metadataStore);
+    
+    // 1. Get latest metadata (respects rate limiting in client)
+    const cacheMetadata = await client.getLatestCache(options.game || "oldschool", options.forceUpdate);
+    
+    // 2. Check if cache exists on disk
+    const exists = await cacheExistsOnDisk(cacheMetadata.id);
+    
+    if (!exists) {
+        const installer = new CacheInstaller(cacheMetadata, client);
+        await installer.install();
+    }
+
     const provider = new HybridCacheProvider(cacheMetadata, client);
     
     // Core indices required for basic functionality
@@ -422,14 +437,21 @@ export class Cache {
  * @returns A Promise that resolves to the CacheMetadata summary.
  */
 export const getMetadata = async (options: LoadCacheOptions = {}): Promise<CacheMetadata> => {
+  const metadataStore = new MetadataStore();
+  const game = options.game || "oldschool";
+  const gameMeta = await metadataStore.getGameMetadata(game);
+
   const cache = await Cache.load(options);
   const counts = await cache.getAssetCounts();
+  
   return {
     id: cache.metadata.id,
     builds: cache.metadata.builds,
     timestamp: cache.metadata.timestamp,
     source: cache.metadata.sources[0] || "Unknown",
     counts,
+    isStale: gameMeta ? gameMeta.latestCacheId > cache.metadata.id : false,
+    lastCheckedAt: gameMeta?.lastCheckedAt,
   };
 };
 

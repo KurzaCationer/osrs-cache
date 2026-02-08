@@ -1,0 +1,9 @@
+{
+  "track_id": "openrs2_zip_persistence_20260208",
+  "track_root_sha": "9020204891728782b62b3609903362ec1613654b",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-02-08T12:00:00Z",
+  "updated_at": "2026-02-08T12:00:00Z",
+  "description": "The loader library currently has kind of inefficient fetching for the openrs2-client. I want this client to always store the fetched data to disk as a full ZIP and then always reference that instead of fetching individual groups. Includes metadata rate limiting."
+}

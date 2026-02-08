@@ -1,4 +1,5 @@
 import type { OpenRS2Cache, XTEAKey } from "./types";
+import type { MetadataStore } from "./metadata-store";
 
 /**
  * Custom error class for OpenRS2 API errors.
@@ -15,9 +16,11 @@ export class OpenRS2Error extends Error {
  */
 export class OpenRS2Client {
   private baseUrl: string;
+  private metadataStore?: MetadataStore;
 
-  constructor(baseUrl: string = "https://archive.openrs2.org") {
+  constructor(baseUrl: string = "https://archive.openrs2.org", metadataStore?: MetadataStore) {
     this.baseUrl = baseUrl;
+    this.metadataStore = metadataStore;
   }
 
   private async fetch(endpoint: string): Promise<Response> {
@@ -40,8 +43,25 @@ export class OpenRS2Client {
   /**
    * Gets the latest cache for a specific game (e.g., 'oldschool').
    * @param game The game identifier.
+   * @param forceRefresh Whether to force a refresh from the API (subject to 5m limit).
    */
-  async getLatestCache(game: string = "oldschool"): Promise<OpenRS2Cache> {
+  async getLatestCache(game: string = "oldschool", forceRefresh: boolean = false): Promise<OpenRS2Cache> {
+    if (this.metadataStore) {
+      const cached = await this.metadataStore.getGameMetadata(game);
+      if (cached) {
+        const now = Date.now();
+        const age = now - cached.lastCheckedAt;
+        
+        // Background check: 1 hour (3600000 ms)
+        // Forced check: 5 minutes (300000 ms)
+        const limit = forceRefresh ? 300000 : 3600000;
+        
+        if (age < limit) {
+          return cached.cache;
+        }
+      }
+    }
+
     const caches = await this.listCaches();
     const gameCaches = caches
       .filter((c) => c.game === game)
@@ -55,7 +75,17 @@ export class OpenRS2Client {
       throw new OpenRS2Error(404, `No caches found for game: ${game}`);
     }
 
-    return gameCaches[0];
+    const latest = gameCaches[0];
+
+    if (this.metadataStore) {
+      await this.metadataStore.setGameMetadata(game, {
+        latestCacheId: latest.id,
+        lastCheckedAt: Date.now(),
+        cache: latest
+      });
+    }
+
+    return latest;
   }
 
   /**
@@ -66,6 +96,16 @@ export class OpenRS2Client {
   async getXTEAKeys(scope: string, id: number): Promise<Array<XTEAKey>> {
     const response = await this.fetch(`/caches/${scope}/${id}/keys.json`);
     return response.json() as Promise<Array<XTEAKey>>;
+  }
+
+  /**
+   * Downloads the cache export as a flat-file tarball.
+   * @param id The cache ID.
+   * @param scope The cache scope.
+   */
+  async downloadFlatExport(id: number, scope: string = "runescape"): Promise<ArrayBuffer> {
+    const response = await this.fetch(`/caches/${scope}/${id}/flat-file.tar.gz`);
+    return response.arrayBuffer();
   }
 
   /**

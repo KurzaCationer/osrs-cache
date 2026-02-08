@@ -14,7 +14,8 @@ The goal is to create a comprehensive toolkit for exploring and interacting with
 
 ### 1. OSRS Cache Loader Package (`@kurza/osrs-cache-loader`)
 - **Abstracted Data Access:** Provide a high-level API to easily retrieve game assets like Items, NPCs, Objects, Maps, and Audio. Achieve full parity with `cache2` for asset counts and data models across all supported types (including DBTables, World Entities, and more). Features a modular binary cache parser aligned with industry standards for accurate asset extraction and raw data access from OpenRS2.
-- **OpenRS2 Integration:** Native support for fetching cache data directly from the [OpenRS2 Archive API](https://archive.openrs2.org/api).
+- **OpenRS2 Integration:** Native support for fetching cache data directly from the [OpenRS2 Archive API](https://archive.openrs2.org/api). Proactively manages a local cache using flat tarball exports for high performance and reduced network overhead.
+- **Metadata Persistence:** Local persistence of cache metadata with rate-limited update checks.
 - **Local File Support:** Option to locate and read cache files from a local OSRS installation.
 - **Asset Export:** Capabilities to export models, textures, and sounds (as mentioned for the loader layer).
 
